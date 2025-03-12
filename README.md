@@ -13,3 +13,14 @@ git merge <nom_de_la_branche> --> pour changer les modifs : on retourne sur la b
 (a faire qund le fichier est finis)
 creer 2 branches, 1 pour theo une pour kyllian
 les branches servent a changer le code sans affecter le main/master(test, debug, nv fonction),
+
+!!!! pour mettre a jour le git_main !!!!
+1- git add
+2- git commit -m ""
+3- git checkout main
+4- git pull origin main (evite les conflits)
+5- git merge <nom_branche>
+6- git push
+
+ATTENTION : 
+git push origine ma_branche:main --> push forcer mais si d'autre commit sont en cour ou que quelqu'un push en meme temps c'est la merde
