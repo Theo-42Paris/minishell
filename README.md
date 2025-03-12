@@ -23,4 +23,4 @@ les branches servent a changer le code sans affecter le main/master(test, debug,
 6- git push
 
 ATTENTION : 
-git push origine ma_branche:main --> push forcer mais si d'autre commit sont en cour ou que quelqu'un push en meme temps c'est la merde
+git push origin ma_branche:main --> push forcer mais si d'autre commit sont en cour ou que quelqu'un push en meme temps c'est la merde
