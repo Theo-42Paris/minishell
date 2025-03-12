@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 11:29:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/12 13:01:37 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,15 @@
 // tgoto
 // tputs
 
+typedef struct s_token_type
+{
+	
+}	t_token_type;
+
 typedef struct s_token
 {
-	char			*type;
-	char			*identifiant;
+	char			*data;
+	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
 
