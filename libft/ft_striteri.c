@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/19 09:17:18 by kjolly            #+#    #+#             */
+/*   Updated: 2024/11/19 09:38:48 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
+#include <stdio.h>
 
-int main()
+/*void	f(unsigned int i, char *c)
 {
-	char *str;
+	(c = c + i);
+}*/
 
-	while(1)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+{
+	unsigned int	i;
+
+	i = 0;
+	while (s[i])
 	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
+		f(i, &s[i]);
+		i++;
 	}
-	return (0);
 }
+// ? idem que strmapi mais sans le malloc car elle ne renvoie rien
+// ! elle prend l'adresse et non le caractere de la string s
+/*int	main(void)
+{
+	char s[] = "je suis";
+	ft_striteri(s, f);
+
+}*/

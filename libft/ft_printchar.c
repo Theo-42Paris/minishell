@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printchar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/26 13:34:02 by kjolly            #+#    #+#             */
+/*   Updated: 2024/12/14 14:32:49 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
+#include <stdio.h>
 
-int main()
+int	ft_printchar(char d)
 {
-	char *str;
-
-	while(1)
-	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
-	}
-	return (0);
+	return (write (1, &d, 1));
 }
+/*
+int	main(void)
+{
+	char	d = 'c';
+	printf("\n%d\n", ft_printchar(d));
+	printf("offi: %d\n", printf("%c", d));
+}*/

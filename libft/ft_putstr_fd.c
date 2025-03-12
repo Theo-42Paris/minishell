@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/19 09:55:17 by kjolly            #+#    #+#             */
+/*   Updated: 2024/11/19 10:13:09 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
 
-int main()
+void	ft_putstr_fd(char *s, int fd)
 {
-	char *str;
+	int	i;
 
-	while(1)
+	i = 0;
+	while (s[i])
 	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
+		ft_putchar_fd(s[i], fd);
+		i++;
 	}
-	return (0);
 }
+// ? idem que ft_putchar_fd mais avec une string
+/*int	main(void)
+{
+	int	fd = 1;
+	char s[] = "je suis";
+	
+	ft_putstr_fd(s, fd);
+}*/

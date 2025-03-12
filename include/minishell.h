@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/10 12:38:42 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/12 11:29:53 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 // readline
@@ -93,10 +94,11 @@
 // tgoto
 // tputs
 
-typedef struct s_data
+typedef struct s_token
 {
-	int		argc;
-	char	**argv;
-}			t_data;
+	char			*type;
+	char			*identifiant;
+	struct s_token	*next;
+}	t_token;
 
 #endif

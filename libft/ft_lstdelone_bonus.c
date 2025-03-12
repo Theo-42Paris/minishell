@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/23 15:46:37 by kjolly            #+#    #+#             */
+/*   Updated: 2024/12/20 13:44:32 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
+#include <stdlib.h>
 
-int main()
+/*void	del(void *content)
 {
-	char *str;
-
-	while(1)
-	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
-	}
-	return (0);
+	free(content); // ? libere la memoire
+}*/
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
+{
+	if (!lst)
+		return ;
+	if (del)
+		del(lst->content);
+	free (lst);
 }

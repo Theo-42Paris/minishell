@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/23 17:18:07 by kjolly            #+#    #+#             */
+/*   Updated: 2024/12/20 13:44:36 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
 
-int main()
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	char *str;
-
-	while(1)
+	if (!lst)
+		return ;
+	while (lst != NULL)
 	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
+		f((lst)->content);
+		lst = lst->next;
 	}
-	return (0);
 }

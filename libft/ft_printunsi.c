@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printunsi.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/26 17:49:11 by kjolly            #+#    #+#             */
+/*   Updated: 2024/12/14 14:33:28 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
+#include <stdio.h>
 
-int main()
+int	ft_printunsi(unsigned int n)
 {
-	char *str;
+	int	i;
 
-	while(1)
-	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
-	}
-	return (0);
+	i = 0;
+	if (n >= 10)
+		i += ft_printunsi(n / 10);
+	i += ft_printchar(n % 10 + '0');
+	return (i);
 }
+
+/*int	main()
+{
+	unsigned int	n = 4294967295;
+	printf("\n%d\n", ft_printunsi(n));
+}*/

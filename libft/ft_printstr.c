@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printstr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/26 14:06:26 by kjolly            #+#    #+#             */
+/*   Updated: 2024/12/14 14:33:24 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
+#include <stdio.h>
 
-int main()
+int	ft_printstr(const char *str)
 {
-	char *str;
+	int	i;
 
-	while(1)
+	i = 0;
+	if (!str)
+		return (write (1, "(null)", 6));
+	while (str[i])
 	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
+		write(1, &str[i], 1);
+		i++;
 	}
-	return (0);
+	return (i);
 }
+
+/*int	main(void)
+{
+	printf("\n%d\n", ft_printstr("je suis", 2));
+}*/

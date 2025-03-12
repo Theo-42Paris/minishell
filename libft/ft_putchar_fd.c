@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 10:58:31 by kjolly           ###   ########.fr       */
+/*   Created: 2024/11/19 09:39:39 by kjolly            #+#    #+#             */
+/*   Updated: 2024/11/19 09:53:39 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
+#include <stdio.h>
+#include <unistd.h>
 
-int main()
+void	ft_putchar_fd(char c, int fd)
 {
-	char *str;
-
-	while(1)
-	{
-		str = readline("minishell> ");
-		ft_printf("%s\n", str);
-		if (!str)
-		{
-			ft_printf("exit\n");
-			break ;
-		}
-	}
-	return (0);
+	write (fd, &c, 1);
 }
+// ? ici la fonction write sera ecrite en fonction du "file descriptor"
+// ! dans la fonction write :
+// ! write(int fd, le charac, la taille du charac)
+/*int	main(void)
+{
+	char	c = 'c';
+	int		fd = 0;
+	
+	ft_putchar_fd(c, fd);
+}*/

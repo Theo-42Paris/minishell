@@ -1,39 +1,34 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: tzara <tzara@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/10 12:33:57 by tzara             #+#    #+#              #
-#    Updated: 2025/03/10 12:34:47 by tzara            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 
-CC = cc
+CFLAGS = -Wall -Werror -Wextra -g
 
-CFAGS = -Wall -Werror -Wextra -g3
+SRC = 	srcs/main.c
 
-SRC = srcs/main.c
+HEAD = -I ./libft
+
+LIBFT = ./libft/libft.a
 
 OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
+all : ${NAME}
 
-$(NAME) : $(OBJ)
-	$(CC) $(CFAGS) $(OBJ) -o $(NAME)
+${NAME} : ${OBJ} ${LIBFT}
+	@cc ${CFLAGS} ${OBJ} -lreadline -lft -L./libft -o ${NAME}
 
 %.o: %.c
-	$(CC) $(CFAGS) -c $< -o $@
+	cc ${CFLAGS} -c $< ${HEAD} -o $@
+
+${LIBFT} :
+	@make --silent -C ./libft
 
 clean :
-	rm -f $(OBJ)
+	@rm -f ${OBJ}
+	@make --silent -C ./libft clean
 
 fclean : clean
-	rm -f $(NAME)
+	@rm -f ${NAME}
+	@make --silent -C ./libft fclean
 
 re : fclean all
 
-.PHONY : all fclean clean re
+.PHONY : all clean fclean re
