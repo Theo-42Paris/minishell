@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 13:01:37 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/12 15:32:56 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,27 @@
 // tgetnum
 // tgetstr
 // tgoto
-// tputs
+// tput
 
-typedef struct s_token_type
-{
-	
-}	t_token_type;
+# define CMD 1
+# define ARG 2
+# define PIPE 3      // |
+# define INFILE 4    // <
+# define OUTFILE 5   // >
+# define DELIMITER 6 // <<
+# define APPEND 7    // >>
 
-typedef struct s_token
+typedef struct s_tokens
 {
-	char			*data;
-	t_token_type	type;
-	struct s_token	*next;
-}	t_token;
+	char		*data;
+	t_tokens	type;
+	t_tokens	*next;
+}				t_tokens;
+
+typedef struct s_data
+{
+	char		*line;
+	t_tokens	*tokens;
+}				t_data;
 
 #endif

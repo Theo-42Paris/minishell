@@ -3,28 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 13:46:25 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/12 15:33:39 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int main()
+t_tokens	*ft_list_tokens(char *line)
 {
-	char *str;
+	// assigner les parties de la cmd a des types;
+}
 
-	while(1)
+int	ft_tokens(t_data *data)
+{
+	if (quote_error(data->line) == -1)
 	{
-		str = readline("minishell> ");
-		add_history(str);
-		if (!str)
-		{
-			ft_printf("exit\n");
+		printf("Error : Quotes pas fermé t'abbuse\n");
+		return (-1);
+	}
+	data->tokens = ft_list_tokens(data->line);
+	if (data->tokens)
+		return (-1);
+}
+
+int	ft_parsing(t_data *data)
+{
+	// verifier que la ligne de commande est valide
+	// pour l'execution (error managing)
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data *data;
+
+	if (!data || argc != 1)
+		return (-1);
+	while (1)
+	{
+		data->line = readline("minishell> ");
+		if (!data->line)
 			break ;
-		}
+		if (data->line[0] != '\0')
+			add_history(data->line);
+		if (ft_token(data) == 1 && ft_parsing(data) == 1)
+			execute();
+		// waitpid();
+		ft_reset_cmd(); //remettre tt data a 0 pour la pro cmd
+	}
+	if (isatty(STDIN_FILENO))
+	{
+		ft_printf("exit\n");
+		rl_clear_history();
+		free_all_data();
 	}
 	return (0);
 }
