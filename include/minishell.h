@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 11:29:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/13 13:40:30 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,25 @@
 // tgoto
 // tputs
 
+typedef struct s_type_t
+{
+	int	delimiteur;
+	int	commande;
+	int	argument;
+	int	pipe;
+}	t_type_t;
+
 typedef struct s_token
 {
-	char			*type;
+	t_type_t		type;
 	char			*identifiant;
 	struct s_token	*next;
 }	t_token;
+
+/********** utils **********/
+void    exit_error(char *str);
+/********** main **********/
+/********** parsing **********/
+
 
 #endif
