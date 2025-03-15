@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/15 12:01:45 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/15 12:31:39 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strndup(char *src, int a)
 	dst = (char *)malloc(sizeof(char) * (a + 1));
 	if (!dst)
 		return (NULL);
-	while(i < a)
+	while (i < a)
 	{
 		dst[j++] = src[i++];
 	}
@@ -51,32 +51,31 @@ char	*ft_strndup(char *src, int a)
 	return (dst);
 }
 
-
-void	tokenizer(/*t_token *token, */char *str)
+void	tokenizer(/*t_token *token, */ char *str)
 {
 	int		i;
 	char	*dup;
 	char	quote;
-	int 	start;
+	int		start;
 
 	i = 0;
-	while(str[i] == ' ' || str[i] == '\t')
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
-	while(str[i])
+	while (str[i])
 	{
 		start = i;
 		if (str[i] == '\'' || str[i] == '"')
 		{
 			quote = str[i++];
 			start = i;
-			while(str[i] && quote != str[i])
+			while (str[i] && quote != str[i])
 				i++;
 			dup = ft_strndup(str + start, i - start);
 			i++;
 		}
 		else
-		{ 
-			while(str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"' )
+		{
+			while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"')
 				i++;
 			dup = ft_strndup(str + start, i - start);
 		}
@@ -97,9 +96,11 @@ void	tokenizer(/*t_token *token, */char *str)
 // 	tokenizer(token, str);
 //}
 
-int	main()
+int	main(void)
 {
-	char *test1 = "echo 'Hello world' > file.txt | cat -e";
+	char	*test1;
+
+	test1 = "echo 'Hello world' > file.txt | cat -e";
 	tokenizer(test1);
 	return (0);
 }
