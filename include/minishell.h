@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 15:32:56 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/15 11:19:09 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@
 typedef struct s_tokens
 {
 	char		*data;
-	t_tokens	type;
+	t_tokens	*type;
 	t_tokens	*next;
 }				t_tokens;
 

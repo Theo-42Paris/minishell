@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/12 15:33:39 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/15 11:18:22 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_token(data) == 1 && ft_parsing(data) == 1)
 			execute();
 		// waitpid();
-		ft_reset_cmd(); //remettre tt data a 0 pour la pro cmd
+		ft_reset_cmd(); //remettre tt data a 0 pour la pro cmd    cat | "grep error" 
 	}
 	if (isatty(STDIN_FILENO))
 	{
