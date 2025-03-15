@@ -6,33 +6,71 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/15 11:18:22 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/15 12:18:40 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_tokens	*ft_list_tokens(char *line)
+char	*ft_strndup(char *src, int a)
 {
-	// assigner les parties de la cmd a des types;
+	char	*dst;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	dst = (char *)malloc(sizeof(char) * (a + 1));
+	if (!dst)
+		return (NULL);
+	while(i < a)
+	{
+		dst[j++] = src[i++];
+	}
+	dst[j] = '\0';
+	return (dst);
 }
 
-int	ft_tokens(t_data *data)
+
+void	tokenizer(/*t_tokens *token*/ char *str)
 {
-	if (quote_error(data->line) == -1)
+	int		i;
+	char	*dup;
+	char	quote;
+	int 	start;
+
+	i = 0;
+	while(str[i] == ' ' || str[i] == '\t')
+		i++;
+	while(str[i])
 	{
-		printf("Error : Quotes pas fermé t'abbuse\n");
-		return (-1);
+		start = i;
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			quote = str[i++];
+			start = i;
+			while(str[i] && quote != str[i])
+				i++;
+			dup = ft_strndup(str + start, i - start);
+			i++;
+		}
+		else
+		{ 
+			while(str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"' )
+				i++;
+			dup = ft_strndup(str + start, i - start);
+		}
+		printf("%s\n", dup);
+		printf("----------------\n");
+		free(dup);
+		i++;
 	}
-	data->tokens = ft_list_tokens(data->line);
-	if (data->tokens)
-		return (-1);
 }
 
 int	ft_parsing(t_data *data)
 {
-	// verifier que la ligne de commande est valide
-	// pour l'execution (error managing)
+	ft_tokenizer(tokens, data->line);
+	return (1);
 }
 
 int	main(int argc, char **argv, char **envp)
