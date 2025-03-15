@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/13 17:22:16 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/15 12:28:56 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,12 @@ typedef struct s_token
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_data
+{
+	char			*line;
+	struct s_data	*next;
+}	t_data;
 
 /********** utils **********/
 void    exit_error(char *str);
