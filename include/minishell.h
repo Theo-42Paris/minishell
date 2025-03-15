@@ -6,7 +6,11 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/15 12:14:39 by tzara            ###   ########.fr       */
+=======
+/*   Updated: 2025/03/15 12:28:56 by kjolly           ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +110,17 @@ typedef struct s_data
 {
 	char		*line;
 }				t_data;
+
+typedef struct s_data
+{
+	char			*line;
+	struct s_data	*next;
+}	t_data;
+
+/********** utils **********/
+void    exit_error(char *str);
+/********** main **********/
+/********** parsing **********/
+
 
 #endif

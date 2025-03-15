@@ -6,12 +6,17 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/15 12:18:40 by tzara            ###   ########.fr       */
+=======
+/*   Updated: 2025/03/15 12:31:36 by tzara            ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+<<<<<<< HEAD
 char	*ft_strndup(char *src, int a)
 {
 	char	*dst;
@@ -81,6 +86,16 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	while (1)
 	{
+=======
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	*data;
+
+	if (!data || argc != 1)
+		return (-1);
+	while (1)
+	{
+>>>>>>> main
 		data->line = readline("minishell> ");
 		if (!data->line)
 			break ;
@@ -89,7 +104,12 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_token(data) == 1 && ft_parsing(data) == 1)
 			execute();
 		// waitpid();
+<<<<<<< HEAD
 		ft_reset_cmd(); //remettre tt data a 0 pour la pro cmd    cat | "grep error" 
+=======
+		ft_reset_cmd();
+			// remettre tt data a 0 pour la pro cmd    cat | "grep error"
+>>>>>>> main
 	}
 	if (isatty(STDIN_FILENO))
 	{
