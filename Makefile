@@ -2,7 +2,8 @@ NAME = minishell
 
 CFLAGS = -Wall -Werror -Wextra -g
 
-SRC = 	srcs/main.c
+SRC = 	srcs/main.c \
+		srcs/parsing/parsing.c \
 
 HEAD = -I ./libft
 

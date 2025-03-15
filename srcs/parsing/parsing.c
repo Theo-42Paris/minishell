@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/15 12:31:39 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/15 16:23:45 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,89 @@
 char	*ft_strndup(char *src, int a)
 {
 	char	*dst;
-	size_t	i;
-	size_t	j;
+	int		i;
 
 	i = 0;
-	j = 0;
 	dst = (char *)malloc(sizeof(char) * (a + 1));
 	if (!dst)
 		return (NULL);
 	while (i < a)
 	{
-		dst[j++] = src[i++];
+		dst[i] = src[i];
+		i++;
 	}
-	dst[j] = '\0';
+	dst[i] = '\0';
 	return (dst);
 }
 
-void	tokenizer(/*t_token *token, */ char *str)
+int check_type(char *dup)
+{
+	if (!strncmp(dup, "|", ft_strlen(dup)))
+		return (PIPE);
+	else if (!strncmp(dup, "<", ft_strlen(dup)))
+		return (REDIR_IN);
+	else if (!strncmp(dup, ">", ft_strlen(dup)))
+		return (REDIR_OUT);
+	else if (!strncmp(dup, "<<", ft_strlen(dup)))
+		return (DELIMITER);
+	else if (!strncmp(dup, ">>", ft_strlen(dup)))
+		return (APPEND);
+	else
+		return (WORD);
+}
+
+t_token	*last_token(t_token *token)
+{
+	while (token)
+	{
+		if (token->next == NULL)
+			return (token);
+		token = token->next;
+	}
+	return (token);
+}
+
+void	add_token(t_token **token, t_token *tmp)
+{
+	t_token *last;
+
+	if (token)
+	{
+		if (*token)
+		{
+			last = last_token(*token);
+			last->next = tmp;
+		}
+		else
+			*token = tmp;
+	}
+}
+
+t_token	*new_token(char *dup)
+{
+	t_token	*tmp;
+
+	tmp = malloc(sizeof(t_token));
+	if (!tmp)
+		return (NULL);
+	tmp->data = dup;
+	tmp->type = check_type(dup);
+	tmp->cmd = -1;
+	tmp->next = NULL;
+	return (tmp);
+}
+
+void	compl_token_list(t_token **token, char *dup)
+{
+	t_token	*tmp;
+
+	tmp = new_token(dup);
+	if (!tmp)
+		return ;
+	add_token(token, tmp);
+}
+
+void	tokenizer(t_token **token, char *str)
 {
 	int		i;
 	char	*dup;
@@ -71,6 +137,8 @@ void	tokenizer(/*t_token *token, */ char *str)
 			while (str[i] && quote != str[i])
 				i++;
 			dup = ft_strndup(str + start, i - start);
+			if (!dup)
+				return ;
 			i++;
 		}
 		else
@@ -78,10 +146,12 @@ void	tokenizer(/*t_token *token, */ char *str)
 			while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"')
 				i++;
 			dup = ft_strndup(str + start, i - start);
+			if (!dup)
+				return ;
 		}
-		printf("%s\n", dup);
-		printf("----------------\n");
-		free(dup);
+		// printf("%s\n", dup);
+		// printf("----------------\n");
+		compl_token_list(token, dup);
 		i++;
 	}
 }
@@ -96,11 +166,11 @@ void	tokenizer(/*t_token *token, */ char *str)
 // 	tokenizer(token, str);
 //}
 
-int	main(void)
-{
-	char	*test1;
+// int	main(void)
+// {
+// 	char	*test1;
 
-	test1 = "echo 'Hello world' > file.txt | cat -e";
-	tokenizer(test1);
-	return (0);
-}
+// 	test1 = "echo 'Hello world' > file.txt | cat -e";
+// 	tokenizer(test1);
+// 	return (0);
+// }

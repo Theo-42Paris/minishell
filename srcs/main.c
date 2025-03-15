@@ -3,39 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/15 12:31:36 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/15 16:56:07 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void	print_stack(t_token **token)
+{
+	t_token	*current;
+
+	current = *token;
+	while (current)
+	{
+		printf("est il une commande: %d\n", current->cmd);
+		printf("qui est il: %s\n", current->data);
+		printf("quel type: %d\n", current->type);
+		printf("------------------------\n");
+		current = current->next;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	*data;
+	(void)argv;
+	(void)envp;
+	t_token	*token;
+	char	*line;
 
-	if (!data || argc != 1)
-		return (-1);
+	token = NULL;
+	if (argc != 1)
+		return (1);
 	while (1)
 	{
-		data->line = readline("minishell> ");
-		if (!data->line)
+		line = readline("minishell> ");
+		if (!line)
+		{
+			ft_printf("exit\n");
 			break ;
-		if (data->line[0] != '\0')
-			add_history(data->line);
-		if (ft_token(data) == 1 && ft_parsing(data) == 1)
-			execute();
+		}
+		tokenizer(&token, line);
+		check_cmd_arg(&token);
+		print_stack(&token);
+		add_history(line);
 		// waitpid();
-		ft_reset_cmd();
+		// ft_reset_cmd();
 			// remettre tt data a 0 pour la pro cmd    cat | "grep error"
 	}
-	if (isatty(STDIN_FILENO))
-	{
-		ft_printf("exit\n");
-		rl_clear_history();
-		free_all_data();
-	}
+	// if (isatty(STDIN_FILENO))
+	// {
+	// 	ft_printf("exit\n");
+	// 	rl_clear_history();
+	// 	free_all_data();
+	// }
 	return (0);
 }

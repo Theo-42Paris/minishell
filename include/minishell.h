@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/15 12:28:56 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/15 17:01:04 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,18 @@
 // tgoto
 // tputs
 
-typedef struct s_token_type
-{
-	
-}	t_token_type;
+# define WORD 1
+# define PIPE 2 // |
+# define REDIR_IN 3 // <
+# define REDIR_OUT 4 // >
+# define DELIMITER 5 // <<
+# define APPEND 6 // >>
 
 typedef struct s_token
 {
 	char			*data;
-	t_token_type	type;
+	int				type;
+	int				cmd;
 	struct s_token	*next;
 }	t_token;
 
@@ -116,6 +119,9 @@ typedef struct s_data
 void    exit_error(char *str);
 /********** main **********/
 /********** parsing **********/
-
+void	tokenizer(t_token **token, char *str);
+char	*ft_strndup(char *src, int a);
+/********** parsing2 **********/
+void    check_cmd_args(t_token **token);
 
 #endif
