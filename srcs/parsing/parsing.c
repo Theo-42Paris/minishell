@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/15 16:23:45 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/17 12:12:20 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	tokenizer(t_token **token, char *str)
 			dup = ft_strndup(str + start, i - start);
 			if (!dup)
 				return ;
-			i++;
+			// i++;
 		}
 		else
 		{

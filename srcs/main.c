@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/15 16:56:07 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/17 13:10:54 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		tokenizer(&token, line);
-		check_cmd_arg(&token);
+		check_cmd_args(&token);
+		check_syntax(&token);
 		print_stack(&token);
 		add_history(line);
 		// waitpid();
 		// ft_reset_cmd();
-			// remettre tt data a 0 pour la pro cmd    cat | "grep error"
+		// remettre tt data a 0 pour la pro cmd    cat | "grep error"
 	}
 	// if (isatty(STDIN_FILENO))
 	// {

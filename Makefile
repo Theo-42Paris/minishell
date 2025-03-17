@@ -4,6 +4,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 SRC = 	srcs/main.c \
 		srcs/parsing/parsing.c \
+		srcs/parsing/parsing2.c \
 
 HEAD = -I ./libft
 
