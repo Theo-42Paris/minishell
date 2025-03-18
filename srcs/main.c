@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/17 13:10:54 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/18 15:34:45 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	t_token	*token;
+	t_cmd	*cmd;
 	char	*line;
 
 	token = NULL;
+	cmd = NULL;
 	if (argc != 1)
 		return (1);
 	while (1)
@@ -47,8 +49,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		tokenizer(&token, line);
 		check_cmd_args(&token);
-		check_syntax(&token);
-		print_stack(&token);
+		token_to_cmd(&token, &cmd);
+		// check_syntax(&token);
+		//todo | si check_syntax est ok on fait le reste, sinon il faut free (faire un "if ... else"
+		// print_stack(&token);
 		add_history(line);
 		// waitpid();
 		// ft_reset_cmd();

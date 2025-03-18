@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/17 15:00:45 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/18 15:51:27 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@
 # define PIPE 2 // |
 # define REDIR_IN 3 // <
 # define REDIR_OUT 4 // >
-# define DELIMITER 5 // <<
-# define APPEND 6 // >>
+# define DELIMITER 5 // << (here_doc)
+# define APPEND 6 // >> (ajoue a la suite)
 
 typedef struct s_token
 {
@@ -115,6 +115,16 @@ typedef struct s_data
 	struct s_data	*next;
 }	t_data;
 
+typedef struct s_cmd
+{
+    char			**args;
+    char 			*infile;
+    char			*outfile;
+    int				append; // 1 si '>>' 0 sinon
+    struct s_cmd	*next;
+} t_cmd;
+// ? le here_doc doit etre gerer a part ('<<')
+
 /********** utils **********/
 void    exit_error(char *str);
 /********** main **********/
@@ -123,5 +133,7 @@ void	tokenizer(t_token **token, char *str);
 char	*ft_strndup(char *src, int a);
 /********** parsing2 **********/
 void    check_cmd_args(t_token **token);
+void	token_to_cmd(t_token **token, t_cmd **cmd)
+// void	check_syntax(t_token **token);
 
 #endif

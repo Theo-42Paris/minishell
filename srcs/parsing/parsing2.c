@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/17 15:47:59 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/18 15:54:16 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,73 @@ void    check_cmd_args(t_token **token)
 		current = current->next;
 	}
 }
-// todo | vas falloir faire +
-void	syntax_node(int start, t_token *current, t_token *prev)
-{
-	if (start == 1 && current->type == 2)
-		ft_printf("minishell: syntax error near unexpected token '|'\n");
-	if (current->type == 2)
-	if (current->type == 3)
-	if (current->type == 4)
-	if (current->type == 5)
-	if (current->type == 6)
-}
 
-void	check_syntax(t_token **token)
+void	token_to_cmd(t_token **token, t_cmd **cmd)
 {
 	t_token	*current;
-	t_token *prev;
-	int		start;
 
-	start = 1;
-	prev = NULL;
 	current = *token;
 	while (current)
 	{
-		syntax_node(start, current, prev);
-		start = 0;
-		prev = current;
+		if -> cmd
+		if -> redir
+		if -> pipe
 		current = current->next;
 	}
 }
+
+// int	syntax_node(int start, int end, t_token *current, t_token *prev)
+// {
+// 	if (start == 1)
+// 	{
+// 		if (current->type == 2)
+// 			return (ft_printf("minishell: syntax error near unexpected token '|'\n"));
+// 		else if (current->type != 2 && current->type != 1)
+// 			return (ft_printf("minishell: syntax error near unexpected token 'newline'\n"));
+// 		return (0);
+// 	}
+// 	else if (start > 1)
+// 	{
+// 		if (prev->type == 2 && (current->type != 1 && current->type != 2))
+// 			return (ft_printf("minishell: syntax error near unexpected token 'newline'\n"));
+// 		else if (current->type != 1  && prev->type != 1)
+// 			return (ft_printf("minishell: syntax error near unexpected token '%s'\n", current->data));
+// 		return (0);
+// 	}
+// 	else if (end == 1)
+// 	{
+// 		if (current->type == 2)
+// 			return (ft_printf("minishell: syntax error near unexpected token '|'\n"));
+// 		else if (current->type != 1 && current->type != 2 && (prev->type == 1 || prev->type == 2))
+// 			return (ft_printf("minishell: syntax error near unexpected token 'newline'\n"));
+// 		else if (current->type != 1 && current->type != 2 && (prev->type != 1 && prev->type != 2))
+// 			return (ft_printf("minishell: syntax error near unexpected token '%s'\n", current->data));
+// 		return (0);
+// 	}
+// 	return (0);
+// }
+
+// void	check_syntax(t_token **token)
+// {
+// 	t_token	*current;
+// 	t_token *prev;
+// 	int		start;
+// 	int		end;
+
+// 	start = 1;
+// 	end = 0;
+// 	prev = NULL;
+// 	current = *token;
+// 	while (current)
+// 	{
+// 		if (current->next == NULL)
+// 			end = 1;
+// 		if (syntax_node(start, end, current, prev))
+// 			break ;
+// 		ft_printf("------ %d ------\n", start);
+// 		start++;
+// 		ft_printf("-- -- %d -- --\n", end);
+// 		prev = current;
+// 		current = current->next;
+// 	}
+// }
