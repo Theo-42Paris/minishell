@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/17 12:12:20 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:54:16 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,44 +117,112 @@ void	compl_token_list(t_token **token, char *dup)
 	add_token(token, tmp);
 }
 
-void	tokenizer(t_token **token, char *str)
+void    check_cmd_args(t_token **token)
 {
-	int		i;
-	char	*dup;
-	char	quote;
-	int		start;
+	int		count;
+	t_token	*current;
+	t_token *prev;
 
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	while (str[i])
+	current = *token;
+	prev = NULL;
+	count = 0;
+	while (current)
 	{
-		start = i;
-		if (str[i] == '\'' || str[i] == '"')
-		{
-			quote = str[i++];
-			start = i;
-			while (str[i] && quote != str[i])
-				i++;
-			dup = ft_strndup(str + start, i - start);
-			if (!dup)
-				return ;
-			// i++;
-		}
+		if (((count == 0 && current->type == 1) || (prev && (!strncmp(prev->data,
+			"|", ft_strlen(prev->data)) && current->type == 1))))
+			current->cmd = 1;
 		else
-		{
-			while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '"')
-				i++;
-			dup = ft_strndup(str + start, i - start);
-			if (!dup)
-				return ;
-		}
-		// printf("%s\n", dup);
-		// printf("----------------\n");
-		compl_token_list(token, dup);
-		i++;
+			current->cmd = 0;
+		count++;
+		prev = current;
+		current = current->next;
 	}
 }
+
+void tokenizer(t_token **token, char *str)
+{
+    int i;
+    char *dup;
+    char quote;
+    int start;
+    
+    i = 0;
+    while (str[i] == ' ' || str[i] == '\t')
+        i++;    
+    while (str[i])
+    {
+        start = i;
+        if (str[i] == '\'' || str[i] == '"')
+        {
+            quote = str[i++];
+            start = i;
+            while (str[i] && quote != str[i])
+                i++;
+                
+            dup = ft_strndup(str + start, i - start);
+            if (!dup)
+                return;
+            if (str[i]) // Vérifier si on n'est pas à la fin de la chaîne
+                i++;
+        }
+        else
+        {
+            while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\'' && str[i] != '"'))
+            {
+                printf("ici : %d\n", i);
+                i++;
+            }
+            
+            dup = ft_strndup(str + start, i - start);
+            if (!dup)
+                return;
+        }
+        compl_token_list(token, dup);
+        // Avancer seulement si on a des espaces ou des tabulations
+        while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+            i++;
+    }
+}
+
+// void	tokenizer(t_token **token, char *str)
+// {
+// 	int		i;
+// 	char	*dup;
+// 	char	quote;
+// 	int		start;
+
+// 	i = 0;
+// 	while (str[i] == ' ' || str[i] == '\t')
+// 		i++;
+// 	while (str[i])
+// 	{
+// 		start = i;
+// 		if (str[i] == '\'' || str[i] == '"')
+// 		{
+// 			quote = str[i++];
+// 			start = i;
+// 			while (str[i] && quote != str[i])
+// 				i++;
+// 			dup = ft_strndup(str + start, i - start);
+// 			if (!dup)
+// 				return ;
+// 			i++;
+// 		}
+// 		else
+// 		{
+// 			while (str[i] && (str[i] != ' ' && str[i] != '\'' && str[i] != '"'))
+// 			{
+// 				printf("ici : %d\n", i);
+// 				i++;
+// 			}
+// 			dup = ft_strndup(str + start, i - start);
+// 			if (!dup)
+// 				return ;
+// 		}
+// 		compl_token_list(token, dup);
+// 		i++;
+// 	}
+// }
 
 // void	parsing(t_token *token, char *str)
 // {

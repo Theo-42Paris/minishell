@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/18 15:51:27 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/19 14:51:07 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@
 // tgoto
 // tputs
 
+# define G		"\033[1;32m"
+# define RST	"\033[0m"
+
 # define WORD 1
 # define PIPE 2 // |
 # define REDIR_IN 3 // <
@@ -109,31 +112,32 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_data
-{
-	char			*line;
-	struct s_data	*next;
-}	t_data;
+// typedef struct s_data
+// {
+// 	char			*line;
+// 	struct s_data	*next;
+// }	t_data;
 
 typedef struct s_cmd
 {
     char			**args;
-    char 			*infile;
-    char			*outfile;
-    int				append; // 1 si '>>' 0 sinon
+	char			*cmd;
+    char 			**infile; // il peut y avoir plusieurs infile
+    char			**outfile; // il peut y avoir plusieurs outfile
+    int				append; // 1 si '>>' 0 si non
     struct s_cmd	*next;
 } t_cmd;
-// ? le here_doc doit etre gerer a part ('<<')
+// ? le here_doc doit etre gerer direct apres ('<<')
 
 /********** utils **********/
-void    exit_error(char *str);
+//void    exit_error(char *str);
 /********** main **********/
 /********** parsing **********/
 void	tokenizer(t_token **token, char *str);
 char	*ft_strndup(char *src, int a);
-/********** parsing2 **********/
 void    check_cmd_args(t_token **token);
-void	token_to_cmd(t_token **token, t_cmd **cmd)
-// void	check_syntax(t_token **token);
+/********** parsing2 **********/
+// t_cmd	*token_to_cmd(t_token **token);
+void	check_syntax(t_token **token);
 
 #endif
