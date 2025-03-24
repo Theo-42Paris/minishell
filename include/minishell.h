@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/19 14:51:07 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/24 15:11:50 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,19 @@ typedef struct s_token
 // 	struct s_data	*next;
 // }	t_data;
 
+typedef	struct s_redir
+{
+	char			*arg;
+	int				type;
+	struct	s_redir	*next;
+}	t_redir;
+
+
 typedef struct s_cmd
 {
     char			**args;
 	char			*cmd;
-    char 			**infile; // il peut y avoir plusieurs infile
-    char			**outfile; // il peut y avoir plusieurs outfile
-    int				append; // 1 si '>>' 0 si non
+	t_redir			*redir;
     struct s_cmd	*next;
 } t_cmd;
 // ? le here_doc doit etre gerer direct apres ('<<')
@@ -137,7 +143,9 @@ void	tokenizer(t_token **token, char *str);
 char	*ft_strndup(char *src, int a);
 void    check_cmd_args(t_token **token);
 /********** parsing2 **********/
-// t_cmd	*token_to_cmd(t_token **token);
+// void	token_to_cmd(t_cmd **cmd, t_token **token);
 void	check_syntax(t_token **token);
+void    test(t_token **token, t_cmd **cmd);
+
 
 #endif

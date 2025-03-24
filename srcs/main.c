@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/19 13:42:29 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/24 15:49:42 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,59 @@ void	print_stack(t_token **token)
 		printf("qui est il: %s\n", current->data);
 		printf("quel type: %d\n", current->type);
 		printf("------------------------\n");
-		printf("%d\n", i);
 		i++;
 		current = current->next;
+	}
+}
+
+void	print_redir(t_redir *token)
+{
+	t_redir	*current;
+
+	current = token;
+	while (current)
+	{
+		printf("la redir : %s\n", current->arg);
+		printf("son type : %d\n", current->type);
+		current = current->next;
+	}
+}
+
+void	print_tab(char **tab)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			write(1, &tab[i][j], 1);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	print_cmd(t_cmd **cmd)
+{
+	t_cmd	*current_cmd;
+	int		i;
+	
+	i = 0;
+	current_cmd = *cmd;
+	while (current_cmd)
+	{
+		printf("j'entre dans la commande %d --\n", i);
+		printf("liste des redir ---------------------------\n");
+		print_redir(current_cmd->redir);
+		printf("la commande :%s\n", current_cmd->cmd);
+		printf("liste des args-----------------------------\n");
+		print_tab(current_cmd->args);
+		printf("je sors de cette commande\n\n");
+		current_cmd = current_cmd->next;
 	}
 }
 
@@ -50,10 +100,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	t_token	*token;
-	// t_cmd	*cmd;
+	t_cmd	*cmd;
 	char	*line;
 
 	token = NULL;
+	cmd = NULL;
 	if (argc != 1)
 		return (1);
 	while (1)
@@ -69,11 +120,14 @@ int	main(int argc, char **argv, char **envp)
 		tokenizer(&token, line);
 		//todo | malloc a securiser ici
 		check_cmd_args(&token);
-		// cmd = token_to_cmd(&token);
-		//todo | comment gerer si cmd est NULL ?
 		check_syntax(&token);
+		// token_to_cmd(&cmd, &token);
+		test(&token, &cmd);
+		//todo | comment gerer si cmd est NULL ?
 		//todo | si check_syntax est ok on fait le reste, sinon il faut free (faire un "if ... else" ???)
-		// print_stack(&token);
+		print_stack(&token);
+		printf("-------------------------------------\n\n");
+		print_cmd(&cmd);
 		add_history(line);
 		// waitpid();
 		// ft_reset_cmd();

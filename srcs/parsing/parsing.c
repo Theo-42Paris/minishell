@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/19 10:54:16 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/22 17:25:41 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,11 +168,7 @@ void tokenizer(t_token **token, char *str)
         else
         {
             while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\'' && str[i] != '"'))
-            {
-                printf("ici : %d\n", i);
-                i++;
-            }
-            
+                i++;            
             dup = ft_strndup(str + start, i - start);
             if (!dup)
                 return;

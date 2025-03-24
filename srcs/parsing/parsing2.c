@@ -6,16 +6,76 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/19 15:59:48 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/24 09:27:49 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_cmd	*token_to_cmd(t_token **token)
-{
-	return (cmd);
-}
+
+// int	get_nb_cmd(t_token **token)
+// {
+// 	t_token	*current;
+// 	int		i;
+
+// 	if (!token);
+// 		return (NULL);
+// 	i = 1;
+// 	current = *token;
+// 	while (current)
+// 	{
+// 		if (current->type == 2)
+// 			i++;
+// 		current = current->next;
+// 	}
+// 	return (i);
+// }
+
+// int		get_size_cmd(t_token **token, int count_cmd)
+// {
+// 	t_token	*current;
+// 	int		size;
+
+// 	size = 0;
+// 	current = *token;
+// 	while (current)
+// 	{
+		
+// 		if (current->type == 2)
+// 			compl_cmd();
+// 		current = current->next;
+// 	}
+// 	return (size);
+// }
+
+// void	init_cmd(t_cmd **cmd, t_token **token, int count_cmd)
+// {
+// 	t_cmd	*head;
+// 	int		size_cmd;
+
+// 	size_cmd = get_size_cmd(token, count_cmd);
+// 	head = new_cmd(size_cmd);
+// }
+
+// void	token_to_cmd(t_cmd **cmd, t_token **token)
+// {
+// 	int		count_cmd;
+// 	int		count_args;
+// 	t_token	*current;
+
+// 	if (!token)
+// 		return ;
+// 	current = *token;
+// 	count_cmd = get_nb_cmd(token);
+// 	while (count_cmd)
+// 	{
+// 		init_cmd(token, cmd, count_cmd);
+// 		count_cmd--;
+// 	}
+// }
+/**************************************************************************/
+
+
 
 //todo | prendre tout dans une chaine jusqu'a un pipe
 //todo | puis separer dans la liste chainer cmd
