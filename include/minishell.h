@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/24 15:11:50 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/25 16:37:02 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,34 +97,36 @@
 # define G		"\033[1;32m"
 # define RST	"\033[0m"
 
-# define WORD 1
-# define PIPE 2 // |
-# define REDIR_IN 3 // <
-# define REDIR_OUT 4 // >
-# define DELIMITER 5 // << (here_doc)
-# define APPEND 6 // >> (ajoue a la suite)
+// # define WORD 1
+// # define PIPE 2 // |
+// # define REDIR_IN 3 // <
+// # define REDIR_OUT 4 // >
+// # define DELIMITER 5 // << (here_doc)
+// # define APPEND 6 // >> (ajoue a la suite)
+
+enum type_token
+{
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	DELIMITER,
+	APPEND		
+};
 
 typedef struct s_token
 {
 	char			*data;
-	int				type;
-	int				cmd;
+	enum type_token	token;
 	struct s_token	*next;
 }	t_token;
-
-// typedef struct s_data
-// {
-// 	char			*line;
-// 	struct s_data	*next;
-// }	t_data;
 
 typedef	struct s_redir
 {
 	char			*arg;
-	int				type;
+	enum type_token	token;
 	struct	s_redir	*next;
 }	t_redir;
-
 
 typedef struct s_cmd
 {
@@ -135,17 +137,30 @@ typedef struct s_cmd
 } t_cmd;
 // ? le here_doc doit etre gerer direct apres ('<<')
 
+// typedef struct s_data
+// {
+// 	char			*line;
+// 	struct s_data	*next;
+// }	t_data;
+
+
 /********** utils **********/
 //void    exit_error(char *str);
 /********** main **********/
 /********** parsing **********/
 void	tokenizer(t_token **token, char *str);
 char	*ft_strndup(char *src, int a);
-void    check_cmd_args(t_token **token);
+// void    check_cmd_args(t_token **token);
 /********** parsing2 **********/
 // void	token_to_cmd(t_cmd **cmd, t_token **token);
-void	check_syntax(t_token **token);
-void    test(t_token **token, t_cmd **cmd);
-
+int		check_syntax(t_token **token);
+void    test(t_token *token, t_cmd **cmd);
+int		is_delimiteur(int type);
+/***********************************************************/
+/********** print_utils **********/
+void	print_token(t_token **token);
+void	print_tab(char **tab);
+void    print_cmd(t_cmd **cmd);
+void    print_redir(t_redir **redir);
 
 #endif

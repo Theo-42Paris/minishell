@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/22 17:25:41 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/25 16:13:53 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ t_token	*new_token(char *dup)
 	if (!tmp)
 		return (NULL);
 	tmp->data = dup;
-	tmp->type = check_type(dup);
-	tmp->cmd = -1;
+	tmp->token = check_type(dup);
 	tmp->next = NULL;
 	return (tmp);
 }
@@ -117,27 +116,27 @@ void	compl_token_list(t_token **token, char *dup)
 	add_token(token, tmp);
 }
 
-void    check_cmd_args(t_token **token)
-{
-	int		count;
-	t_token	*current;
-	t_token *prev;
+// void    check_cmd_args(t_token **token)
+// {
+// 	int		count;
+// 	t_token	*current;
+// 	t_token *prev;
 
-	current = *token;
-	prev = NULL;
-	count = 0;
-	while (current)
-	{
-		if (((count == 0 && current->type == 1) || (prev && (!strncmp(prev->data,
-			"|", ft_strlen(prev->data)) && current->type == 1))))
-			current->cmd = 1;
-		else
-			current->cmd = 0;
-		count++;
-		prev = current;
-		current = current->next;
-	}
-}
+// 	current = *token;
+// 	prev = NULL;
+// 	count = 0;
+// 	while (current)
+// 	{
+// 		if (((count == 0 && current->token == WORD) || (prev && (!strncmp(prev->data,
+// 			"|", ft_strlen(prev->data)) && current->token == WORD))))
+// 			current->cmd = 1;
+// 		else
+// 			current->cmd = 0;
+// 		count++;
+// 		prev = current;
+// 		current = current->next;
+// 	}
+// }
 
 void tokenizer(t_token **token, char *str)
 {

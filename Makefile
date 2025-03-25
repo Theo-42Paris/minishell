@@ -3,6 +3,7 @@ NAME = minishell
 CFLAGS = -Wall -Werror -Wextra -g
 
 SRC = 	srcs/main.c \
+		srcs/print_utils.c \
 		srcs/parsing/parsing.c \
 		srcs/parsing/parsing2.c \
 		srcs/parsing/pars_test.c \

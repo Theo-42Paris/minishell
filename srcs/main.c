@@ -6,13 +6,13 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/24 15:49:42 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/25 16:40:38 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	stack_free(t_token **token)
+void	free_token(t_token **token)
 {
 	t_token	*tmp;
 
@@ -28,71 +28,48 @@ void	stack_free(t_token **token)
 	*token = NULL;
 }
 
-void	print_stack(t_token **token)
+void	free_redir(t_redir **redir)
 {
-	t_token	*current;
-	int i = 0;
-	current = *token;
-	while (current)
+	t_redir	*tmp;
+
+	if (!redir || !*redir)
+		return ;
+	while (*redir)
 	{
-		printf("est il une commande: %d\n", current->cmd);
-		printf("qui est il: %s\n", current->data);
-		printf("quel type: %d\n", current->type);
-		printf("------------------------\n");
-		i++;
-		current = current->next;
+		tmp = (*redir)->next;
+		free((*redir)->arg);
+		free(*redir);
+		*redir = tmp;
 	}
+	*redir = NULL;
 }
 
-void	print_redir(t_redir *token)
+void	free_cmd(t_cmd **cmd)
 {
-	t_redir	*current;
-
-	current = token;
-	while (current)
-	{
-		printf("la redir : %s\n", current->arg);
-		printf("son type : %d\n", current->type);
-		current = current->next;
-	}
-}
-
-void	print_tab(char **tab)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (tab[i])
-	{
-		j = 0;
-		while (tab[i][j])
-		{
-			write(1, &tab[i][j], 1);
-			j++;
-		}
-		i++;
-	}
-}
-
-void	print_cmd(t_cmd **cmd)
-{
-	t_cmd	*current_cmd;
+	t_cmd	*tmp;
 	int		i;
-	
-	i = 0;
-	current_cmd = *cmd;
-	while (current_cmd)
+
+	if (!cmd || !*cmd)
+		return ;
+	while (*cmd)
 	{
-		printf("j'entre dans la commande %d --\n", i);
-		printf("liste des redir ---------------------------\n");
-		print_redir(current_cmd->redir);
-		printf("la commande :%s\n", current_cmd->cmd);
-		printf("liste des args-----------------------------\n");
-		print_tab(current_cmd->args);
-		printf("je sors de cette commande\n\n");
-		current_cmd = current_cmd->next;
+		tmp = (*cmd)->next;
+		if ((*cmd)->args)
+		{
+			i = 0;
+			while ((*cmd)->args[i])
+			{
+				free((*cmd)->args[i]);
+				i++;
+			}
+			free((*cmd)->args);
+		}
+		free((*cmd)->cmd);
+		free_redir(&((*cmd)->redir));
+		free(*cmd);
+		*cmd = tmp;
 	}
+	*cmd = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -115,24 +92,30 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 		{
 			ft_printf("exit\n");
+			free(line);
 			break ;
 		}
+		add_history(line);
 		tokenizer(&token, line);
 		//todo | malloc a securiser ici
-		check_cmd_args(&token);
-		check_syntax(&token);
+		// check_cmd_args(&token);
+		if (!check_syntax(&token))
+		{
+			free_token(&token);
+			free(line);
+			continue ;
+		}
 		// token_to_cmd(&cmd, &token);
-		test(&token, &cmd);
+		test(token, &cmd);
 		//todo | comment gerer si cmd est NULL ?
 		//todo | si check_syntax est ok on fait le reste, sinon il faut free (faire un "if ... else" ???)
-		print_stack(&token);
-		printf("-------------------------------------\n\n");
+		// print_token(&token);
 		print_cmd(&cmd);
-		add_history(line);
 		// waitpid();
 		// ft_reset_cmd();
 		// remettre tt data a 0 pour la pro cmd    cat | "grep error"
-		stack_free(&token);
+		free_token(&token);
+		free_cmd(&cmd);
 	}
 	// if (isatty(STDIN_FILENO))
 	// {

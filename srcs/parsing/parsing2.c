@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/24 09:27:49 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/25 13:34:36 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,12 @@
 // }
 /**************************************************************************/
 
-
-
 //todo | prendre tout dans une chaine jusqu'a un pipe
 //todo | puis separer dans la liste chainer cmd
 
 int	is_delimiteur(int type)
 {
-	if (type == 1 || type == 2)
+	if (type == WORD || type == PIPE)
 		return (0);
 	else
 		return (1);
@@ -93,47 +91,47 @@ int	syntax_node(int start, int end, t_token *current, t_token *prev)
 	//todo | ecrire les erreurs dans le stderror putstr_fd(3)
 	if (start)
 	{
-		if (current->type == 2)
+		if (current->token == PIPE)
 		{
-			ft_printf("minishell: syntax error near unexepted token '|'\n");
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
 			return (0);
 		}
-		else if (current->next == NULL && is_delimiteur(current->type))
+		else if (current->next == NULL && is_delimiteur(current->token))
 		{
-			ft_printf("minishell: syntax error near unexepted token 'newline'\n");
+			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n", 2);
 			return (0);
 		}
 	}
 	else if (!start)
 	{
-		if (current->type == 2 && is_delimiteur(prev->type))
+		if (current->token == PIPE && is_delimiteur(prev->token))
 		{
-			ft_printf("minishell: syntax error near unexepted token '|'\n");
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
 			return (0);
 		}
-		else if (current->type == 2 && prev->type == 2)
+		else if (current->token == 2 && prev->token == 2)
 		{
-			ft_printf("minishell: syntax error near unexepted token '|'\n");
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
 			return (0);
 		}
 	}
 	else if (end)
 	{
-		if (current->type == 2)
+		if (current->token == PIPE)
 		{
-			ft_printf("minishell: syntax error near unexepted token '|'\n");
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
 			return (0);
 		}
-		else if (is_delimiteur(current->type))
+		else if (is_delimiteur(current->token))
 		{
-			ft_printf("minishell: syntax error near unexepted token 'newline'\n");
+			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n", 2);
 			return (0);			
 		}
 	}
 	return (1);
 }
 
-void	check_syntax(t_token **token)
+int	check_syntax(t_token **token)
 {
 	t_token	*current;
 	t_token *prev;
@@ -149,9 +147,10 @@ void	check_syntax(t_token **token)
 		if (current->next == NULL && start == 0)
 			end = 1;
 		if (!syntax_node(start, end, current, prev))
-			break ;
+			return (0);
 		start = 0;
 		prev = current;
 		current = current->next;
 	}
+	return (1);
 }
