@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/26 13:16:32 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/26 14:43:32 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		good_line = pre_token(line);
 		tokenizer(&token, good_line);
+		expand(good_line);
 		//todo | malloc a securiser ici
 		// check_cmd_args(&token);
 		if (!check_syntax(&token))
