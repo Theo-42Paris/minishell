@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/25 16:37:02 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/26 11:57:58 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,16 +151,23 @@ typedef struct s_cmd
 void	tokenizer(t_token **token, char *str);
 char	*ft_strndup(char *src, int a);
 // void    check_cmd_args(t_token **token);
+
 /********** parsing2 **********/
 // void	token_to_cmd(t_cmd **cmd, t_token **token);
 int		check_syntax(t_token **token);
 void    test(t_token *token, t_cmd **cmd);
 int		is_delimiteur(int type);
+
 /***********************************************************/
 /********** print_utils **********/
 void	print_token(t_token **token);
 void	print_tab(char **tab);
 void    print_cmd(t_cmd **cmd);
 void    print_redir(t_redir **redir);
+
+/********** free_utils **********/
+void	free_token(t_token **token);
+void	free_redir(t_redir **redir);
+void	free_cmd(t_cmd **cmd);
 
 #endif

@@ -3,74 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/25 16:40:38 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/26 11:59:33 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	free_token(t_token **token)
-{
-	t_token	*tmp;
-
-	if (!token)
-		return ;
-	while (*token)
-	{
-		tmp = (*token)->next;
-		free((*token)->data);
-		free(*token);
-		*token = tmp;
-	}
-	*token = NULL;
-}
-
-void	free_redir(t_redir **redir)
-{
-	t_redir	*tmp;
-
-	if (!redir || !*redir)
-		return ;
-	while (*redir)
-	{
-		tmp = (*redir)->next;
-		free((*redir)->arg);
-		free(*redir);
-		*redir = tmp;
-	}
-	*redir = NULL;
-}
-
-void	free_cmd(t_cmd **cmd)
-{
-	t_cmd	*tmp;
-	int		i;
-
-	if (!cmd || !*cmd)
-		return ;
-	while (*cmd)
-	{
-		tmp = (*cmd)->next;
-		if ((*cmd)->args)
-		{
-			i = 0;
-			while ((*cmd)->args[i])
-			{
-				free((*cmd)->args[i]);
-				i++;
-			}
-			free((*cmd)->args);
-		}
-		free((*cmd)->cmd);
-		free_redir(&((*cmd)->redir));
-		free(*cmd);
-		*cmd = tmp;
-	}
-	*cmd = NULL;
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -113,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		print_cmd(&cmd);
 		// waitpid();
 		// ft_reset_cmd();
-		// remettre tt data a 0 pour la pro cmd    cat | "grep error"
+		// remettre tt data a 0 pour la pro cmd cat | "grep error"
 		free_token(&token);
 		free_cmd(&cmd);
 	}

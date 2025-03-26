@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/25 18:23:43 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/26 12:08:52 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void    test(t_token *token, t_cmd **cmd)
 	current = token;
 	if (!token || !cmd)
 		return ;
-	if (!(*cmd))
+	if (!(*cmd)) // si c'est la premiere cmd et que ducoup c vide 
 		fill_cmd(cmd, current);
 	while (current && current->token != PIPE)
 	{

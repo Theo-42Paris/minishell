@@ -7,6 +7,7 @@ SRC = 	srcs/main.c \
 		srcs/parsing/parsing.c \
 		srcs/parsing/parsing2.c \
 		srcs/parsing/pars_test.c \
+		srcs/free.c \
 
 HEAD = -I ./libft
 

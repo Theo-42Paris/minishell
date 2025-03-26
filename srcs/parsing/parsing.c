@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/25 16:13:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/26 12:07:07 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void tokenizer(t_token **token, char *str)
             dup = ft_strndup(str + start, i - start);
             if (!dup)
                 return;
-            if (str[i]) // Vérifier si on n'est pas à la fin de la chaîne
+            if (str[i] != '\0') // Vérifier si on n'est pas à la fin de la chaîne
                 i++;
         }
         else
