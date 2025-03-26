@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/26 12:07:07 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/26 14:24:51 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,66 @@ void	compl_token_list(t_token **token, char *dup)
 // 	}
 // }
 
+int count_line(char *line)
+{
+    int i = 0;
+    int count = 0;
+
+    while (line[i])
+    {
+        if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
+        {
+            count += 3; // 1 espace avant, l'opérateur (2 char), 1 espace après
+            i++; // Sauter le second '>' ou '<'
+        }
+        else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
+        {
+            count += 2; // Ajouter 2 espaces (un avant et un après)
+        }
+        count++;
+        i++;
+    }
+    return count;
+}
+
+char *pre_token(char *line)
+{
+    int i = 0, j = 0;
+    int size = count_line(line);
+    char *dest = malloc(sizeof(char) * (size + 1));
+
+    if (!dest)
+        return NULL;
+
+    while (line[i])
+    {
+        // Cas des opérateurs `>>` et `<<`
+        if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
+        {
+            dest[j++] = ' ';
+            dest[j++] = line[i++];
+            dest[j++] = line[i];
+            dest[j++] = ' ';
+        }
+        // Cas des opérateurs `>`, `<`, `|`
+        else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
+        {
+            dest[j++] = ' ';
+            dest[j++] = line[i];
+            dest[j++] = ' ';
+        }
+        // Cas normal (lettres, chiffres, etc.)
+        else
+        {
+            dest[j++] = line[i];
+        }
+        i++;
+    }
+    dest[j] = '\0';
+    return dest;
+}
+
+
 void tokenizer(t_token **token, char *str)
 {
     int i;
@@ -157,7 +217,6 @@ void tokenizer(t_token **token, char *str)
             start = i;
             while (str[i] && quote != str[i])
                 i++;
-                
             dup = ft_strndup(str + start, i - start);
             if (!dup)
                 return;

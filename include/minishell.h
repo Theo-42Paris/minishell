@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/26 11:57:58 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/26 13:16:09 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ typedef struct s_cmd
 /********** main **********/
 /********** parsing **********/
 void	tokenizer(t_token **token, char *str);
+char *pre_token(char *line);
 char	*ft_strndup(char *src, int a);
 // void    check_cmd_args(t_token **token);
 
