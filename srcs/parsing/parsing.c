@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/26 14:24:51 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/26 14:29:13 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,28 +116,6 @@ void	compl_token_list(t_token **token, char *dup)
 	add_token(token, tmp);
 }
 
-// void    check_cmd_args(t_token **token)
-// {
-// 	int		count;
-// 	t_token	*current;
-// 	t_token *prev;
-
-// 	current = *token;
-// 	prev = NULL;
-// 	count = 0;
-// 	while (current)
-// 	{
-// 		if (((count == 0 && current->token == WORD) || (prev && (!strncmp(prev->data,
-// 			"|", ft_strlen(prev->data)) && current->token == WORD))))
-// 			current->cmd = 1;
-// 		else
-// 			current->cmd = 0;
-// 		count++;
-// 		prev = current;
-// 		current = current->next;
-// 	}
-// }
-
 int count_line(char *line)
 {
     int i = 0;
@@ -147,13 +125,11 @@ int count_line(char *line)
     {
         if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
         {
-            count += 3; // 1 espace avant, l'opérateur (2 char), 1 espace après
-            i++; // Sauter le second '>' ou '<'
+            count += 3;
+            i++;
         }
         else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
-        {
-            count += 2; // Ajouter 2 espaces (un avant et un après)
-        }
+            count += 2; 
         count++;
         i++;
     }
@@ -171,7 +147,7 @@ char *pre_token(char *line)
 
     while (line[i])
     {
-        // Cas des opérateurs `>>` et `<<`
+        // Cas des opérateurs >> et <<
         if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
         {
             dest[j++] = ' ';
@@ -179,7 +155,7 @@ char *pre_token(char *line)
             dest[j++] = line[i];
             dest[j++] = ' ';
         }
-        // Cas des opérateurs `>`, `<`, `|`
+        // Cas des opérateurs > < |
         else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
         {
             dest[j++] = ' ';
@@ -188,9 +164,7 @@ char *pre_token(char *line)
         }
         // Cas normal (lettres, chiffres, etc.)
         else
-        {
             dest[j++] = line[i];
-        }
         i++;
     }
     dest[j] = '\0';
@@ -237,6 +211,28 @@ void tokenizer(t_token **token, char *str)
             i++;
     }
 }
+
+// void    check_cmd_args(t_token **token)
+// {
+// 	int		count;
+// 	t_token	*current;
+// 	t_token *prev;
+
+// 	current = *token;
+// 	prev = NULL;
+// 	count = 0;
+// 	while (current)
+// 	{
+// 		if (((count == 0 && current->token == WORD) || (prev && (!strncmp(prev->data,
+// 			"|", ft_strlen(prev->data)) && current->token == WORD))))
+// 			current->cmd = 1;
+// 		else
+// 			current->cmd = 0;
+// 		count++;
+// 		prev = current;
+// 		current = current->next;
+// 	}
+// }
 
 // void	tokenizer(t_token **token, char *str)
 // {
