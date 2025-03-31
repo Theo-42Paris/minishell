@@ -4,9 +4,10 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 SRC = 	srcs/main.c \
 		srcs/print_utils.c \
-		srcs/parsing/parsing.c \
-		srcs/parsing/parsing2.c \
-		srcs/parsing/pars_test.c \
+		srcs/parsing/pars_token.c \
+		srcs/parsing/pars_syntax.c \
+		srcs/parsing/prep_env.c \
+		srcs/parsing/pars_cmd.c \
 		srcs/parsing/expand.c \
 		srcs/free.c \
 		

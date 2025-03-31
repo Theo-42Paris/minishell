@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   pars_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/26 14:29:13 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/03/31 16:58:09 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,99 +118,198 @@ void	compl_token_list(t_token **token, char *dup)
 
 int count_line(char *line)
 {
-    int i = 0;
-    int count = 0;
+	int i = 0;
+	int count = 0;
 
-    while (line[i])
-    {
-        if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
-        {
-            count += 3;
-            i++;
-        }
-        else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
-            count += 2; 
-        count++;
-        i++;
-    }
-    return count;
+	while (line[i])
+	{
+		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
+		{
+			count += 3;
+			i++;
+		}
+		else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
+			count += 2; 
+		count++;
+		i++;
+	}
+	return count;
 }
 
-char *pre_token(char *line)
+char    *pre_token(char *line)
 {
-    int i = 0, j = 0;
-    int size = count_line(line);
-    char *dest = malloc(sizeof(char) * (size + 1));
+	int i = 0, j = 0;
+	int size = count_line(line);
+	char *dest = malloc(sizeof(char) * (size + 1));
 
-    if (!dest)
-        return NULL;
-
-    while (line[i])
-    {
-        // Cas des opérateurs >> et <<
-        if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
-        {
-            dest[j++] = ' ';
-            dest[j++] = line[i++];
-            dest[j++] = line[i];
-            dest[j++] = ' ';
-        }
-        // Cas des opérateurs > < |
-        else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
-        {
-            dest[j++] = ' ';
-            dest[j++] = line[i];
-            dest[j++] = ' ';
-        }
-        // Cas normal (lettres, chiffres, etc.)
-        else
-            dest[j++] = line[i];
-        i++;
-    }
-    dest[j] = '\0';
-    return dest;
+	if (!dest)
+		return NULL;
+	while (line[i])
+	{
+		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
+		{
+			dest[j++] = ' ';
+			dest[j++] = line[i++];
+			dest[j++] = line[i];
+			dest[j++] = ' ';
+		}
+		else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
+		{
+			dest[j++] = ' ';
+			dest[j++] = line[i];
+			dest[j++] = ' ';
+		}
+		else
+			dest[j++] = line[i];
+		i++;
+	}
+	dest[j] = '\0';
+	return dest;
 }
-
 
 void tokenizer(t_token **token, char *str)
 {
     int i;
     char *dup;
-    char quote;
     int start;
-    
+    char buffer[1024];
+    int buf_index = 0;
+    char quote;
+
     i = 0;
     while (str[i] == ' ' || str[i] == '\t')
         i++;    
     while (str[i])
     {
+        buf_index = 0;
         start = i;
-        if (str[i] == '\'' || str[i] == '"')
+        while (str[i] && str[i] != ' ' && str[i] != '\t')
         {
-            quote = str[i++];
-            start = i;
-            while (str[i] && quote != str[i])
-                i++;
-            dup = ft_strndup(str + start, i - start);
+            if (str[i] == '\'' || str[i] == '"')
+            {
+                quote = str[i++];
+                while (str[i] && str[i] != quote)
+				{
+					if (buf_index < 1023)
+                    	buffer[buf_index++] = str[i++];
+				}
+                if (str[i] == quote)
+                    i++;
+            }
+            else
+			{
+				if (buf_index < 1023)
+                	buffer[buf_index++] = str[i++];
+			}
+        }
+        if (buf_index > 0)
+		{
+            buffer[buf_index] = '\0';
+            dup = ft_strdup(buffer);
             if (!dup)
                 return;
-            if (str[i] != '\0') // Vérifier si on n'est pas à la fin de la chaîne
-                i++;
+            compl_token_list(token, dup);
         }
-        else
-        {
-            while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\'' && str[i] != '"'))
-                i++;            
-            dup = ft_strndup(str + start, i - start);
-            if (!dup)
-                return;
-        }
-        compl_token_list(token, dup);
-        // Avancer seulement si on a des espaces ou des tabulations
         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
             i++;
     }
 }
+
+// void    tokenizer(t_token **token, char *str)
+// {
+//     int i;
+//     char *dup;
+//     char quote;
+//     int start;
+    
+//     i = 0;
+//     while (str[i] == ' ' || str[i] == '\t')
+//         i++;    
+//     while (str[i])
+//     {
+//         start = i;
+//         if (str[i] == '\'' || str[i] == '"')
+//         {
+//             quote = str[i++];
+//             start = i;
+//             while (str[i] && quote != str[i])
+//                 i++;
+//             dup = ft_strndup(str + start, i - start);
+//             if (!dup)
+//                 return;
+//             if (str[i] != '\0') // Vérifier si on n'est pas à la fin de la chaîne
+//                 i++;
+//         }
+//         else
+//         {
+//             while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\'' && str[i] != '"'))
+//                 i++;            
+//             dup = ft_strndup(str + start, i - start);
+//             if (!dup)
+//                 return;
+//         }
+//         compl_token_list(token, dup);
+//         // Avancer seulement si on a des espaces ou des tabulations
+//         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+//             i++;
+//     }
+// }
+
+// void    tokenizer(t_token **token, char *str)
+// {
+// 	int     i;
+// 	int		start;
+// 	int     exp;
+// 	char    quote;
+// 	char	*dup;
+
+// 	i = 0;
+// 	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+// 		i++;
+// 	while(str[i])
+// 	{
+// 		start = i;
+// 		if (str[i] == '\'')
+// 		{
+// 			if (str[i + 1] == '$')
+// 			{
+// 				quote = str[i++];
+// 				exp = 1;
+// 			}
+// 			else
+// 				quote = str[i++];
+// 			start = i;
+// 			while (str[i] && quote != str[i])
+// 				i++;
+// 			if (str[i] == quote)
+// 				i++;
+// 		}
+// 		else if (str[i] == '"')
+// 		{
+// 			quote = str[i];
+// 			start = i;
+// 			while (str[i] && quote != str[i])
+// 				i++;
+// 			if (str[i] == quote)
+// 			i++;
+// 		}
+// 		else
+// 		{
+// 			start = i;
+// 			while (str[i] && (str[i] != ' ' && str[i] != '\t'))
+//                 i++;
+// 		}
+// 		if ( i > start)
+// 		{
+// 			dup = ft_strndup(str + start, i - start);
+// 			if (!dup)
+// 				return ;
+// 			compl_token_list(token, dup);
+// 		}
+//         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+//             i++;
+// 	}
+// }
 
 // void    check_cmd_args(t_token **token)
 // {
@@ -262,7 +361,6 @@ void tokenizer(t_token **token, char *str)
 // 		{
 // 			while (str[i] && (str[i] != ' ' && str[i] != '\'' && str[i] != '"'))
 // 			{
-// 				printf("ici : %d\n", i);
 // 				i++;
 // 			}
 // 			dup = ft_strndup(str + start, i - start);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/03/26 16:11:34 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/31 09:00:44 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,12 @@ enum				type_token
 	APPEND
 };
 
+typedef struct s_env
+{
+	char			*env;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_token
 {
 	char			*data;
@@ -147,28 +153,26 @@ typedef struct s_cmd
 // void    exit_error(char *str);
 /********** main **********/
 /********** parsing **********/
-void				tokenizer(t_token **token, char *str);
-char				*pre_token(char *line);
-char				*ft_strndup(char *src, int a);
-void				expand(char *line);
-// void    check_cmd_args(t_token **token);
-
-/********** parsing2 **********/
-// void	token_to_cmd(t_cmd **cmd, t_token **token);
-int					check_syntax(t_token **token);
-void				test(t_token *token, t_cmd **cmd);
-int					is_delimiteur(int type);
-
-/***********************************************************/
+/*** pars_token ***/
+void	tokenizer(t_token **token, char *str);
+char	*pre_token(char *line);
+/*** pars_syntax ***/
+int		check_syntax(t_token **token);
+int		is_delimiteur(int type);
+/*** pars_env ***/
+void	get_env(t_env **env, char **envp);
+/*** pars_cmd ***/
+void    get_cmd(t_token *token, t_cmd **cmd);
+/*** expand ***/
+void	expand(char *line);
 /********** print_utils **********/
-void				print_token(t_token **token);
-void				print_tab(char **tab);
-void				print_cmd(t_cmd **cmd);
-void				print_redir(t_redir **redir);
-
+void	print_token(t_token **token);
+void	print_tab(char **tab);
+void	print_cmd(t_cmd **cmd);
+void	print_redir(t_redir **redir);
 /********** free_utils **********/
-void				free_token(t_token **token);
-void				free_redir(t_redir **redir);
-void				free_cmd(t_cmd **cmd);
+void	free_token(t_token **token);
+void	free_redir(t_redir **redir);
+void	free_cmd(t_cmd **cmd);
 
 #endif

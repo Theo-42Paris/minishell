@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_test.c                                        :+:      :+:    :+:   */
+/*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/26 12:08:52 by tzara            ###   ########.fr       */
+/*   Updated: 2025/03/31 09:24:35 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	fill_redir(t_redir **redir, t_token *current)
 	add_redir(redir, new);
 }
 
-void    test(t_token *token, t_cmd **cmd)
+void    get_cmd(t_token *token, t_cmd **cmd)
 {
 	t_token	*current;
 	t_token	*prev;
@@ -186,6 +186,6 @@ void    test(t_token *token, t_cmd **cmd)
 	if (current)
 	{
 		fill_cmd(&((*cmd)->next), current);
-		test(current, &((*cmd)->next));
+		get_cmd(current, &((*cmd)->next));
 	}
 }
