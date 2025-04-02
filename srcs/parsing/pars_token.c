@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/31 16:58:09 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/01 15:51:40 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,93 +167,44 @@ char    *pre_token(char *line)
 	return dest;
 }
 
-void tokenizer(t_token **token, char *str)
+void    tokenizer(t_token **token, char *str)
 {
     int i;
     char *dup;
-    int start;
-    char buffer[1024];
-    int buf_index = 0;
     char quote;
-
+    int start;
+    
     i = 0;
     while (str[i] == ' ' || str[i] == '\t')
         i++;    
     while (str[i])
     {
-        buf_index = 0;
         start = i;
-        while (str[i] && str[i] != ' ' && str[i] != '\t')
+        if (str[i] == '\'' || str[i] == '"')
         {
-            if (str[i] == '\'' || str[i] == '"')
-            {
-                quote = str[i++];
-                while (str[i] && str[i] != quote)
-				{
-					if (buf_index < 1023)
-                    	buffer[buf_index++] = str[i++];
-				}
-                if (str[i] == quote)
-                    i++;
-            }
-            else
-			{
-				if (buf_index < 1023)
-                	buffer[buf_index++] = str[i++];
-			}
-        }
-        if (buf_index > 0)
-		{
-            buffer[buf_index] = '\0';
-            dup = ft_strdup(buffer);
+            quote = str[i++];
+            start = i;
+            while (str[i] && quote != str[i])
+                i++;
+            dup = ft_strndup(str + start, i - start);
             if (!dup)
                 return;
-            compl_token_list(token, dup);
+            if (str[i] != '\0')
+                i++;
         }
+        else
+        {
+            while (str[i] && (str[i] != ' ' && str[i] != '\t'))// && str[i] != '\'' && str[i] != '"'))
+                i++;            
+            dup = ft_strndup(str + start, i - start);
+            if (!dup)
+                return;
+        }
+        compl_token_list(token, dup);
         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
             i++;
     }
 }
-
-// void    tokenizer(t_token **token, char *str)
-// {
-//     int i;
-//     char *dup;
-//     char quote;
-//     int start;
-    
-//     i = 0;
-//     while (str[i] == ' ' || str[i] == '\t')
-//         i++;    
-//     while (str[i])
-//     {
-//         start = i;
-//         if (str[i] == '\'' || str[i] == '"')
-//         {
-//             quote = str[i++];
-//             start = i;
-//             while (str[i] && quote != str[i])
-//                 i++;
-//             dup = ft_strndup(str + start, i - start);
-//             if (!dup)
-//                 return;
-//             if (str[i] != '\0') // Vérifier si on n'est pas à la fin de la chaîne
-//                 i++;
-//         }
-//         else
-//         {
-//             while (str[i] && (str[i] != ' ' && str[i] != '\t' && str[i] != '\'' && str[i] != '"'))
-//                 i++;            
-//             dup = ft_strndup(str + start, i - start);
-//             if (!dup)
-//                 return;
-//         }
-//         compl_token_list(token, dup);
-//         // Avancer seulement si on a des espaces ou des tabulations
-//         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-//             i++;
-//     }
-// }
 
 // void    tokenizer(t_token **token, char *str)
 // {

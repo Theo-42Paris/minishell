@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/31 09:24:35 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/01 11:22:36 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ void    get_cmd(t_token *token, t_cmd **cmd)
 		// }
 		if (current->token == WORD && (!prev || !is_delimiteur(prev->token)))
 		{
-			printf("data : %s\n", current->data);
 			(*cmd)->args[i] = ft_strdup(current->data);
 			i++;
 		}
