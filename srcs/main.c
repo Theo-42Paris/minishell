@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/01 11:35:06 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:56:40 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,17 @@ int	main(int argc, char **argv, char **envp)
 		tokenizer(&token, good_line);
 		//expand(good_line);
 		//todo | malloc a securiser ici
-		// check_cmd_args(&token);
 		if (!check_syntax(&token))
 		{
 			free_token(&token);
 			free(line);
 			continue ;
 		}
-		// token_to_cmd(&cmd, &token);
 		get_cmd(token, &cmd);
 		//todo | comment gerer si cmd est NULL ?
 		//todo | si check_syntax est ok on fait le reste, sinon il faut free (faire un "if ... else" ???)
-		print_token(&token);
-		// print_cmd(&cmd);
+		// print_token(&token);
+		print_cmd(&cmd);
 		// waitpid();
 		// ft_reset_cmd();
 		// remettre tt data a 0 pour la pro cmd cat | "grep error"

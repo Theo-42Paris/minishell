@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/01 15:51:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/03 11:46:23 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,6 @@
 // 	}
 // 	return (single_quote || double_quote);
 // }
-
-char	*ft_strndup(char *src, int a)
-{
-	char	*dst;
-	int		i;
-
-	i = 0;
-	dst = (char *)malloc(sizeof(char) * (a + 1));
-	if (!dst)
-		return (NULL);
-	while (i < a)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
 
 int check_type(char *dup)
 {
@@ -106,10 +88,11 @@ t_token	*new_token(char *dup)
 	return (tmp);
 }
 
-void	compl_token_list(t_token **token, char *dup)
+void	compl_token_list(t_token **token, char *dup, int exp)
 {
 	t_token	*tmp;
 
+	printf("%d\n", exp);
 	tmp = new_token(dup);
 	if (!tmp)
 		return ;
@@ -167,100 +150,97 @@ char    *pre_token(char *line)
 	return dest;
 }
 
-void    tokenizer(t_token **token, char *str)
+char *append_char(char *word, char c)
 {
-    int i;
-    char *dup;
-    char quote;
-    int start;
+    int len = (word ? strlen(word) : 0);
+    char *new_word = malloc(len + 2);
     
-    i = 0;
-    while (str[i] == ' ' || str[i] == '\t')
-        i++;    
-    while (str[i])
-    {
-        start = i;
-        if (str[i] == '\'' || str[i] == '"')
-        {
-            quote = str[i++];
-            start = i;
-            while (str[i] && quote != str[i])
-                i++;
-            dup = ft_strndup(str + start, i - start);
-            if (!dup)
-                return;
-            if (str[i] != '\0')
-                i++;
-        }
-        else
-        {
-            while (str[i] && (str[i] != ' ' && str[i] != '\t'))// && str[i] != '\'' && str[i] != '"'))
-                i++;            
-            dup = ft_strndup(str + start, i - start);
-            if (!dup)
-                return;
-        }
-        compl_token_list(token, dup);
-        while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-            i++;
+    if (!new_word) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
     }
+
+    if (word) 
+    { 
+        strcpy(new_word, word);
+        free(word);
+    } else 
+    {
+        new_word[0] = '\0';
+    }
+
+    new_word[len] = c;
+    new_word[len + 1] = '\0';
+    return new_word;
 }
 
-// void    tokenizer(t_token **token, char *str)
+// Fonction pour ajouter un token à la liste chaînée
+// void add_token(t_token **head, char *word)
 // {
-// 	int     i;
-// 	int		start;
-// 	int     exp;
-// 	char    quote;
-// 	char	*dup;
-
-// 	i = 0;
-// 	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-// 		i++;
-// 	while(str[i])
+//     if (!word) return;  // Éviter d'ajouter un token vide
+//     t_token *new_token = malloc(sizeof(t_token));
+//     if (!new_token) {
+//         perror("malloc");
+//         exit(EXIT_FAILURE);
+//     }
+//     new_token->data = word;
+//     new_token->next = NULL;
+//     if (*head == NULL)
+//     {
+//         *head = new_token;
+//     }
+// 	else
 // 	{
-// 		start = i;
-// 		if (str[i] == '\'')
-// 		{
-// 			if (str[i + 1] == '$')
-// 			{
-// 				quote = str[i++];
-// 				exp = 1;
-// 			}
-// 			else
-// 				quote = str[i++];
-// 			start = i;
-// 			while (str[i] && quote != str[i])
-// 				i++;
-// 			if (str[i] == quote)
-// 				i++;
-// 		}
-// 		else if (str[i] == '"')
-// 		{
-// 			quote = str[i];
-// 			start = i;
-// 			while (str[i] && quote != str[i])
-// 				i++;
-// 			if (str[i] == quote)
-// 			i++;
-// 		}
-// 		else
-// 		{
-// 			start = i;
-// 			while (str[i] && (str[i] != ' ' && str[i] != '\t'))
-//                 i++;
-// 		}
-// 		if ( i > start)
-// 		{
-// 			dup = ft_strndup(str + start, i - start);
-// 			if (!dup)
-// 				return ;
-// 			compl_token_list(token, dup);
-// 		}
-//         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-//             i++;
-// 	}
+//         t_token *temp = *head;
+//         while (temp->next)
+//             temp = temp->next;
+//         temp->next = new_token;
+//     }
 // }
+
+void	tokenizer(t_token **tokens, char *cmd)
+{
+    int in_quotes = 0;
+    char quote_char = 0;
+    char *current_word = NULL;
+    char c;
+	int exp = 1;
+
+    while (*cmd) 
+    {
+        c = *cmd;
+        if ((c == '"' || c == '\'') && (!in_quotes || quote_char == c)) 
+        {
+            if (in_quotes) 
+                in_quotes = 0;
+            else
+            {
+				if (c == '\'')
+					exp = 0;
+				else
+					exp = 1;
+                in_quotes = 1;
+                quote_char = c;
+            }
+        }
+        else if (isspace(c)) 
+		{
+            if (in_quotes)
+                current_word = append_char(current_word, c);
+			else if (current_word)
+			{
+                compl_token_list(tokens, current_word, exp);
+                current_word = NULL;
+            }
+        }
+        else
+            current_word = append_char(current_word, c);
+        cmd++;
+    }
+    if (current_word)
+        compl_token_list(tokens, current_word, exp);
+}
+
 
 // void    check_cmd_args(t_token **token)
 // {
@@ -284,60 +264,3 @@ void    tokenizer(t_token **token, char *str)
 // 	}
 // }
 
-// void	tokenizer(t_token **token, char *str)
-// {
-// 	int		i;
-// 	char	*dup;
-// 	char	quote;
-// 	int		start;
-
-// 	i = 0;
-// 	while (str[i] == ' ' || str[i] == '\t')
-// 		i++;
-// 	while (str[i])
-// 	{
-// 		start = i;
-// 		if (str[i] == '\'' || str[i] == '"')
-// 		{
-// 			quote = str[i++];
-// 			start = i;
-// 			while (str[i] && quote != str[i])
-// 				i++;
-// 			dup = ft_strndup(str + start, i - start);
-// 			if (!dup)
-// 				return ;
-// 			i++;
-// 		}
-// 		else
-// 		{
-// 			while (str[i] && (str[i] != ' ' && str[i] != '\'' && str[i] != '"'))
-// 			{
-// 				i++;
-// 			}
-// 			dup = ft_strndup(str + start, i - start);
-// 			if (!dup)
-// 				return ;
-// 		}
-// 		compl_token_list(token, dup);
-// 		i++;
-// 	}
-// }
-
-// void	parsing(t_token *token, char *str)
-// {
-// 	if (open_quote(str))
-// 	{
-// 		ft_ptintf("Error : open quote\n");
-// 		return ;
-// 	}
-// 	tokenizer(token, str);
-//}
-
-// int	main(void)
-// {
-// 	char	*test1;
-
-// 	test1 = "echo 'Hello world' > file.txt | cat -e";
-// 	tokenizer(test1);
-// 	return (0);
-// }
