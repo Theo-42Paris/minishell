@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/03 11:46:23 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/04 19:35:22 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@
 // 	return (single_quote || double_quote);
 // }
 
-int check_type(char *dup)
+int check_type(char *src)
 {
-	if (!strncmp(dup, "|", ft_strlen(dup)))
+	if (!strncmp(src, "|", ft_strlen(src)))
 		return (PIPE);
-	else if (!strncmp(dup, "<", ft_strlen(dup)))
+	else if (!strncmp(src, "<", ft_strlen(src)))
 		return (REDIR_IN);
-	else if (!strncmp(dup, ">", ft_strlen(dup)))
+	else if (!strncmp(src, ">", ft_strlen(src)))
 		return (REDIR_OUT);
-	else if (!strncmp(dup, "<<", ft_strlen(dup)))
+	else if (!strncmp(src, "<<", ft_strlen(src)))
 		return (DELIMITER);
-	else if (!strncmp(dup, ">>", ft_strlen(dup)))
+	else if (!strncmp(src, ">>", ft_strlen(src)))
 		return (APPEND);
 	else
 		return (WORD);
@@ -75,25 +75,93 @@ void	add_token(t_token **token, t_token *tmp)
 	}
 }
 
-t_token	*new_token(char *dup)
+int	get_len_expand(char *src, t_env **env)
+{
+	int		i;
+	int		j;
+	char	*dst;
+	t_env	*tmp;
+
+	
+	i = 0;
+	j = 0;
+	while (src[i] && src[i] != '$')
+		i++;
+	if (src[i] == '$')
+		i++;
+	while (src[i] && src[i] != ' ' || src[i] != '\t')
+		dst[j++] = src[i++];
+	// todo | avoir la taille de la valeur du expand
+}
+
+char	*line_with_expand(char *src, int *len, t_env **env)
+{
+	int		i;
+	int		len2;
+	char	*new_expand;
+
+	len2 = get_len_expand(src, env);
+	// todo | malloc la taille puis recuperer la valeur de l'env
+	// todo | copier la chaine exitante et l'env
+}
+
+char	*handle_expand(char	*src, t_env **env)
+{
+	int		len = 0;
+	int		i;
+	char	*expand;
+
+	while (src[i] && src[i] != '$')
+	{
+		len++;
+		i++;
+	}
+	if (src[i] == '$')
+	{
+		while (src[i] && (src[i] != ' ' || src[i] != '\t'))
+			i++;
+		if (src[i])
+			while (src[i])
+			{
+				len++;
+				i++;
+			}
+		expand = line_with_exp(src, &len);
+		free(src);
+		if (!expand)
+			return (NULL);
+	}
+	else
+		return (src);
+}
+
+t_token	*new_token(char *src, int exp, t_env **env)
 {
 	t_token	*tmp;
+	char	expand_word;
 
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
-	tmp->data = dup;
-	tmp->token = check_type(dup);
+	if (exp == 1)
+	{
+		expand_word = handle_expand(src, env);
+		if (!expand_word)
+			return (NULL);
+		tmp->data =expand_word;
+	}
+	else
+		tmp->data = src;
+	tmp->token = check_type(tmp->data);
 	tmp->next = NULL;
 	return (tmp);
 }
 
-void	compl_token_list(t_token **token, char *dup, int exp)
+void	compl_token_list(t_token **token, char *src, int exp, t_env **env)
 {
 	t_token	*tmp;
 
-	printf("%d\n", exp);
-	tmp = new_token(dup);
+	tmp = new_token(src, exp, env);
 	if (!tmp)
 		return ;
 	add_token(token, tmp);
@@ -198,7 +266,7 @@ char *append_char(char *word, char c)
 //     }
 // }
 
-void	tokenizer(t_token **tokens, char *cmd)
+void	tokenizer(t_token **tokens, t_env **env, char *cmd)
 {
     int in_quotes = 0;
     char quote_char = 0;
@@ -229,7 +297,7 @@ void	tokenizer(t_token **tokens, char *cmd)
                 current_word = append_char(current_word, c);
 			else if (current_word)
 			{
-                compl_token_list(tokens, current_word, exp);
+                compl_token_list(tokens, current_word, exp, env);
                 current_word = NULL;
             }
         }
@@ -238,7 +306,7 @@ void	tokenizer(t_token **tokens, char *cmd)
         cmd++;
     }
     if (current_word)
-        compl_token_list(tokens, current_word, exp);
+        compl_token_list(tokens, current_word, exp, env);
 }
 
 

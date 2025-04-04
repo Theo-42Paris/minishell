@@ -44,7 +44,8 @@ void expand(char *line)
                 var_name[j] = '\0';
                 value = getenv(var_name); // sensé retourner la valeur de la variable d'environnement
                 // todo : parser la variable d'environnement comme pipex 
-                // todo : kyllian = neuille supreme 
+                // todo : kyllian = neuille supreme
+                // todo | theo = suceur
                 free(var_name);
                 if (value != NULL)
                     ft_printf("%d", value); // affiche la valeur de la variable
