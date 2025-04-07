@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/04 19:35:22 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/07 11:04:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,25 @@ void	add_token(t_token **token, t_token *tmp)
 	}
 }
 
+int	final_len_exp(char *str)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (str[i] == '=')
+		i++;
+	while (str[i])
+	{
+		len++;
+		i++;
+	}
+	return (len);
+}
+
 int	get_len_expand(char *src, t_env **env)
 {
 	int		i;
@@ -85,13 +104,20 @@ int	get_len_expand(char *src, t_env **env)
 	
 	i = 0;
 	j = 0;
+	tmp = *env;
 	while (src[i] && src[i] != '$')
 		i++;
 	if (src[i] == '$')
 		i++;
-	while (src[i] && src[i] != ' ' || src[i] != '\t')
+	while (src[i] && (src[i] != ' ' || src[i] != '\t'))
 		dst[j++] = src[i++];
-	// todo | avoir la taille de la valeur du expand
+	while (tmp)
+	{
+		if (ft_strncmp(dst, tmp->env, ft_strlen(dst)) == 0)
+			return (final_len_exp(tmp->env));
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
 char	*line_with_expand(char *src, int *len, t_env **env)
@@ -101,14 +127,14 @@ char	*line_with_expand(char *src, int *len, t_env **env)
 	char	*new_expand;
 
 	len2 = get_len_expand(src, env);
-	// todo | malloc la taille puis recuperer la valeur de l'env
+	new_expand = malloc(sizeof(char) * ((*len) + len2) + 1);
 	// todo | copier la chaine exitante et l'env
 }
 
 char	*handle_expand(char	*src, t_env **env)
 {
 	int		len = 0;
-	int		i;
+	int		i = 0;
 	char	*expand;
 
 	while (src[i] && src[i] != '$')
