@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/03 10:56:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/07 14:54:44 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		get_env(&env, envp);
 		good_line = pre_token(line);
 		// printf("%s\n", good_line);
-		tokenizer(&token, good_line);
+		tokenizer(&token, &env, good_line);
 		//expand(good_line);
 		//todo | malloc a securiser ici
 		if (!check_syntax(&token))

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/07 11:04:47 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:04:24 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,100 +75,15 @@ void	add_token(t_token **token, t_token *tmp)
 	}
 }
 
-int	final_len_exp(char *str)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (str[i] == '=')
-		i++;
-	while (str[i])
-	{
-		len++;
-		i++;
-	}
-	return (len);
-}
-
-int	get_len_expand(char *src, t_env **env)
-{
-	int		i;
-	int		j;
-	char	*dst;
-	t_env	*tmp;
-
-	
-	i = 0;
-	j = 0;
-	tmp = *env;
-	while (src[i] && src[i] != '$')
-		i++;
-	if (src[i] == '$')
-		i++;
-	while (src[i] && (src[i] != ' ' || src[i] != '\t'))
-		dst[j++] = src[i++];
-	while (tmp)
-	{
-		if (ft_strncmp(dst, tmp->env, ft_strlen(dst)) == 0)
-			return (final_len_exp(tmp->env));
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-char	*line_with_expand(char *src, int *len, t_env **env)
-{
-	int		i;
-	int		len2;
-	char	*new_expand;
-
-	len2 = get_len_expand(src, env);
-	new_expand = malloc(sizeof(char) * ((*len) + len2) + 1);
-	// todo | copier la chaine exitante et l'env
-}
-
-char	*handle_expand(char	*src, t_env **env)
-{
-	int		len = 0;
-	int		i = 0;
-	char	*expand;
-
-	while (src[i] && src[i] != '$')
-	{
-		len++;
-		i++;
-	}
-	if (src[i] == '$')
-	{
-		while (src[i] && (src[i] != ' ' || src[i] != '\t'))
-			i++;
-		if (src[i])
-			while (src[i])
-			{
-				len++;
-				i++;
-			}
-		expand = line_with_exp(src, &len);
-		free(src);
-		if (!expand)
-			return (NULL);
-	}
-	else
-		return (src);
-}
-
 t_token	*new_token(char *src, int exp, t_env **env)
 {
 	t_token	*tmp;
-	char	expand_word;
+	char	*expand_word;
 
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
+	printf("je suis la\n");
 	if (exp == 1)
 	{
 		expand_word = handle_expand(src, env);

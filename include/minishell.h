@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/03 17:26:01 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/07 14:53:52 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ typedef struct s_cmd
 /********** main **********/
 /********** parsing **********/
 /*** pars_token ***/
-void	tokenizer(t_token **token, char *str);
+void	tokenizer(t_token **tokens, t_env **env, char *cmd);
 char	*pre_token(char *line);
 /*** pars_syntax ***/
 int		check_syntax(t_token **token);
@@ -164,7 +164,7 @@ void	get_env(t_env **env, char **envp);
 /*** pars_cmd ***/
 void    get_cmd(t_token *token, t_cmd **cmd);
 /*** expand ***/
-void	expand(char *line);
+char	*handle_expand(char	*src, t_env **env);
 /********** print_utils **********/
 void	print_token(t_token **token);
 void	print_tab(char **tab);
