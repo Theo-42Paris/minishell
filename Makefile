@@ -1,16 +1,27 @@
 NAME = minishell
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g3
 
-SRC = 	srcs/main.c \
-		srcs/print_utils.c \
-		srcs/parsing/pars_token.c \
-		srcs/parsing/pars_syntax.c \
-		srcs/parsing/prep_env.c \
-		srcs/parsing/pars_cmd.c \
-		srcs/parsing/expand.c \
-		srcs/free.c \
-		
+SRC = srcs/main.c \
+	srcs/print_utils.c \
+	srcs/parsing/pars_token.c \
+	srcs/parsing/pars_syntax.c \
+	srcs/parsing/prep_env.c \
+	srcs/parsing/pars_cmd.c \
+	srcs/parsing/expand.c \
+	srcs/free.c \
+	srcs/builtin/ft_echo.c \
+	srcs/builtin/ft_pwd.c \
+	srcs/builtin/builtins.c \
+
+MINI = \
+	"\n	 ███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗       "\
+	"\n	 ████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║       "\
+	"\n	 ██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║       "\
+	"\n	 ██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║       "\
+	"\n	 ██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗  "\
+	"\n	 ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝  "\
+                                                                       
 
 HEAD = -I ./libft
 
@@ -18,25 +29,26 @@ LIBFT = ./libft/libft.a
 
 OBJ = $(SRC:.c=.o)
 
-all : ${NAME}
+all: ${NAME}
+	@echo ${MINI}
 
-${NAME} : ${OBJ} ${LIBFT}
+${NAME}: ${OBJ} ${LIBFT}
 	@cc ${CFLAGS} ${OBJ} -lreadline -lft -L./libft -o ${NAME}
 
 %.o: %.c
 	cc ${CFLAGS} -c $< ${HEAD} -o $@
 
-${LIBFT} :
+${LIBFT}:
 	@make --silent -C ./libft
 
-clean :
+clean:
 	@rm -f ${OBJ}
 	@make --silent -C ./libft clean
 
-fclean : clean
+fclean: clean
 	@rm -f ${NAME}
 	@make --silent -C ./libft fclean
 
-re : fclean all
+re: fclean all
 
-.PHONY : all clean fclean re
+.PHONY: all clean fclean re

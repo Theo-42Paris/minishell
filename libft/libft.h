@@ -69,6 +69,7 @@ char	*get_next_line(int fd);
 char	*line_compl(int fd, char *stock, char *buffer);
 int		check_newline(char *str);
 char	*set_line(char *line);
+int	ft_strcmp(const char *s1, const char *s2);
 
 
 typedef struct s_list

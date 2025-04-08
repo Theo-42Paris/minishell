@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/07 15:04:24 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/08 10:02:27 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ t_token	*new_token(char *src, int exp, t_env **env)
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
-	printf("je suis la\n");
 	if (exp == 1)
 	{
 		expand_word = handle_expand(src, env);
@@ -168,7 +167,6 @@ char *append_char(char *word, char c)
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-
     if (word) 
     { 
         strcpy(new_word, word);
@@ -177,35 +175,10 @@ char *append_char(char *word, char c)
     {
         new_word[0] = '\0';
     }
-
     new_word[len] = c;
     new_word[len + 1] = '\0';
     return new_word;
 }
-
-// Fonction pour ajouter un token à la liste chaînée
-// void add_token(t_token **head, char *word)
-// {
-//     if (!word) return;  // Éviter d'ajouter un token vide
-//     t_token *new_token = malloc(sizeof(t_token));
-//     if (!new_token) {
-//         perror("malloc");
-//         exit(EXIT_FAILURE);
-//     }
-//     new_token->data = word;
-//     new_token->next = NULL;
-//     if (*head == NULL)
-//     {
-//         *head = new_token;
-//     }
-// 	else
-// 	{
-//         t_token *temp = *head;
-//         while (temp->next)
-//             temp = temp->next;
-//         temp->next = new_token;
-//     }
-// }
 
 void	tokenizer(t_token **tokens, t_env **env, char *cmd)
 {
@@ -249,6 +222,30 @@ void	tokenizer(t_token **tokens, t_env **env, char *cmd)
     if (current_word)
         compl_token_list(tokens, current_word, exp, env);
 }
+
+// Fonction pour ajouter un token à la liste chaînée
+// void add_token(t_token **head, char *word)
+// {
+//     if (!word) return;  // Éviter d'ajouter un token vide
+//     t_token *new_token = malloc(sizeof(t_token));
+//     if (!new_token) {
+//         perror("malloc");
+//         exit(EXIT_FAILURE);
+//     }
+//     new_token->data = word;
+//     new_token->next = NULL;
+//     if (*head == NULL)
+//     {
+//         *head = new_token;
+//     }
+// 	else
+// 	{
+//         t_token *temp = *head;
+//         while (temp->next)
+//             temp = temp->next;
+//         temp->next = new_token;
+//     }
+// }
 
 
 // void    check_cmd_args(t_token **token)
