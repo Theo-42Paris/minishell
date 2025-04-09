@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/01 11:22:36 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/09 18:05:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_redir	*new_redir(t_token *current)
 		return (NULL);
 	}
 	new->token = current->token;
+	new->fd_here_doc = -1;
 	new->next = NULL;
 	return (new);
 }

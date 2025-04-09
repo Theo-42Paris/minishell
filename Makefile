@@ -9,6 +9,7 @@ SRC = srcs/main.c \
 	srcs/parsing/prep_env.c \
 	srcs/parsing/pars_cmd.c \
 	srcs/parsing/expand.c \
+	srcs/parsing/here_doc.c \
 	srcs/free.c \
 	srcs/builtin/ft_echo.c \
 	srcs/builtin/ft_pwd.c \

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/07 16:53:22 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/09 18:04:39 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@
 // # define DELIMITER 5 // << (here_doc)
 // # define APPEND 6 // >> (ajoue a la suite)
 
-enum				type_token
+enum	type_token
 {
 	WORD,
 	PIPE,
@@ -124,6 +124,7 @@ typedef struct s_token
 {
 	char			*data;
 	enum type_token	token;
+	int				exp;
 	struct s_token	*next;
 }					t_token;
 
@@ -131,6 +132,7 @@ typedef struct s_redir
 {
 	char			*arg;
 	enum type_token	token;
+	int				fd_here_doc;
 	struct s_redir	*next;
 }					t_redir;
 
@@ -146,41 +148,45 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	char			*line;
-	struct s_data	*next;
-	char			**env;
-}					t_data;
+	t_cmd	*cmd;
+	t_env	*env;
+	int		signal;
+	
+}	t_data;
 
 /********** utils **********/
 // void    exit_error(char *str);
 /********** main **********/
 /********** parsing **********/
 /*** pars_token ***/
-void		tokenizer(t_token **token, t_env **env, char *str);
-char		*pre_token(char *line);
+void	tokenizer(t_token **token, char *str);
+char	*pre_token(char *line);
 /*** pars_syntax ***/
-int			check_syntax(t_token **token);
-int			is_delimiteur(int type);
+int		check_syntax(t_token **token);
+int		is_delimiteur(int type);
 /*** pars_env ***/
-void		get_env(t_env **env, char **envp);
+void	get_env(t_env **env, char **envp);
 /*** pars_cmd ***/
-void		get_cmd(t_token *token, t_cmd **cmd);
+void	get_cmd(t_token *token, t_cmd **cmd);
 /*** expand ***/
-char		*handle_expand(char	*src, t_env **env);
+char	*handle_expand(char	*src, t_env **env);
+char	*expandables(char *src, t_env **env);
+/*** here_doc ***/
+void	handle_here_doc(t_cmd *cmd);
 /********** print_utils **********/
-void		print_token(t_token **token);
-void		print_tab(char **tab);
-void		print_cmd(t_cmd **cmd);
-void		print_redir(t_redir **redir);
+void	print_token(t_token **token);
+void	print_tab(char **tab);
+void	print_cmd(t_cmd **cmd);
+void	print_redir(t_redir **redir);
 /********** free_utils **********/
-void		free_token(t_token **token);
-void		free_redir(t_redir **redir);
-void		free_cmd(t_cmd **cmd);
+void	free_token(t_token **token);
+void	free_redir(t_redir **redir);
+void	free_cmd(t_cmd **cmd);
 /**********Builtins***********/
-int			ft_echo(t_data *data, t_cmd *cmd);
-int			ft_pwd(t_cmd *cmd);
-int			ft_isbuiltin(t_cmd *cmd);
-int			ft_is_option(char *str);
-int			ft_exec_builtin(t_data *data, t_cmd *cmd);
+int		ft_echo(t_data *data, t_cmd *cmd);
+int		ft_pwd(t_cmd *cmd);
+int		ft_isbuiltin(t_cmd *cmd);
+int		ft_is_option(char *str);
+int		ft_exec_builtin(t_data *data, t_cmd *cmd);
 
 #endif

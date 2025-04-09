@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/08 10:02:27 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:02:41 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,33 +75,34 @@ void	add_token(t_token **token, t_token *tmp)
 	}
 }
 
-t_token	*new_token(char *src, int exp, t_env **env)
+t_token	*new_token(char *src, int exp)
 {
 	t_token	*tmp;
-	char	*expand_word;
+	// char	*expand_word;
 
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
-	if (exp == 1)
-	{
-		expand_word = handle_expand(src, env);
-		if (!expand_word)
-			return (NULL);
-		tmp->data =expand_word;
-	}
-	else
-		tmp->data = src;
+	// if (exp == 1)
+	// {
+	// 	expand_word = handle_expand(src, env);
+	// 	if (!expand_word)
+	// 		return (NULL);
+	tmp->data = src;
+	tmp->exp = exp;
+	// }
+	// else
+	// 	tmp->data = src;
 	tmp->token = check_type(tmp->data);
 	tmp->next = NULL;
 	return (tmp);
 }
 
-void	compl_token_list(t_token **token, char *src, int exp, t_env **env)
+void	compl_token_list(t_token **token, char *src, int exp)
 {
 	t_token	*tmp;
 
-	tmp = new_token(src, exp, env);
+	tmp = new_token(src, exp);
 	if (!tmp)
 		return ;
 	add_token(token, tmp);
@@ -180,7 +181,7 @@ char *append_char(char *word, char c)
     return new_word;
 }
 
-void	tokenizer(t_token **tokens, t_env **env, char *cmd)
+void	tokenizer(t_token **tokens, char *cmd)
 {
     int in_quotes = 0;
     char quote_char = 0;
@@ -211,7 +212,7 @@ void	tokenizer(t_token **tokens, t_env **env, char *cmd)
                 current_word = append_char(current_word, c);
 			else if (current_word)
 			{
-                compl_token_list(tokens, current_word, exp, env);
+                compl_token_list(tokens, current_word, exp);
                 current_word = NULL;
             }
         }
@@ -220,7 +221,7 @@ void	tokenizer(t_token **tokens, t_env **env, char *cmd)
         cmd++;
     }
     if (current_word)
-        compl_token_list(tokens, current_word, exp, env);
+        compl_token_list(tokens, current_word, exp);
 }
 
 // Fonction pour ajouter un token à la liste chaînée
