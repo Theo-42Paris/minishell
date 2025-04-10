@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/10 12:09:12 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:36:16 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*find_path(t_env **env, char *tmp)
 	env_tmp = *env;
 	while (env_tmp)
 	{
-		if (ft_strncmp(env_tmp->env, tmp, ft_strlen(tmp)) == 0 
+		if (ft_strncmp(env_tmp->env, tmp, ft_strlen(tmp)) == 0
 			&& env_tmp->env[ft_strlen(tmp)] == '=')
 			return (env_tmp->env + ft_strlen(tmp) + 1);
 		env_tmp = env_tmp->next;
@@ -61,11 +61,12 @@ char	*expandables(char *src, t_env **env)
 			free(tmp);
 			i++;
 			if (src[i] == '?')
-				printf("mimimi"); //handle_signal();
+				printf("mimimi"); // handle_signal();
 			else
 			{
 				var_start = i;
-				while (src[i] && src[i] != ' ' && src[i] != '\t' && src[i] != '$')
+				while (src[i] && src[i] != ' ' && src[i] != '\t'
+					&& src[i] != '$')
 					i++;
 				tmp = ft_substr(src, var_start, i - var_start);
 				env_find = find_path(env, tmp);
@@ -79,12 +80,12 @@ char	*expandables(char *src, t_env **env)
 			i++;
 	}
 	if (start < i)
-    {
-        tmp = ft_substr(src, start, i - start);
-        result = ft_strjoin(result, tmp);
-        free(tmp);
-    }
-    return (result);
+	{
+		tmp = ft_substr(src, start, i - start);
+		result = ft_strjoin(result, tmp);
+		free(tmp);
+	}
+	return (result);
 }
 
 // int last_exit_status(int status)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/10 15:29:10 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:32:18 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,24 @@ void	handle_sig_c(int signals)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argv;
-	(void)envp;
 	t_token	*token;
 	t_cmd	*cmd;
 	t_env	*env;
 	char	*line;
 	char	*good_line;
 
+	(void)argv;
+	(void)envp;
 	token = NULL;
 	cmd = NULL;
 	env = NULL;
 	if (argc != 1)
 		return (1);
-	signal(SIGINT, handle_sig_c); //ctrl-C
-	signal(SIGQUIT, SIG_IGN); //ctrl-\"
+	signal(SIGINT, handle_sig_c); // ctrl-C
+	signal(SIGQUIT, SIG_IGN);     // ctrl-\"
 	while (1)
 	{
-		line = readline(G"minishell> "RST);
+		line = readline(G "minishell> " RST);
 		if (!line)
 		{
 			ft_printf("exit\n");

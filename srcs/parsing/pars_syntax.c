@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing2.c                                         :+:      :+:    :+:   */
+/*   pars_syntax.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/25 13:34:36 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:36:06 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 // int	get_nb_cmd(t_token **token)
 // {
@@ -40,7 +39,7 @@
 // 	current = *token;
 // 	while (current)
 // 	{
-		
+
 // 		if (current->type == 2)
 // 			compl_cmd();
 // 		current = current->next;
@@ -75,8 +74,8 @@
 // }
 /**************************************************************************/
 
-//todo | prendre tout dans une chaine jusqu'a un pipe
-//todo | puis separer dans la liste chainer cmd
+// todo | prendre tout dans une chaine jusqu'a un pipe
+// todo | puis separer dans la liste chainer cmd
 
 int	is_delimiteur(int type)
 {
@@ -88,17 +87,19 @@ int	is_delimiteur(int type)
 
 int	syntax_node(int start, int end, t_token *current, t_token *prev)
 {
-	//todo | ecrire les erreurs dans le stderror putstr_fd(3)
+	// todo | ecrire les erreurs dans le stderror putstr_fd(3)
 	if (start)
 	{
 		if (current->token == PIPE)
 		{
-			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n",
+				2);
 			return (0);
 		}
 		else if (current->next == NULL && is_delimiteur(current->token))
 		{
-			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
+				2);
 			return (0);
 		}
 	}
@@ -106,12 +107,14 @@ int	syntax_node(int start, int end, t_token *current, t_token *prev)
 	{
 		if (current->token == PIPE && is_delimiteur(prev->token))
 		{
-			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n",
+				2);
 			return (0);
 		}
 		else if (current->token == 2 && prev->token == 2)
 		{
-			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n",
+				2);
 			return (0);
 		}
 	}
@@ -119,13 +122,15 @@ int	syntax_node(int start, int end, t_token *current, t_token *prev)
 	{
 		if (current->token == PIPE)
 		{
-			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n",
+				2);
 			return (0);
 		}
 		else if (is_delimiteur(current->token))
 		{
-			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n", 2);
-			return (0);			
+			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
+				2);
+			return (0);
 		}
 	}
 	return (1);
@@ -134,7 +139,7 @@ int	syntax_node(int start, int end, t_token *current, t_token *prev)
 int	check_syntax(t_token **token)
 {
 	t_token	*current;
-	t_token *prev;
+	t_token	*prev;
 	int		start;
 	int		end;
 

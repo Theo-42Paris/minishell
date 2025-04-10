@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:23:00 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/07 16:11:10 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:36:21 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	is_valid_n_option(char *str)
 {
+	int	i;
+
 	if (!str || str[0] != '-')
 		return (0);
-	int i = 1;
+	i = 1;
 	while (str[i])
 	{
 		if (str[i] != 'n')
@@ -28,10 +30,12 @@ int	is_valid_n_option(char *str)
 
 int	ft_echo(t_data *data, t_cmd *cmd)
 {
-	(void)data;
-	t_cmd *arg = cmd->next;
-	int newline = 1;
+	t_cmd	*arg;
+	int		newline;
 
+	(void)data;
+	arg = cmd->next;
+	newline = 1;
 	while (arg && is_valid_n_option(arg->value))
 	{
 		newline = 0;
@@ -41,7 +45,7 @@ int	ft_echo(t_data *data, t_cmd *cmd)
 	{
 		ft_putstr_fd(arg->value, 1);
 		if (arg->next)
-		ft_putstr_fd(" ", 1);
+			ft_putstr_fd(" ", 1);
 		arg = arg->next;
 	}
 	if (newline)

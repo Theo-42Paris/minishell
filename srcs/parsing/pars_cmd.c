@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/09 18:05:14 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:36:10 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_cmd	*new_cmd(t_token *current)
 	{
 		free(cmd);
 		return (NULL);
-	} 
+	}
 	cmd->cmd = NULL;
 	cmd->redir = NULL;
 	cmd->next = NULL;
@@ -77,7 +77,7 @@ void	add_cmd(t_cmd **cmd, t_cmd *head)
 	}
 }
 
-void    fill_cmd(t_cmd **cmd, t_token *current)
+void	fill_cmd(t_cmd **cmd, t_token *current)
 {
 	t_cmd	*head;
 
@@ -119,7 +119,7 @@ t_redir	*last_redir(t_redir *redir)
 
 void	add_redir(t_redir **redir, t_redir *new)
 {
-	t_redir *last;
+	t_redir	*last;
 
 	if (redir)
 	{
@@ -143,7 +143,7 @@ void	fill_redir(t_redir **redir, t_token *current)
 	add_redir(redir, new);
 }
 
-void    get_cmd(t_token *token, t_cmd **cmd)
+void	get_cmd(t_token *token, t_cmd **cmd)
 {
 	t_token	*current;
 	t_token	*prev;
@@ -154,18 +154,18 @@ void    get_cmd(t_token *token, t_cmd **cmd)
 	current = token;
 	if (!token || !cmd)
 		return ;
-	if (!(*cmd)) // si c'est la premiere cmd et que ducoup c vide 
+	if (!(*cmd)) // si c'est la premiere cmd et que ducoup c vide
 		fill_cmd(cmd, current);
 	while (current && current->token != PIPE)
 	{
-		if (current->token == REDIR_IN || current->token == REDIR_OUT ||
-			current->token == DELIMITER || current->token == APPEND)
+		if (current->token == REDIR_IN || current->token == REDIR_OUT
+			|| current->token == DELIMITER || current->token == APPEND)
 		{
 			if (current->next)
 				fill_redir(&((*cmd)->redir), current);
 			prev = current;
 			current = current->next;
-			// continue;
+			// continue ;
 		}
 		// if (prev && is_delimiteur(prev->token))
 		// {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/09 16:02:41 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:35:58 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 // 	return (single_quote || double_quote);
 // }
 
-int check_type(char *src)
+int	check_type(char *src)
 {
 	if (!strncmp(src, "|", ft_strlen(src)))
 		return (PIPE);
@@ -61,7 +61,7 @@ t_token	*last_token(t_token *token)
 
 void	add_token(t_token **token, t_token *tmp)
 {
-	t_token *last;
+	t_token	*last;
 
 	if (token)
 	{
@@ -78,8 +78,8 @@ void	add_token(t_token **token, t_token *tmp)
 t_token	*new_token(char *src, int exp)
 {
 	t_token	*tmp;
-	// char	*expand_word;
 
+	// char	*expand_word;
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
@@ -108,37 +108,47 @@ void	compl_token_list(t_token **token, char *src, int exp)
 	add_token(token, tmp);
 }
 
-int count_line(char *line)
+int	count_line(char *line)
 {
-	int i = 0;
-	int count = 0;
+	int	i;
+	int	count;
 
+	i = 0;
+	count = 0;
 	while (line[i])
 	{
-		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
+		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i
+				+ 1] == '<'))
 		{
 			count += 3;
 			i++;
 		}
 		else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
-			count += 2; 
+			count += 2;
 		count++;
 		i++;
 	}
-	return count;
+	return (count);
 }
 
-char    *pre_token(char *line)
+char	*pre_token(char *line)
 {
-	int i = 0, j = 0;
-	int size = count_line(line);
-	char *dest = malloc(sizeof(char) * (size + 1));
+	int		i;
+	int		j;
+	int		size;
+	char	*dest;
 
+	i = 0;
+	j = 0;
+	i = 0, j = 0;
+	size = count_line(line);
+	dest = malloc(sizeof(char) * (size + 1));
 	if (!dest)
-		return NULL;
+		return (NULL);
 	while (line[i])
 	{
-		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
+		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i
+				+ 1] == '<'))
 		{
 			dest[j++] = ' ';
 			dest[j++] = line[i++];
@@ -156,78 +166,86 @@ char    *pre_token(char *line)
 		i++;
 	}
 	dest[j] = '\0';
-	return dest;
+	return (dest);
 }
 
-char *append_char(char *word, char c)
+char	*append_char(char *word, char c)
 {
-    int len = (word ? strlen(word) : 0);
-    char *new_word = malloc(len + 2);
-    
-    if (!new_word) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    if (word) 
-    { 
-        strcpy(new_word, word);
-        free(word);
-    } else 
-    {
-        new_word[0] = '\0';
-    }
-    new_word[len] = c;
-    new_word[len + 1] = '\0';
-    return new_word;
+	int		len;
+	char	*new_word;
+
+	len = (word ? strlen(word) : 0);
+	new_word = malloc(len + 2);
+	if (!new_word)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+	if (word)
+	{
+		strcpy(new_word, word);
+		free(word);
+	}
+	else
+	{
+		new_word[0] = '\0';
+	}
+	new_word[len] = c;
+	new_word[len + 1] = '\0';
+	return (new_word);
 }
 
 void	tokenizer(t_token **tokens, char *cmd)
 {
-    int in_quotes = 0;
-    char quote_char = 0;
-    char *current_word = NULL;
-    char c;
-	int exp = 1;
+	int		in_quotes;
+	char	quote_char;
+	char	*current_word;
+	char	c;
+	int		exp;
 
-    while (*cmd) 
-    {
-        c = *cmd;
-        if ((c == '"' || c == '\'') && (!in_quotes || quote_char == c)) 
-        {
-            if (in_quotes) 
-                in_quotes = 0;
-            else
-            {
+	in_quotes = 0;
+	quote_char = 0;
+	current_word = NULL;
+	exp = 1;
+	while (*cmd)
+	{
+		c = *cmd;
+		if ((c == '"' || c == '\'') && (!in_quotes || quote_char == c))
+		{
+			if (in_quotes)
+				in_quotes = 0;
+			else
+			{
 				if (c == '\'')
 					exp = 0;
 				else
 					exp = 1;
-                in_quotes = 1;
-                quote_char = c;
-            }
-        }
-        else if (isspace(c)) 
+				in_quotes = 1;
+				quote_char = c;
+			}
+		}
+		else if (isspace(c))
 		{
-            if (in_quotes)
-                current_word = append_char(current_word, c);
+			if (in_quotes)
+				current_word = append_char(current_word, c);
 			else if (current_word)
 			{
-                compl_token_list(tokens, current_word, exp);
-                current_word = NULL;
-            }
-        }
-        else
-            current_word = append_char(current_word, c);
-        cmd++;
-    }
-    if (current_word)
-        compl_token_list(tokens, current_word, exp);
+				compl_token_list(tokens, current_word, exp);
+				current_word = NULL;
+			}
+		}
+		else
+			current_word = append_char(current_word, c);
+		cmd++;
+	}
+	if (current_word)
+		compl_token_list(tokens, current_word, exp);
 }
 
 // Fonction pour ajouter un token à la liste chaînée
 // void add_token(t_token **head, char *word)
 // {
-//     if (!word) return;  // Éviter d'ajouter un token vide
+//     if (!word) return ;  // Éviter d'ajouter un token vide
 //     t_token *new_token = malloc(sizeof(t_token));
 //     if (!new_token) {
 //         perror("malloc");
@@ -248,7 +266,6 @@ void	tokenizer(t_token **tokens, char *cmd)
 //     }
 // }
 
-
 // void    check_cmd_args(t_token **token)
 // {
 // 	int		count;
@@ -260,7 +277,8 @@ void	tokenizer(t_token **tokens, char *cmd)
 // 	count = 0;
 // 	while (current)
 // 	{
-// 		if (((count == 0 && current->token == WORD) || (prev && (!strncmp(prev->data,
+// 		if (((count == 0 && current->token == WORD) || (prev
+//&& (!strncmp(prev->data,
 // 			"|", ft_strlen(prev->data)) && current->token == WORD))))
 // 			current->cmd = 1;
 // 		else
@@ -270,4 +288,3 @@ void	tokenizer(t_token **tokens, char *cmd)
 // 		current = current->next;
 // 	}
 // }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/10 11:43:54 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:36:13 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 int	exp_in_hd(char *line)
 {
 	int	i;
-	
+
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '$' && line[i + 1] && (line[i + 1] == '?' || ft_isalpha(line[i + 1])))
+		if (line[i] == '$' && line[i + 1] && (line[i + 1] == '?'
+				|| ft_isalpha(line[i + 1])))
 			return (1);
 		i++;
 	}
@@ -50,7 +51,7 @@ void	make_here_doc(char *limiteur, int *fd, t_env **env)
 		else
 		{
 			ft_putstr_fd(line, *fd);
-			free(line);				
+			free(line);
 		}
 		ft_putstr_fd("\n", *fd);
 	}
@@ -58,7 +59,7 @@ void	make_here_doc(char *limiteur, int *fd, t_env **env)
 
 void	handle_here_doc(t_cmd *cmd, t_env **env)
 {
-	t_cmd 	*tmp;
+	t_cmd	*tmp;
 	t_redir	*tmp_r;
 	int		pipe_fd[2];
 

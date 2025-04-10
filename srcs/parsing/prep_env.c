@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:08:09 by kjolly            #+#    #+#             */
-/*   Updated: 2025/03/31 09:24:13 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:32:26 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	add_env(t_env **env, t_env *new)
 
 void	fill_env(char *envp, t_env **env)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = new_env(envp);
 	if (!new)
