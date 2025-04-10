@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/09 18:04:39 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:14:01 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	get_cmd(t_token *token, t_cmd **cmd);
 char	*handle_expand(char	*src, t_env **env);
 char	*expandables(char *src, t_env **env);
 /*** here_doc ***/
-void	handle_here_doc(t_cmd *cmd);
+void	handle_here_doc(t_cmd *cmd, t_env **env);
 /********** print_utils **********/
 void	print_token(t_token **token);
 void	print_tab(char **tab);

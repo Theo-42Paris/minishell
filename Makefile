@@ -1,6 +1,6 @@
 NAME = minishell
 
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -std=gnu99 -Wall -Werror -Wextra -g3
 
 SRC = srcs/main.c \
 	srcs/print_utils.c \

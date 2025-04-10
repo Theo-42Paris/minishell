@@ -6,15 +6,30 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/09 18:39:20 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/10 11:43:54 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	make_here_doc(char *limiteur, int *fd)
+int	exp_in_hd(char *line)
+{
+	int	i;
+	
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$' && line[i + 1] && (line[i + 1] == '?' || ft_isalpha(line[i + 1])))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	make_here_doc(char *limiteur, int *fd, t_env **env)
 {
 	char	*line;
+	char	*good_line;
 
 	while (1)
 	{
@@ -24,12 +39,24 @@ void	make_here_doc(char *limiteur, int *fd)
 			free(line);
 			break ;
 		}
-		ft_putstr_fd(line, *fd);
-		free(line);
+		if (exp_in_hd(line))
+		{
+			good_line = expandables(line, env);
+			free(line);
+			if (!good_line)
+				return ;
+			ft_putstr_fd(good_line, *fd);
+		}
+		else
+		{
+			ft_putstr_fd(line, *fd);
+			free(line);				
+		}
+		ft_putstr_fd("\n", *fd);
 	}
 }
 
-void handle_here_doc(t_cmd *cmd)
+void	handle_here_doc(t_cmd *cmd, t_env **env)
 {
 	t_cmd 	*tmp;
 	t_redir	*tmp_r;
@@ -45,7 +72,7 @@ void handle_here_doc(t_cmd *cmd)
 			{
 				if (pipe(pipe_fd) == -1)
 					return (perror("pipe"));
-				make_here_doc(tmp_r->arg, &pipe_fd[1]);
+				make_here_doc(tmp_r->arg, &pipe_fd[1], env);
 				close(pipe_fd[1]);
 				tmp_r->fd_here_doc = pipe_fd[0];
 			}
