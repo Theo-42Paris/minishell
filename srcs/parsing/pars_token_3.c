@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:01:27 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 15:41:14 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:40:25 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	add_token(t_token **token, t_token *tmp)
 t_token	*new_token(char *src, int exp, t_env **env)
 {
 	t_token	*tmp;
-
 	char	*expand_word;
+
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:18:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/09 18:37:17 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:40:36 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	print_tab(char **tab)
 	}
 }
 
-void    print_cmd(t_cmd **cmd)
+void	print_cmd(t_cmd **cmd)
 {
-	t_cmd *print;
+	t_cmd	*print;
 
 	print = *cmd;
 	while (print)
@@ -54,9 +54,9 @@ void    print_cmd(t_cmd **cmd)
 	}
 }
 
-void    print_redir(t_redir **redir)
+void	print_redir(t_redir **redir)
 {
-	t_redir *tmp;
+	t_redir	*tmp;
 
 	tmp = *redir;
 	while (tmp)

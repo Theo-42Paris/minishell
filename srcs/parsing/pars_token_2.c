@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:57:23 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 12:02:13 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:40:23 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	count_line(char *line)
 	return (count);
 }
 
-void pre_token2(char **line, int *i, char **dest, int *j)
+void	pre_token2(char **line, int *i, char **dest, int *j)
 {
-	if (((*line)[*i] == '>' && (*line)[*i + 1] == '>') 
-		|| ((*line)[*i] == '<' && (*line)[*i + 1] == '<'))
+	if (((*line)[*i] == '>' && (*line)[*i + 1] == '>') || ((*line)[*i] == '<'
+			&& (*line)[*i + 1] == '<'))
 	{
 		(*dest)[(*j)++] = ' ';
 		(*dest)[(*j)++] = (*line)[(*i)++];
@@ -54,7 +54,6 @@ void pre_token2(char **line, int *i, char **dest, int *j)
 	else
 		(*dest)[(*j)++] = (*line)[*i];
 }
-
 
 char	*pre_token(char *line)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 17:36:45 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:40:02 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,67 +37,67 @@ char	*find_path(t_env **env, char *tmp)
 	return (NULL);
 }
 
-char    *append_result(char *result, char *src, int start, int end)
+char	*append_result(char *result, char *src, int start, int end)
 {
-    char    *tmp;
-    char    *new_result;
+	char	*tmp;
+	char	*new_result;
 
-    tmp = ft_substr(src, start, end - start);
-    if (!tmp)
-        return (result);
-    new_result = ft_strjoin(result, tmp);
-    free(result);
-    free(tmp);
-    return (new_result);
+	tmp = ft_substr(src, start, end - start);
+	if (!tmp)
+		return (result);
+	new_result = ft_strjoin(result, tmp);
+	free(result);
+	free(tmp);
+	return (new_result);
 }
 
-int    handle_variable_i(char *src, int i, t_env **env, char **result)
+int	handle_variable_i(char *src, int i, t_env **env, char **result)
 {
-    int     var_start;
-    char    *tmp;
-    char    *env_find;
+	int		var_start;
+	char	*tmp;
+	char	*env_find;
 
-    if (src[i] == '?')
-    {
-        printf("mimimi"); // handle_signal();
-        return (i + 1);
-    }
-    var_start = i;
-    while (src[i] && src[i] != ' ' && src[i] != '\t' && src[i] != '$')
-        i++;
-    tmp = ft_substr(src, var_start, i - var_start);
-    env_find = find_path(env, tmp);
-    if (env_find)
-        *result = ft_strjoin(*result, env_find);
-    free(tmp);
-    return (i);
+	if (src[i] == '?')
+	{
+		printf("mimimi"); // handle_signal();
+		return (i + 1);
+	}
+	var_start = i;
+	while (src[i] && src[i] != ' ' && src[i] != '\t' && src[i] != '$')
+		i++;
+	tmp = ft_substr(src, var_start, i - var_start);
+	env_find = find_path(env, tmp);
+	if (env_find)
+		*result = ft_strjoin(*result, env_find);
+	free(tmp);
+	return (i);
 }
 
-char    *expandables(char *src, t_env **env)
+char	*expandables(char *src, t_env **env)
 {
-    int     i;
-    int     start;
-    char    *result;
+	int		i;
+	int		start;
+	char	*result;
 
-    i = 0;
-    start = 0;
-    result = ft_strdup("");
-    if (!result)
-        return (NULL);
-    while (src[i])
-    {
-        if (src[i] == '$')
-        {
-            result = append_result(result, src, start, i);
-            i = handle_variable_i(src, i + 1, env, &result);
-            start = i;
-        }
-        else
-            i++;
-    }
-    if (start < i)
-        result = append_result(result, src, start, i);
-    return (result);
+	i = 0;
+	start = 0;
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	while (src[i])
+	{
+		if (src[i] == '$')
+		{
+			result = append_result(result, src, start, i);
+			i = handle_variable_i(src, i + 1, env, &result);
+			start = i;
+		}
+		else
+			i++;
+	}
+	if (start < i)
+		result = append_result(result, src, start, i);
+	return (result);
 }
 
 // char	*expandables(char *src, t_env **env)

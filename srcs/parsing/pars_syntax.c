@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_syntax.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 12:38:00 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:40:20 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	slovaquie(t_token *current)
 	}
 	else if (current->next == NULL && is_delimiteur(current->token))
 	{
-		ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
+			2);
 		return (0);
 	}
 	return (1);
@@ -74,7 +75,8 @@ int	syntax_node(int start, int end, t_token *current, t_token *prev)
 		}
 		else if (is_delimiteur(current->token))
 		{
-			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",2);
+			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
+				2);
 			return (0);
 		}
 	}
