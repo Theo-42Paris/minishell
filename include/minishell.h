@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/11 12:25:49 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:29:22 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,9 @@ typedef struct s_data
 /*** pars_token ***/
 char	*append_char(char *word, char c);
 void	first_if(char *c, int *in_quote, int *exp, char *quote_char);
-void	win_2_line(t_token **token, char **current_word, int *exp);
+void	win_2_line(t_token **token, char **current_word, int *exp, t_env **env);
 void	init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp);
-void	tokenizer(t_token **tokens, char *cmd);
+void	tokenizer(t_token **tokens, char *cmd, t_env **env);
 /*** pars_token_2 ***/
 int		count_line(char *line);
 void	pre_token2(char **line, int *i, char **dest, int *j);
@@ -172,8 +172,8 @@ char	*pre_token(char *line);
 int		check_type(char *src);
 t_token	*last_token(t_token *token);
 void	add_token(t_token **token, t_token *tmp);
-t_token	*new_token(char *src, int exp);
-void	compl_token_list(t_token **token, char *src, int exp);
+t_token	*new_token(char *src, int exp, t_env **env);
+void	compl_token_list(t_token **token, char *src, int exp, t_env **env);
 /*** pars_syntax ***/
 int		is_delimiteur(int type);
 int		slovaquie(t_token *current);
@@ -187,7 +187,21 @@ void	add_env(t_env **env, t_env *new);
 void	fill_env(char *envp, t_env **env);
 void	get_env(t_env **env, char **envp);
 /*** pars_cmd ***/
-void				get_cmd(t_token *token, t_cmd **cmd);
+void	init_data_cmd(t_token *token, t_cmd **cmd, t_token **current);
+int		check_tok(t_token *current);
+void	get_cmd(t_token *token, t_cmd **cmd);
+void	get_cmd_2(t_token *current, t_cmd **cmd);
+/*** pars_cmd_2 ***/
+int		get_args_nb(t_token *token);
+t_cmd	*new_cmd(t_token *current);
+t_cmd	*last_cmd(t_cmd *cmd);
+void	add_cmd(t_cmd **cmd, t_cmd *head);
+void	fill_cmd(t_cmd **cmd, t_token *current);
+/*** pars_cmd_3 ***/
+t_redir	*new_redir(t_token *current);
+t_redir	*last_redir(t_redir *redir);
+void	add_redir(t_redir **redir, t_redir *new);
+void	fill_redir(t_redir **redir, t_token *current);
 /*** expand ***/
 char				*handle_expand(char *src, t_env **env);
 char				*expandables(char *src, t_env **env);
@@ -208,5 +222,7 @@ int					ft_pwd(t_cmd *cmd);
 int					ft_isbuiltin(t_cmd *cmd);
 int					ft_is_option(char *str);
 int					ft_exec_builtin(t_data *data, t_cmd *cmd);
+void	handle_sig_c(int signals);
+
 
 #endif

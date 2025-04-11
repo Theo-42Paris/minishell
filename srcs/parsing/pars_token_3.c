@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:01:27 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 12:02:31 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 15:41:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,34 +55,34 @@ void	add_token(t_token **token, t_token *tmp)
 	}
 }
 
-t_token	*new_token(char *src, int exp)
+t_token	*new_token(char *src, int exp, t_env **env)
 {
 	t_token	*tmp;
 
-	// char	*expand_word;
+	char	*expand_word;
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
-	// if (exp == 1)
-	// {
-	// 	expand_word = handle_expand(src, env);
-	// 	if (!expand_word)
-	// 		return (NULL);
-	tmp->data = src;
-	tmp->exp = exp;
-	// }
-	// else
-	// 	tmp->data = src;
+	if (exp == 1)
+	{
+		expand_word = expandables(src, env);
+		if (!expand_word)
+			return (NULL);
+		tmp->data = expand_word;
+		tmp->exp = exp;
+	}
+	else
+		tmp->data = src;
 	tmp->token = check_type(tmp->data);
 	tmp->next = NULL;
 	return (tmp);
 }
 
-void	compl_token_list(t_token **token, char *src, int exp)
+void	compl_token_list(t_token **token, char *src, int exp, t_env **env)
 {
 	t_token	*tmp;
 
-	tmp = new_token(src, exp);
+	tmp = new_token(src, exp, env);
 	if (!tmp)
 		return ;
 	add_token(token, tmp);

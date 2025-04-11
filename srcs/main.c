@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/11 14:24:13 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:26:24 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@
 // 		printf("%s", buffer); // ou write(1, buffer, bytes_read);
 // 	}
 // }
-
-void	handle_sig_c(int signals)
-{
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	(void)signals;
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -65,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		good_line = pre_token(line);
-		tokenizer(&token, good_line);
+		tokenizer(&token, good_line, &env);
 		if (!check_syntax(&token))
 		{
 			free_token(&token);
@@ -75,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		get_cmd(token, &cmd);
 		handle_here_doc(cmd, &env);
 		// print_token(&token);
-		// print_cmd(&cmd);
+		print_cmd(&cmd);
 		// waitpid();
 		// ft_reset_cmd();
 		free_token(&token);
