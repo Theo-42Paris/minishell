@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/10 15:36:10 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/11 14:18:04 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,12 +172,13 @@ void	get_cmd(t_token *token, t_cmd **cmd)
 		// 	prev = current;
 		// 	current = current->next;
 		// }
-		if (current->token == WORD && (!prev || !is_delimiteur(prev->token)))
+		if (current && current->token == WORD && (!prev || !is_delimiteur(prev->token)))
 		{
 			(*cmd)->args[i] = ft_strdup(current->data);
 			i++;
 		}
 		prev = current;
+		// if (current)
 		current = current->next;
 	}
 	(*cmd)->args[i] = NULL;

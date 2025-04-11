@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/10 15:32:18 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/11 14:24:13 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	signal(SIGINT, handle_sig_c); // ctrl-C
 	signal(SIGQUIT, SIG_IGN);     // ctrl-\"
+	get_env(&env, envp);
 	while (1)
 	{
 		line = readline(G "minishell> " RST);
@@ -63,7 +64,6 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		add_history(line);
-		get_env(&env, envp);
 		good_line = pre_token(line);
 		tokenizer(&token, good_line);
 		if (!check_syntax(&token))

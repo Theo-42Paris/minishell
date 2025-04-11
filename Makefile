@@ -5,6 +5,8 @@ CFLAGS = -std=gnu99 -Wall -Werror -Wextra -g3
 SRC = srcs/main.c \
 	srcs/print_utils.c \
 	srcs/parsing/pars_token.c \
+	srcs/parsing/pars_token_2.c \
+	srcs/parsing/pars_token_3.c \
 	srcs/parsing/pars_syntax.c \
 	srcs/parsing/prep_env.c \
 	srcs/parsing/pars_cmd.c \

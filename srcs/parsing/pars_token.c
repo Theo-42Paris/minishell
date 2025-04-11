@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/10 15:35:58 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/11 12:02:49 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,143 +31,6 @@
 // 	}
 // 	return (single_quote || double_quote);
 // }
-
-int	check_type(char *src)
-{
-	if (!strncmp(src, "|", ft_strlen(src)))
-		return (PIPE);
-	else if (!strncmp(src, "<", ft_strlen(src)))
-		return (REDIR_IN);
-	else if (!strncmp(src, ">", ft_strlen(src)))
-		return (REDIR_OUT);
-	else if (!strncmp(src, "<<", ft_strlen(src)))
-		return (DELIMITER);
-	else if (!strncmp(src, ">>", ft_strlen(src)))
-		return (APPEND);
-	else
-		return (WORD);
-}
-
-t_token	*last_token(t_token *token)
-{
-	while (token)
-	{
-		if (token->next == NULL)
-			return (token);
-		token = token->next;
-	}
-	return (token);
-}
-
-void	add_token(t_token **token, t_token *tmp)
-{
-	t_token	*last;
-
-	if (token)
-	{
-		if (*token)
-		{
-			last = last_token(*token);
-			last->next = tmp;
-		}
-		else
-			*token = tmp;
-	}
-}
-
-t_token	*new_token(char *src, int exp)
-{
-	t_token	*tmp;
-
-	// char	*expand_word;
-	tmp = malloc(sizeof(t_token));
-	if (!tmp)
-		return (NULL);
-	// if (exp == 1)
-	// {
-	// 	expand_word = handle_expand(src, env);
-	// 	if (!expand_word)
-	// 		return (NULL);
-	tmp->data = src;
-	tmp->exp = exp;
-	// }
-	// else
-	// 	tmp->data = src;
-	tmp->token = check_type(tmp->data);
-	tmp->next = NULL;
-	return (tmp);
-}
-
-void	compl_token_list(t_token **token, char *src, int exp)
-{
-	t_token	*tmp;
-
-	tmp = new_token(src, exp);
-	if (!tmp)
-		return ;
-	add_token(token, tmp);
-}
-
-int	count_line(char *line)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (line[i])
-	{
-		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i
-				+ 1] == '<'))
-		{
-			count += 3;
-			i++;
-		}
-		else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
-			count += 2;
-		count++;
-		i++;
-	}
-	return (count);
-}
-
-char	*pre_token(char *line)
-{
-	int		i;
-	int		j;
-	int		size;
-	char	*dest;
-
-	i = 0;
-	j = 0;
-	i = 0, j = 0;
-	size = count_line(line);
-	dest = malloc(sizeof(char) * (size + 1));
-	if (!dest)
-		return (NULL);
-	while (line[i])
-	{
-		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i
-				+ 1] == '<'))
-		{
-			dest[j++] = ' ';
-			dest[j++] = line[i++];
-			dest[j++] = line[i];
-			dest[j++] = ' ';
-		}
-		else if (line[i] == '>' || line[i] == '<' || line[i] == '|')
-		{
-			dest[j++] = ' ';
-			dest[j++] = line[i];
-			dest[j++] = ' ';
-		}
-		else
-			dest[j++] = line[i];
-		i++;
-	}
-	dest[j] = '\0';
-	return (dest);
-}
 
 char	*append_char(char *word, char c)
 {
@@ -195,6 +58,36 @@ char	*append_char(char *word, char c)
 	return (new_word);
 }
 
+void	first_if(char *c, int *in_quote, int *exp, char *quote_char)
+{
+	if (*in_quote)
+		*in_quote = 0;
+	else
+	{
+		if (*c == '\'')
+			*exp = 0;
+		else
+			*exp = 1;
+		*in_quote = 1;
+		*quote_char = *c;
+	}
+}
+
+void	win_2_line(t_token **token, char **current_word, int *exp)
+{
+	compl_token_list(token, *current_word, *exp);
+	*current_word = NULL;
+}
+
+void	init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp)
+{
+	*in_q = 0;
+	*quote_c = 0;
+	*cur_wrd = NULL;
+	*exp = 1;
+}
+
+// todo | il vas falloir gerer un in_sq et un in_dq
 void	tokenizer(t_token **tokens, char *cmd)
 {
 	int		in_quotes;
@@ -203,36 +96,18 @@ void	tokenizer(t_token **tokens, char *cmd)
 	char	c;
 	int		exp;
 
-	in_quotes = 0;
-	quote_char = 0;
-	current_word = NULL;
-	exp = 1;
+	init_var(&in_quotes, &quote_char, &current_word, &exp);
 	while (*cmd)
 	{
 		c = *cmd;
 		if ((c == '"' || c == '\'') && (!in_quotes || quote_char == c))
-		{
-			if (in_quotes)
-				in_quotes = 0;
-			else
-			{
-				if (c == '\'')
-					exp = 0;
-				else
-					exp = 1;
-				in_quotes = 1;
-				quote_char = c;
-			}
-		}
+			first_if(&c, &in_quotes, &exp, &quote_char);
 		else if (isspace(c))
 		{
 			if (in_quotes)
 				current_word = append_char(current_word, c);
 			else if (current_word)
-			{
-				compl_token_list(tokens, current_word, exp);
-				current_word = NULL;
-			}
+				win_2_line(tokens, &current_word, &exp);
 		}
 		else
 			current_word = append_char(current_word, c);
@@ -241,50 +116,3 @@ void	tokenizer(t_token **tokens, char *cmd)
 	if (current_word)
 		compl_token_list(tokens, current_word, exp);
 }
-
-// Fonction pour ajouter un token à la liste chaînée
-// void add_token(t_token **head, char *word)
-// {
-//     if (!word) return ;  // Éviter d'ajouter un token vide
-//     t_token *new_token = malloc(sizeof(t_token));
-//     if (!new_token) {
-//         perror("malloc");
-//         exit(EXIT_FAILURE);
-//     }
-//     new_token->data = word;
-//     new_token->next = NULL;
-//     if (*head == NULL)
-//     {
-//         *head = new_token;
-//     }
-// 	else
-// 	{
-//         t_token *temp = *head;
-//         while (temp->next)
-//             temp = temp->next;
-//         temp->next = new_token;
-//     }
-// }
-
-// void    check_cmd_args(t_token **token)
-// {
-// 	int		count;
-// 	t_token	*current;
-// 	t_token *prev;
-
-// 	current = *token;
-// 	prev = NULL;
-// 	count = 0;
-// 	while (current)
-// 	{
-// 		if (((count == 0 && current->token == WORD) || (prev
-//&& (!strncmp(prev->data,
-// 			"|", ft_strlen(prev->data)) && current->token == WORD))))
-// 			current->cmd = 1;
-// 		else
-// 			current->cmd = 0;
-// 		count++;
-// 		prev = current;
-// 		current = current->next;
-// 	}
-// }
