@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/11 17:40:40 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/14 10:53:04 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ void				print_redir(t_redir **redir);
 void				free_token(t_token **token);
 void				free_redir(t_redir **redir);
 void				free_cmd(t_cmd **cmd);
+void				free_env(t_env **env);
 /**********Builtins***********/
 int					ft_echo(t_data *data, t_cmd *cmd);
 int					ft_pwd(t_cmd *cmd);

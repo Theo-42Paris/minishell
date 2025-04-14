@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/11 17:40:34 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/14 12:31:18 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 		{
 			ft_printf("exit\n");
-			free(line);
+			free_env(&env);
 			break ;
 		}
 		add_history(line);
@@ -61,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free_token(&token);
 			free(line);
+			free(good_line);
 			continue ;
 		}
 		get_cmd(token, &cmd);
@@ -70,7 +71,11 @@ int	main(int argc, char **argv, char **envp)
 		// waitpid();
 		// ft_reset_cmd();
 		free_token(&token);
+		free_env(&env);
 		free_cmd(&cmd);
+		free(good_line);
+		free(line);
 	}
+	rl_clear_history();
 	return (0);
 }

@@ -1,5 +1,21 @@
 #include "../include/minishell.h"
 
+void	free_env(t_env **env)
+{
+	t_env	*tmp;
+
+	if (!env)
+		return;
+	while (*env)
+	{
+		tmp = (*env)->next;
+		free((*env)->env);
+		free(*env);
+		*env = tmp;
+	}
+	*env = NULL;
+}
+
 void	free_token(t_token **token)
 {
 	t_token	*tmp;

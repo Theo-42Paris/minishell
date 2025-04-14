@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 17:40:02 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/14 12:43:23 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,17 @@ char	*append_result(char *result, char *src, int start, int end)
 	return (new_result);
 }
 
+char	*safe_strjoin(char *s1, const char *s2)
+{
+	char	*res;
+
+	if (!s1)
+		return (ft_strdup(s2));
+	res = ft_strjoin(s1, s2);
+	free(s1);
+	return (res);
+}
+
 int	handle_variable_i(char *src, int i, t_env **env, char **result)
 {
 	int		var_start;
@@ -59,7 +70,7 @@ int	handle_variable_i(char *src, int i, t_env **env, char **result)
 
 	if (src[i] == '?')
 	{
-		printf("mimimi"); // handle_signal();
+		printf("pas encore gerer"); // handle_signal();
 		return (i + 1);
 	}
 	var_start = i;
@@ -68,7 +79,7 @@ int	handle_variable_i(char *src, int i, t_env **env, char **result)
 	tmp = ft_substr(src, var_start, i - var_start);
 	env_find = find_path(env, tmp);
 	if (env_find)
-		*result = ft_strjoin(*result, env_find);
+		*result = safe_strjoin(*result, env_find);
 	free(tmp);
 	return (i);
 }
@@ -99,57 +110,6 @@ char	*expandables(char *src, t_env **env)
 		result = append_result(result, src, start, i);
 	return (result);
 }
-
-// char	*expandables(char *src, t_env **env)
-// {
-// 	char	*result;
-// 	char	*tmp;
-// 	char	*env_find;
-// 	int		start;
-// 	int		var_start;
-// 	int		i;
-
-// 	i = 0;
-// 	start = 0;
-// 	var_start = 0;
-// 	result = ft_strdup("");
-// 	if (!result)
-// 		return (NULL);
-// 	while (src[i])
-// 	{
-// 		if (src[i] == '$')
-// 		{
-// 			tmp = ft_substr(src, start, i - start);
-// 			result = ft_strjoin(result, tmp);
-// 			free(tmp);
-// 			i++;
-// 			if (src[i] == '?')
-// 				printf("mimimi"); // handle_signal();
-// 			else
-// 			{
-// 				var_start = i;
-// 				while (src[i] && src[i] != ' ' && src[i] != '\t'
-// 					&& src[i] != '$')
-// 					i++;
-// 				tmp = ft_substr(src, var_start, i - var_start);
-// 				env_find = find_path(env, tmp);
-// 				if (env_find)
-// 					result = ft_strjoin(result, env_find);
-// 				free(tmp);
-// 			}
-// 			start = i;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	if (start < i)
-// 	{
-// 		tmp = ft_substr(src, start, i - start);
-// 		result = ft_strjoin(result, tmp);
-// 		free(tmp);
-// 	}
-// 	return (result);
-// }
 
 // int last_exit_status(int status)
 // {
