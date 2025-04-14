@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 13:10:25 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/14 14:50:27 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	first_if(char *c, int *in_quote, int *exp, char *quote_char)
 	}
 }
 
-void	win_2_line(t_token **token, char **current_word, int *exp, t_env **env)
+void	win_2_line(t_token **token, char **current_word, int *exp)
 {
-	compl_token_list(token, *current_word, *exp, env);
-	free(*current_word);
+	compl_token_list(token, *current_word, *exp);
+	// free(*current_word);
 	*current_word = NULL;
 }
 
@@ -87,7 +87,7 @@ void	init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp)
 }
 
 // todo | il vas falloir gerer un in_sq et un in_dq
-void	tokenizer(t_token **tokens, char *cmd, t_env **env)
+void	tokenizer(t_token **tokens, char *cmd)
 {
 	int		in_quotes;
 	char	quote_char;
@@ -106,13 +106,13 @@ void	tokenizer(t_token **tokens, char *cmd, t_env **env)
 			if (in_quotes)
 				current_word = append_char(current_word, c);
 			else if (current_word)
-				win_2_line(tokens, &current_word, &exp, env);
+				win_2_line(tokens, &current_word, &exp);
 		}
 		else
 			current_word = append_char(current_word, c);
 		cmd++;
 	}
 	if (current_word)
-		compl_token_list(tokens, current_word, exp, env);
-	free(current_word);
+		compl_token_list(tokens, current_word, exp);
+	// free(current_word);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/14 13:09:35 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:22:43 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,7 @@
 # define G "\033[1;32m"
 # define RST "\033[0m"
 
-// # define WORD 1
-// # define PIPE 2 // |
-// # define REDIR_IN 3 // <
-// # define REDIR_OUT 4 // >
-// # define DELIMITER 5 // << (here_doc)
-// # define APPEND 6 // >> (ajoue a la suite)
-
-enum				type_token
+enum	type_token
 {
 	WORD,
 	PIPE,
@@ -113,6 +106,13 @@ enum				type_token
 	DELIMITER,
 	APPEND
 };
+
+typedef	struct s_pigeon
+{
+	void			*ptr;
+	int				size;
+	struct s_pigeon	*next;
+}					t_pigeon;
 
 typedef struct s_env
 {
@@ -148,11 +148,11 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	t_cmd			*cmd;
-	t_env			*env;
-	int				signal;
-
-}					t_data;
+	t_token	*token;
+	t_cmd	*cmd;
+	t_env	*env;
+	int		signal;
+}			t_data;
 
 /********** utils **********/
 // void    exit_error(char *str);
@@ -162,11 +162,10 @@ typedef struct s_data
 char				*append_char(char *word, char c);
 void				first_if(char *c, int *in_quote, int *exp,
 						char *quote_char);
-void				win_2_line(t_token **token, char **current_word, int *exp,
-						t_env **env);
+void				win_2_line(t_token **token, char **current_word, int *exp);
 void				init_var(int *in_q, char *quote_c, char **cur_wrd,
 						int *exp);
-void				tokenizer(t_token **tokens, char *cmd, t_env **env);
+void				tokenizer(t_token **tokens, char *cmd);
 /*** pars_token_2 ***/
 int					count_line(char *line);
 void				pre_token2(char **line, int *i, char **dest, int *j);
@@ -175,9 +174,8 @@ char				*pre_token(char *line);
 int					check_type(char *src);
 t_token				*last_token(t_token *token);
 void				add_token(t_token **token, t_token *tmp);
-t_token				*new_token(char *src, int exp, t_env **env);
-void				compl_token_list(t_token **token, char *src, int exp,
-						t_env **env);
+t_token				*new_token(char *src, int exp);
+void				compl_token_list(t_token **token, char *src, int exp);
 /*** pars_syntax ***/
 int					is_delimiteur(int type);
 int					slovaquie(t_token *current);
