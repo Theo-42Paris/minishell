@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 17:40:05 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/14 13:07:22 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	exp_in_hd(char *line)
 		i++;
 	}
 	return (0);
+}
+
+void	print_heredoc(char *line, int *fd)
+{
+	ft_putstr_fd(line, *fd);
+	free(line);
 }
 
 void	make_here_doc(char *limiteur, int *fd, t_env **env)
@@ -49,10 +55,7 @@ void	make_here_doc(char *limiteur, int *fd, t_env **env)
 			ft_putstr_fd(good_line, *fd);
 		}
 		else
-		{
-			ft_putstr_fd(line, *fd);
-			free(line);
-		}
+			print_heredoc(line, fd);
 		ft_putstr_fd("\n", *fd);
 	}
 }

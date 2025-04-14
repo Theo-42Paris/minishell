@@ -22,6 +22,7 @@ SRC = srcs/main.c \
        srcs/parsing/pars_cmd_2.c \
        srcs/parsing/pars_cmd_3.c \
        srcs/parsing/expand.c \
+       srcs/parsing/expand_2.c \
        srcs/parsing/here_doc.c \
        srcs/free.c \
        srcs/builtin/ft_echo.c \

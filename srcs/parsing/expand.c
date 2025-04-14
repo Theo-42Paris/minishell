@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 12:43:23 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/14 13:09:08 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,6 @@ char	*find_path(t_env **env, char *tmp)
 	return (NULL);
 }
 
-char	*append_result(char *result, char *src, int start, int end)
-{
-	char	*tmp;
-	char	*new_result;
-
-	tmp = ft_substr(src, start, end - start);
-	if (!tmp)
-		return (result);
-	new_result = ft_strjoin(result, tmp);
-	free(result);
-	free(tmp);
-	return (new_result);
-}
-
-char	*safe_strjoin(char *s1, const char *s2)
-{
-	char	*res;
-
-	if (!s1)
-		return (ft_strdup(s2));
-	res = ft_strjoin(s1, s2);
-	free(s1);
-	return (res);
-}
-
 int	handle_variable_i(char *src, int i, t_env **env, char **result)
 {
 	int		var_start;
@@ -70,7 +45,7 @@ int	handle_variable_i(char *src, int i, t_env **env, char **result)
 
 	if (src[i] == '?')
 	{
-		printf("pas encore gerer"); // handle_signal();
+		printf("pas encore gerer");
 		return (i + 1);
 	}
 	var_start = i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/14 10:53:04 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/14 13:09:35 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,8 @@ void				fill_redir(t_redir **redir, t_token *current);
 /*** expand ***/
 char				*handle_expand(char *src, t_env **env);
 char				*expandables(char *src, t_env **env);
+char				*safe_strjoin(char *s1, const char *s2);
+char				*append_result(char *result, char *src, int start, int end);
 /*** here_doc ***/
 void				handle_here_doc(t_cmd *cmd, t_env **env);
 /********** print_utils **********/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 12:29:20 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/14 13:10:25 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@
 // 	return (single_quote || double_quote);
 // }
 
-char *append_char(char *current_word, char c)
+char	*append_char(char *current_word, char c)
 {
-	int len;
-	char *new_word;
+	int		len;
+	char	*new_word;
 
 	if (current_word != NULL)
 		len = ft_strlen(current_word);
@@ -43,7 +43,7 @@ char *append_char(char *current_word, char c)
 		len = 0;
 	new_word = malloc(len + 2);
 	if (!new_word)
-		return NULL;
+		return (NULL);
 	if (current_word)
 	{
 		strcpy(new_word, current_word);
@@ -55,7 +55,6 @@ char *append_char(char *current_word, char c)
 	new_word[len + 1] = '\0';
 	return (new_word);
 }
-
 
 void	first_if(char *c, int *in_quote, int *exp, char *quote_char)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/14 12:31:18 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/14 13:11:48 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	main(int argc, char **argv, char **envp)
 	env = NULL;
 	if (argc != 1)
 		return (1);
-	signal(SIGINT, handle_sig_c); // ctrl-C
-	signal(SIGQUIT, SIG_IGN);     // ctrl-\"
+	signal(SIGINT, handle_sig_c);// ctrl-C
+	signal(SIGQUIT, SIG_IGN);// ctrl-\"
 	get_env(&env, envp);
 	while (1)
 	{
