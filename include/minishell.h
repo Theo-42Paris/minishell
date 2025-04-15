@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/14 18:22:43 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:32:16 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void				tokenizer(t_token **tokens, char *cmd);
 int					count_line(char *line);
 void				pre_token2(char **line, int *i, char **dest, int *j);
 char				*pre_token(char *line);
+void				ft_strcpy(char *dst, char *src);
 /*** pars_token_3 ***/
 int					check_type(char *src);
 t_token				*last_token(t_token *token);

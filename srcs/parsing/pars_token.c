@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 14:50:27 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:30:24 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*append_char(char *current_word, char c)
 		return (NULL);
 	if (current_word)
 	{
-		strcpy(new_word, current_word);
+		ft_strcpy(new_word, current_word);
 		free(current_word);
 	}
 	else

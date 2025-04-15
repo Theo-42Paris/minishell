@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 17:40:16 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:47:53 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	get_cmd(t_token *token, t_cmd **cmd)
 	i = 0;
 	prev = NULL;
 	init_data_cmd(token, cmd, &current);
+	if (!token || !cmd)
+		return ;
 	while (current && current->token != PIPE)
 	{
 		if (check_tok(current) == 1)

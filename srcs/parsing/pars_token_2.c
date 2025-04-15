@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:57:23 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 13:07:39 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/15 16:31:51 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	ft_strcpy(char *dst, char *src)
+{
+	int	i;
+
+	i = 0;
+	while(src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+}
 
 int	count_line(char *line)
 {
