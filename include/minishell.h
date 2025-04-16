@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/16 16:11:49 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/16 16:38:51 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ typedef struct s_cmd
 	char			**args;
 	char			*cmd;
 	t_redir			*redir;
-	char			*value;
 	struct s_cmd	*next;
 }					t_cmd;
 // ? le here_doc doit etre gerer direct apres ('<<')
@@ -155,7 +154,7 @@ void				free_redir(t_redir **redir);
 void				free_cmd(t_cmd **cmd);
 void				free_env(t_env **env);
 /**********Builtins***********/
-int					ft_echo(t_data *data, t_cmd *cmd);
+int					ft_echo(t_cmd *cmd);
 int					ft_pwd(t_cmd *cmd);
 int					ft_isbuiltin(t_cmd *cmd);
 int					ft_is_option(char *str);

@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:23:00 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/10 15:36:21 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/16 16:30:04 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,21 @@ int	is_valid_n_option(char *str)
 	return (1);
 }
 
-int	ft_echo(t_data *data, t_cmd *cmd)
+int	ft_echo(t_cmd *cmd)
 {
 	t_cmd	*arg;
 	int		newline;
 
-	(void)data;
 	arg = cmd->next;
 	newline = 1;
-	while (arg && is_valid_n_option(arg->value))
+	while (arg && is_valid_n_option(arg->cmd))
 	{
 		newline = 0;
 		arg = arg->next;
 	}
 	while (arg)
 	{
-		ft_putstr_fd(arg->value, 1);
+		ft_putstr_fd(arg->cmd, 1);
 		if (arg->next)
 			ft_putstr_fd(" ", 1);
 		arg = arg->next;
