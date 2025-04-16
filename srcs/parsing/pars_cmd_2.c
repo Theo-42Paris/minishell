@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:45:11 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 17:40:07 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/16 17:08:26 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,6 @@ int	get_args_nb(t_token *token)
 		tmp = tmp->next;
 	}
 	return (i);
-}
-
-t_cmd	*new_cmd(t_token *current)
-{
-	t_cmd	*cmd;
-	int		i;
-
-	i = get_args_nb(current);
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->args = malloc(sizeof(char *) * (i + 1));
-	if (!cmd->args)
-	{
-		free(cmd);
-		return (NULL);
-	}
-	cmd->cmd = NULL;
-	cmd->redir = NULL;
-	cmd->next = NULL;
-	cmd->args[i] = NULL;
-	return (cmd);
 }
 
 t_cmd	*last_cmd(t_cmd *cmd)
@@ -80,9 +58,22 @@ void	add_cmd(t_cmd **cmd, t_cmd *head)
 void	fill_cmd(t_cmd **cmd, t_token *current)
 {
 	t_cmd	*head;
+	int		i;
 
-	head = new_cmd(current);
+	i = get_args_nb(current);
+	head = malloc(sizeof(t_cmd));
 	if (!head)
 		return ;
+	head->args = malloc(sizeof(char *) * (i + 1));
+	if (!head->args)
+	{
+		free(head);
+		return ;
+	}
+	head->args[i] = NULL;
+	head->cmd = NULL;
+	head->exp = 0;
+	head->redir = NULL;
+	head->next = NULL;
 	add_cmd(cmd, head);
 }

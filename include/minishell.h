@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/16 16:11:49 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/16 16:41:00 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ typedef struct s_cmd
 {
 	char			**args;
 	char			*cmd;
-	t_redir			*redir;
 	char			*value;
+	int				exp;
+	t_redir			*redir;
 	struct s_cmd	*next;
 }					t_cmd;
 // ? le here_doc doit etre gerer direct apres ('<<')

@@ -6,35 +6,59 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/16 10:45:25 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/16 17:29:01 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	init_data_cmd(t_token *token, t_cmd **cmd, t_token **current)
+void	get_cmd(t_token *token, t_cmd **cmd)
 {
-	*current = token;
-	if (!token || !cmd)
-		return ;
+	t_token	*current;
+	t_token	*prev;
+	int		i;
+
+	i = 0;
+	prev = NULL;
+	current = token;
 	if (!(*cmd))
-		fill_cmd(cmd, *current);
+		fill_cmd(cmd, current);
+	while (current)
+	{
+		if (current->token == REDIR_IN || current->token == REDIR_OUT
+			|| current->token == DELIMITER || current->token == APPEND)
+		{
+			if (current->next)
+				fill_redir(&((*cmd)->redir), current);
+			prev = current;
+			current = current->next;
+		}
+	}
 }
 
-int	check_tok(t_token *current)
-{
-	if (current->token == REDIR_IN || current->token == REDIR_OUT
-		|| current->token == DELIMITER || current->token == APPEND)
-		return (1);
-	else
-		return (0);
-}
+// void	init_data_cmd(t_token *token, t_cmd **cmd, t_token **current)
+// {
+// 	*current = token;
+// 	if (!token || !cmd)
+// 		return ;
+// 	if (!(*cmd))
+// 		fill_cmd(cmd, *current);
+// }
 
-void	win_2_line_2(t_token **prev, t_token **current)
-{
-	*prev = *current;
-	*current = (*current)->next;
-}
+// int	check_tok(t_token *current)
+// {
+// 	if (current->token == REDIR_IN || current->token == REDIR_OUT
+// 		|| current->token == DELIMITER || current->token == APPEND)
+// 		return (1);
+// 	else
+// 		return (0);
+// }
+
+// void	win_2_line_2(t_token **prev, t_token **current)
+// {
+// 	*prev = *current;
+// 	*current = (*current)->next;
+// }
 
 void	get_cmd(t_token *token, t_cmd **cmd)
 {
@@ -65,17 +89,17 @@ void	get_cmd(t_token *token, t_cmd **cmd)
 	get_cmd_2(current, cmd);
 }
 
-void	get_cmd_2(t_token *current, t_cmd **cmd)
-{
-	if (current && current->token == PIPE)
-		current = current->next;
-	if (current)
-	{
-		fill_cmd(&((*cmd)->next), current);
-		get_cmd(current, &((*cmd)->next));
-	}
-}
-
+// void	get_cmd_2(t_token *current, t_cmd **cmd)
+// {
+// 	if (current && current->token == PIPE)
+// 		current = current->next;
+// 	if (current)
+// 	{
+// 		fill_cmd(&((*cmd)->next), current);
+// 		get_cmd(current, &((*cmd)->next));
+// 	}
+// }
+//-------------------------------------------------------------------------/
 // void	get_cmd(t_token *token, t_cmd **cmd)
 // {
 // 	t_token	*current;
