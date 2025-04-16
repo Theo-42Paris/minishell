@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:01:27 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 13:53:55 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/16 14:12:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	compl_token_list(t_token **token, char *src, int exp)
 {
 	t_token	*tmp;
 
+	if (exp == -1)
+		exp = 1;
 	tmp = new_token(src, exp);
 	if (!tmp)
 		return ;

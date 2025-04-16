@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/15 15:47:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/16 10:45:25 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ int	check_tok(t_token *current)
 		return (1);
 	else
 		return (0);
+}
+
+void	win_2_line_2(t_token **prev, t_token **current)
+{
+	*prev = *current;
+	*current = (*current)->next;
 }
 
 void	get_cmd(t_token *token, t_cmd **cmd)
@@ -53,8 +59,7 @@ void	get_cmd(t_token *token, t_cmd **cmd)
 		if (current && current->token == WORD && (!prev
 				|| !is_delimiteur(prev->token)))
 			(*cmd)->args[i++] = ft_strdup(current->data);
-		prev = current;
-		current = current->next;
+		win_2_line_2(&prev, &current);
 	}
 	(*cmd)->args[i] = NULL;
 	get_cmd_2(current, cmd);

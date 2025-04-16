@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:18:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/11 17:40:36 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/16 12:10:26 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,18 @@ void	print_redir(t_redir **redir)
 		ft_printf("arg = %s\n", tmp->arg);
 		ft_printf("type = %d\n", tmp->token);
 		ft_printf("fd = %d\n", tmp->fd_here_doc);
+		tmp = tmp->next;
+	}
+}
+
+void	print_env(t_env **env)
+{
+	t_env *tmp;
+
+	tmp = *env;
+	while (tmp)
+	{
+		ft_printf("%s\n", tmp->env);
 		tmp = tmp->next;
 	}
 }

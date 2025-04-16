@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/15 16:30:24 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/16 16:12:17 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,9 @@ char	*append_char(char *current_word, char c)
 	return (new_word);
 }
 
-void	first_if(char *c, int *in_quote, int *exp, char *quote_char)
-{
-	if (*in_quote)
-		*in_quote = 0;
-	else
-	{
-		if (*c == '\'')
-			*exp = 0;
-		else
-			*exp = 1;
-		*in_quote = 1;
-		*quote_char = *c;
-	}
-}
-
 void	win_2_line(t_token **token, char **current_word, int *exp)
 {
 	compl_token_list(token, *current_word, *exp);
-	// free(*current_word);
 	*current_word = NULL;
 }
 
@@ -83,10 +67,24 @@ void	init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp)
 	*in_q = 0;
 	*quote_c = 0;
 	*cur_wrd = NULL;
-	*exp = 1;
+	*exp = -1;
 }
 
-// todo | il vas falloir gerer un in_sq et un in_dq
+void	first_if(char *c, int *in_quote, int *exp, char *quote_char)
+{
+	if (*in_quote)
+		*in_quote = 0;
+	else
+	{
+		*in_quote = 1;
+		*quote_char = *c;
+		if (*c == '\'' && *exp == -1)
+			*exp = 0;
+		else if (*exp == -1 || *exp == 0)
+			*exp = 1;
+	}
+}
+
 void	tokenizer(t_token **tokens, char *cmd)
 {
 	int		in_quotes;
@@ -114,5 +112,4 @@ void	tokenizer(t_token **tokens, char *cmd)
 	}
 	if (current_word)
 		compl_token_list(tokens, current_word, exp);
-	// free(current_word);
 }

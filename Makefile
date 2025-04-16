@@ -13,6 +13,7 @@ RESET   = \033[0m
 
 SRC = srcs/main.c \
        srcs/print_utils.c \
+       srcs/utils.c \
        srcs/parsing/pars_token.c \
        srcs/parsing/pars_token_2.c \
        srcs/parsing/pars_token_3.c \

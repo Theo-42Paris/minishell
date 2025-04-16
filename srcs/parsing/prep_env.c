@@ -6,23 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:08:09 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 18:22:00 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/16 12:13:57 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-t_env	*new_env(char *envp)
-{
-	t_env	*env;
-
-	env = malloc(sizeof(t_env));
-	if (!env)
-		return (NULL);
-	env->env = ft_strdup(envp);
-	env->next = NULL;
-	return (env);
-}
 
 t_env	*last_env(t_env *env)
 {
@@ -35,10 +23,16 @@ t_env	*last_env(t_env *env)
 	return (env);
 }
 
-void	add_env(t_env **env, t_env *new)
+void	fill_env(char *envp, t_env **env)
 {
+	t_env	*new;
 	t_env	*last;
 
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->env = ft_strdup(envp);
+	new->next = NULL;
 	if (env)
 	{
 		if (*env)
@@ -49,16 +43,6 @@ void	add_env(t_env **env, t_env *new)
 		else
 			*env = new;
 	}
-}
-
-void	fill_env(char *envp, t_env **env)
-{
-	t_env	*new;
-
-	new = new_env(envp);
-	if (!new)
-		return ;
-	add_env(env, new);
 }
 
 void	get_env(t_env **env, char **envp)

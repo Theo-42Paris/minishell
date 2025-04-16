@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pars_syntax.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 13:07:33 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/16 12:06:20 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// todo | si plusieurs delimiteurs se suivent ca segfault
-
-int	is_delimiteur(int type)
-{
-	if (type == WORD || type == PIPE)
-		return (0);
-	else
-		return (1);
-}
 
 int	slovaquie(t_token *current)
 {
@@ -30,6 +20,12 @@ int	slovaquie(t_token *current)
 		return (0);
 	}
 	else if (current->next == NULL && is_delimiteur(current->token))
+	{
+		ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
+			2);
+		return (0);
+	}
+	else if (is_delimiteur(current->token) && is_delimiteur(current->next->token))
 	{
 		ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
 			2);
@@ -50,6 +46,29 @@ int	violence_urbaine_emeute(t_token *current, t_token *prev)
 		ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
 		return (0);
 	}
+	else if (is_delimiteur(current->token) && is_delimiteur(prev->token))
+	{
+		ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
+			2);
+		return (0);
+	}
+	return (1);
+}
+
+int	potato_salad(t_token *current)
+{
+	if (current->token == PIPE)
+	{
+		ft_putstr_fd("minishell: syntax error near unexepted token '|'\n",
+			2);
+		return (0);
+	}
+	else if (is_delimiteur(current->token))
+	{
+		ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
+			2);
+		return (0);
+	}
 	return (1);
 }
 
@@ -67,18 +86,8 @@ int	syntax_node(int start, int end, t_token *current, t_token *prev)
 	}
 	else if (end)
 	{
-		if (current->token == PIPE)
-		{
-			ft_putstr_fd("minishell: syntax error near unexepted token '|'\n",
-				2);
+		if (!potato_salad(current))
 			return (0);
-		}
-		else if (is_delimiteur(current->token))
-		{
-			ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
-				2);
-			return (0);
-		}
 	}
 	return (1);
 }
