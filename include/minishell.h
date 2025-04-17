@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/16 16:41:00 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/17 12:24:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ typedef struct s_cmd
 	char			**args;
 	char			*cmd;
 	char			*value;
-	int				exp;
 	t_redir			*redir;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -96,7 +95,7 @@ int					is_delimiteur(int type);
 /*** pars_token ***/
 char				*append_char(char *word, char c);
 // void				first_if(char *c, int *in_quote, int *exp, char *quote_char);
-void				first_if(char *c, int *in_quote, int *exp, char *quote_char);
+void				first_if_token(char *c, int *in_quote, int *exp, char *quote_char);
 void				win_2_line(t_token **token, char **current_word, int *exp);
 void				init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp);
 void				tokenizer(t_token **tokens, char *cmd);
@@ -121,21 +120,22 @@ t_env				*last_env(t_env *env);
 void				fill_env(char *envp, t_env **env);
 void				get_env(t_env **env, char **envp);
 /*** pars_cmd ***/
-void				init_data_cmd(t_token *token, t_cmd **cmd, t_token **current);
-int					check_tok(t_token *current);
-void				get_cmd(t_token *token, t_cmd **cmd);
-void				get_cmd_2(t_token *current, t_cmd **cmd);
-void				win_2_line_2(t_token **prev, t_token **current);
+// void				init_data_cmd(t_token *token, t_cmd **cmd, t_token **current);
+// int					check_tok(t_token *current);
+void				first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd);
+void				get_cmd(t_token *token, t_cmd **cmd, t_env **env);
+void				get_cmd_2(t_token *current, t_cmd **cmd, t_env **env);
+// void				win_2_line_2(t_token **prev, t_token **current);
 /*** pars_cmd_2 ***/
 int					get_args_nb(t_token *token);
-t_cmd				*new_cmd(t_token *current);
+// t_cmd				*new_cmd(t_token *current);
 t_cmd				*last_cmd(t_cmd *cmd);
 void				add_cmd(t_cmd **cmd, t_cmd *head);
 void				fill_cmd(t_cmd **cmd, t_token *current);
 /*** pars_cmd_3 ***/
-t_redir				*new_redir(t_token *current);
+// t_redir				*new_redir(t_token *current);
 t_redir				*last_redir(t_redir *redir);
-void				add_redir(t_redir **redir, t_redir *new);
+// void				add_redir(t_redir **redir, t_redir *new);
 void				fill_redir(t_redir **redir, t_token *current);
 /*** expand ***/
 char				*handle_expand(char *src, t_env **env);

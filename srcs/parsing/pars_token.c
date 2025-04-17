@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/16 16:12:17 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:39:18 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp)
 	*exp = -1;
 }
 
-void	first_if(char *c, int *in_quote, int *exp, char *quote_char)
+void	first_if_token(char *c, int *in_quote, int *exp, char *quote_char)
 {
 	if (*in_quote)
 		*in_quote = 0;
@@ -98,7 +98,7 @@ void	tokenizer(t_token **tokens, char *cmd)
 	{
 		c = *cmd;
 		if ((c == '"' || c == '\'') && (!in_quotes || quote_char == c))
-			first_if(&c, &in_quotes, &exp, &quote_char);
+			first_if_token(&c, &in_quotes, &exp, &quote_char);
 		else if (isspace(c))
 		{
 			if (in_quotes)

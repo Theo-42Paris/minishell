@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/14 13:07:22 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/17 18:11:36 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	exp_in_hd(char *line)
 	while (line[i])
 	{
 		if (line[i] == '$' && line[i + 1] && (line[i + 1] == '?'
-				|| ft_isalpha(line[i + 1])))
+			|| ft_isalpha(line[i + 1])))
 			return (1);
 		i++;
 	}

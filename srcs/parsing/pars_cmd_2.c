@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:45:11 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/16 17:08:26 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:42:35 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	fill_cmd(t_cmd **cmd, t_token *current)
 	}
 	head->args[i] = NULL;
 	head->cmd = NULL;
-	head->exp = 0;
 	head->redir = NULL;
 	head->next = NULL;
 	add_cmd(cmd, head);

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/16 17:17:12 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:34:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	main(int argc, char **argv, char **envp)
 		line = readline(G "minishell> " RST);
 		if (!line)
 		{
-			ft_printf("exit\n");
 			free_env(&env);
 			break ;
 		}
@@ -63,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			free(good_line);
 			continue ;
 		}
-		get_cmd(token, &cmd);
+		get_cmd(token, &cmd, &env);
 		handle_here_doc(cmd, &env);
 		// print_token(&token);
 		print_cmd(&cmd);
