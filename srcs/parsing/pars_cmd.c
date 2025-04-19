@@ -6,33 +6,28 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/17 18:24:22 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/19 15:01:05 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// void	compl_cmd(t_cmd	**cmd, t_token *current, int *i)
-// {
-// 	(*cmd)->args[*i++] = ft_strdup(current->data);
-// 	(*cmd)->exp = current->data;
-// }
+char	*safe_dup(t_token *current, t_token *prev, t_env **env)
+{
+	char	*tmp;
 
-// char	*safe_dup(t_token *current, t_token *prev, t_env **env)
-// {
-// 	char	*tmp;
-
-// 	if ((current->token == WORD && current->exp == 1)
-// 		&& (!prev || !is_delimiteur(prev->token)))
-// 	{
-// 		tmp = expandables(current->data, env);
-// 		if (!tmp)
-// 			return (NULL);
-// 		return (tmp);
-// 	}
-// 	else
-// 		return (ft_strdup(current->data));
-// }
+	if ((current->token == WORD && current->exp == 1)
+		&& (!prev || !is_delimiteur(prev->token)))
+	{
+		tmp = expandables(current->data, env);
+		// printf("tmp : %s\n", tmp);
+		// if (!tmp)
+		// 	return (NULL);
+		return (tmp);
+	}
+	else
+		return (ft_strdup(current->data));
+}
 
 void	first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd)
 {
@@ -62,8 +57,7 @@ void	get_cmd(t_token *token, t_cmd **cmd, t_env **env)
 		first_if_cmd(&current, &prev, cmd);
 		if (current && current->token == WORD &&
 			(!prev || !is_delimiteur(prev->token)))
-			// todo | refaire la fonction expand + dup
-			(*cmd)->args[i++] = ft_strdup(current->data);//safe_dup(current, prev, env);
+			(*cmd)->args[i++] = safe_dup(current, prev, env);
 		prev = current;
 		current = current->next;
 	}

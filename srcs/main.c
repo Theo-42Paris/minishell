@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/17 17:34:47 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/19 14:13:48 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	main(int argc, char **argv, char **envp)
 		// waitpid();
 		// ft_reset_cmd();
 		free_token(&token);
-		free_env(&env);
 		free_cmd(&cmd);
 		free(good_line);
 		free(line);

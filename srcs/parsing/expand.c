@@ -6,20 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/17 17:30:21 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/19 15:01:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// char	*handle_expand(char *src, t_env **env)
-// {
-// 	char	*final;
-// 	final = expandables(src, env);
-// 	if (!final)
-// 		return (NULL);
-// 	return (final);
-// }
 
 char	*find_path(t_env **env, char *tmp)
 {
@@ -84,10 +75,3 @@ char	*expandables(char *src, t_env **env)
 		result = append_result(result, src, start, i);
 	return (result);
 }
-
-// int last_exit_status(int status)
-// {
-//     if (WIFEXITED(status))
-//         return (WEXITSTATUS(status));
-//     return (1);
-// }
