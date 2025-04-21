@@ -10,10 +10,12 @@ GREEN   = \033[1;32m
 BLUE    = \033[1;34m
 RED     = \033[1;31m
 RESET   = \033[0m
+AZUR    = \033[38;5;45m
 
 SRC = srcs/main.c \
-       srcs/print_utils.c \
-       srcs/utils.c \
+       srcs/utils/print_utils.c \
+       srcs/utils/utils.c \
+       srcs/utils/free.c \
        srcs/parsing/pars_token.c \
        srcs/parsing/pars_token_2.c \
        srcs/parsing/pars_token_3.c \
@@ -23,9 +25,7 @@ SRC = srcs/main.c \
        srcs/parsing/pars_cmd_2.c \
        srcs/parsing/pars_cmd_3.c \
        srcs/parsing/expand.c \
-       srcs/parsing/expand_2.c \
        srcs/parsing/here_doc.c \
-       srcs/free.c \
        srcs/builtin/ft_echo.c \
        srcs/builtin/ft_pwd.c \
        srcs/builtin/builtins.c \
@@ -35,12 +35,12 @@ OBJ_DIR = obj
 OBJ = $(SRC:srcs/%.c=$(OBJ_DIR)/%.o)
 
 MINI = \
-"\n	 $(RED)███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗       "\
-"\n	 $(RED)████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║       "\
-"\n	 $(RED)██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║       "\
-"\n	 $(RED)██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║       "\
-"\n	 $(RED)██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗  "\
-"\n	 $(RED)╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝  "
+"\n	 $(AZUR)███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗       "\
+"\n	 $(AZUR)████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║       "\
+"\n	 $(AZUR)██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║       "\
+"\n	 $(AZUR)██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║       "\
+"\n	 $(AZUR)██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗  "\
+"\n	 $(AZUR)╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝  "
 
 
 all: $(NAME)

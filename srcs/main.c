@@ -6,72 +6,56 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/19 14:13:48 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 11:26:39 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// #define BUF_SIZE 1024
-
-// void	read_fd(int fd)
-// {
-// 	char	buffer[BUF_SIZE + 1];
-// 	ssize_t	bytes_read;
-
-// 	while ((bytes_read = read(fd, buffer, BUF_SIZE)) > 0)
-// 	{
-// 		buffer[bytes_read] = '\0';
-// 		printf("%s", buffer); // ou write(1, buffer, bytes_read);
-// 	}
-// }
+// !! attention car s'il y a un chiffre apres le $, il ne sera pas oris en compte mais par contre s'il y en a + c'est cuit
+// ? histoire-geo, niveau 6eme chapitre 1 : le croissant fertile
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token	*token;
-	t_cmd	*cmd;
-	t_env	*env;
+	t_data	*data;
 	char	*line;
 	char	*good_line;
 
 	(void)argv;
 	(void)envp;
-	token = NULL;
-	cmd = NULL;
-	env = NULL;
 	if (argc != 1)
 		return (1);
 	signal(SIGINT, handle_sig_c);// ctrl-C
 	signal(SIGQUIT, SIG_IGN);// ctrl-\"
-	get_env(&env, envp);
+	data = malloc(sizeof(t_data));
+	get_env(&(*data).env, envp);
 	while (1)
 	{
 		line = readline(G "minishell> " RST);
 		if (!line)
 		{
-			free_env(&env);
+			free_env(&(*data).env);
+			free_all(&(*data), NULL, NULL);
+			printf("exit\n");
 			break ;
 		}
 		add_history(line);
 		good_line = pre_token(line);
-		tokenizer(&token, good_line);
-		if (!check_syntax(&token))
+		tokenizer(&(*data).token, good_line);
+		if (!check_syntax(&(*data).token))
 		{
-			free_token(&token);
+			free_token(&(*data).token);
 			free(line);
 			free(good_line);
 			continue ;
 		}
-		get_cmd(token, &cmd, &env);
-		handle_here_doc(cmd, &env);
-		// print_token(&token);
-		print_cmd(&cmd);
+		get_cmd((*data).token, &(*data).cmd, &(*data).env);
+		handle_here_doc((*data).cmd, &(*data).env);
+		print_token(&(*data).token);
+		// print_cmd(&(*data).cmd);
 		// waitpid();
 		// ft_reset_cmd();
-		free_token(&token);
-		free_cmd(&cmd);
-		free(good_line);
-		free(line);
+		free_all(&(*data), line, good_line);
 	}
 	rl_clear_history();
 	return (0);

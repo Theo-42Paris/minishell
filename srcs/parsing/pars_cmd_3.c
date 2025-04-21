@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:46:54 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/16 17:08:42 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 11:07:33 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	fill_redir(t_redir **redir, t_token *current)
 	}
 	new->token = current->token;
 	new->fd_here_doc = -1;
+	new->exp_hd = current->exp;
 	new->next = NULL;
 	if (redir)
 	{

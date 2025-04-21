@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/19 15:01:05 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 10:56:06 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ char	*safe_dup(t_token *current, t_token *prev, t_env **env)
 		&& (!prev || !is_delimiteur(prev->token)))
 	{
 		tmp = expandables(current->data, env);
-		// printf("tmp : %s\n", tmp);
-		// if (!tmp)
-		// 	return (NULL);
+		if (!tmp)
+			return (NULL);
 		return (tmp);
 	}
 	else

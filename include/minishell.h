@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/17 12:24:14 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 11:07:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_redir
 	char			*arg;
 	t_type_token	token;
 	int				fd_here_doc;
+	int				exp_hd;
 	struct s_redir	*next;
 }					t_redir;
 
@@ -94,7 +95,6 @@ int					is_delimiteur(int type);
 /********** parsing **********/
 /*** pars_token ***/
 char				*append_char(char *word, char c);
-// void				first_if(char *c, int *in_quote, int *exp, char *quote_char);
 void				first_if_token(char *c, int *in_quote, int *exp, char *quote_char);
 void				win_2_line(t_token **token, char **current_word, int *exp);
 void				init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp);
@@ -120,25 +120,18 @@ t_env				*last_env(t_env *env);
 void				fill_env(char *envp, t_env **env);
 void				get_env(t_env **env, char **envp);
 /*** pars_cmd ***/
-// void				init_data_cmd(t_token *token, t_cmd **cmd, t_token **current);
-// int					check_tok(t_token *current);
 void				first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd);
 void				get_cmd(t_token *token, t_cmd **cmd, t_env **env);
 void				get_cmd_2(t_token *current, t_cmd **cmd, t_env **env);
-// void				win_2_line_2(t_token **prev, t_token **current);
 /*** pars_cmd_2 ***/
 int					get_args_nb(t_token *token);
-// t_cmd				*new_cmd(t_token *current);
 t_cmd				*last_cmd(t_cmd *cmd);
 void				add_cmd(t_cmd **cmd, t_cmd *head);
 void				fill_cmd(t_cmd **cmd, t_token *current);
 /*** pars_cmd_3 ***/
-// t_redir				*new_redir(t_token *current);
 t_redir				*last_redir(t_redir *redir);
-// void				add_redir(t_redir **redir, t_redir *new);
 void				fill_redir(t_redir **redir, t_token *current);
 /*** expand ***/
-char				*handle_expand(char *src, t_env **env);
 char				*expandables(char *src, t_env **env);
 char				*safe_strjoin(char *s1, const char *s2);
 char				*append_result(char *result, char *src, int start, int end);
@@ -155,6 +148,7 @@ void				free_token(t_token **token);
 void				free_redir(t_redir **redir);
 void				free_cmd(t_cmd **cmd);
 void				free_env(t_env **env);
+void				free_all(t_data *data, char *line, char *good_line);
 /**********Builtins***********/
 int					ft_echo(t_data *data, t_cmd *cmd);
 int					ft_pwd(t_cmd *cmd);

@@ -6,11 +6,36 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/19 15:01:47 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 10:55:57 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+char	*append_result(char *result, char *src, int start, int end)
+{
+	char	*tmp;
+	char	*new_result;
+
+	tmp = ft_substr(src, start, end - start);
+	if (!tmp)
+		return (result);
+	new_result = ft_strjoin(result, tmp);
+	free(result);
+	free(tmp);
+	return (new_result);
+}
+
+char	*safe_strjoin(char *s1, const char *s2)
+{
+	char	*res;
+
+	if (!s1)
+		return (ft_strdup(s2));
+	res = ft_strjoin(s1, s2);
+	free(s1);
+	return (res);
+}
 
 char	*find_path(t_env **env, char *tmp)
 {
@@ -39,7 +64,7 @@ int	handle_variable_i(char *src, int i, t_env **env, char **result)
 		return (i + 1);
 	}
 	var_start = i;
-	while (src[i] && src[i] != ' ' && src[i] != '\t' && src[i] != '$')
+	while (src[i] && src[i] != ' ' && src[i] != '\t' && src[i] != '$' && ft_isalnum(src[i]))
 		i++;
 	tmp = ft_substr(src, var_start, i - var_start);
 	env_find = find_path(env, tmp);

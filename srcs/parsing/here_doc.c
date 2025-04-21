@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/17 18:11:36 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 11:10:01 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_heredoc(char *line, int *fd)
 	free(line);
 }
 
-void	make_here_doc(char *limiteur, int *fd, t_env **env)
+void	make_here_doc(int exp, char *limiteur, int *fd, t_env **env)
 {
 	char	*line;
 	char	*good_line;
@@ -46,7 +46,7 @@ void	make_here_doc(char *limiteur, int *fd, t_env **env)
 			free(line);
 			break ;
 		}
-		if (exp_in_hd(line))
+		if (exp && exp_in_hd(line))
 		{
 			good_line = expandables(line, env);
 			free(line);
@@ -76,7 +76,7 @@ void	handle_here_doc(t_cmd *cmd, t_env **env)
 			{
 				if (pipe(pipe_fd) == -1)
 					return (perror("pipe"));
-				make_here_doc(tmp_r->arg, &pipe_fd[1], env);
+				make_here_doc(tmp_r->exp_hd, tmp_r->arg, &pipe_fd[1], env);
 				close(pipe_fd[1]);
 				tmp_r->fd_here_doc = pipe_fd[0];
 			}

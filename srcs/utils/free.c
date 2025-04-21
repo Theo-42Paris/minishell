@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	free_env(t_env **env)
 {
@@ -74,4 +74,12 @@ void	free_cmd(t_cmd **cmd)
 		*cmd = tmp;
 	}
 	*cmd = NULL;
+}
+
+void	free_all(t_data *data, char *line, char *good_line)
+{
+	free(line);
+	free(good_line);
+	free_token(&data->token);
+	free_cmd(&data->cmd);
 }

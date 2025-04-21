@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:52:19 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/19 13:56:26 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/19 15:49:43 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	is_delimiteur(int type)
 {

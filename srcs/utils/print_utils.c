@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:18:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/17 11:50:38 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/19 15:49:38 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	print_token(t_token **token)
 {
