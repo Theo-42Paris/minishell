@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 14:13:15 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:09:17 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "../../include/minishell.h"
 
 char	*safe_dup(t_token *current, t_token *prev, t_env **env)
 {
@@ -51,7 +51,7 @@ void	get_cmd(t_token *token, t_cmd **cmd, t_env **env)
 	current = token;
 	if (!(*cmd))
 		fill_cmd(cmd, current);
-	while (current)
+	while (current && current->token != PIPE)
 	{
 		first_if_cmd(&current, &prev, cmd);
 		if (current && current->token == WORD &&

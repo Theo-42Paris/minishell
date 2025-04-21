@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:23:00 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/10 15:36:21 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/21 16:50:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,33 @@ int	is_valid_n_option(char *str)
 	while (str[i])
 	{
 		if (str[i] != 'n')
+		{
+			ft_printf("Minishell : Invalid option");
 			return (0);
+		}
 		i++;
 	}
 	return (1);
 }
 
-int	ft_echo(t_data *data, t_cmd *cmd)
+int	ft_echo(t_cmd *cmd)
 {
-	t_cmd	*arg;
-	int		newline;
+	int	i;
+	int	newline;
 
-	(void)data;
-	arg = cmd->next;
+	i = 1;
 	newline = 1;
-	while (arg && is_valid_n_option(arg->value))
+	while (cmd->args[i] && is_valid_n_option(cmd->args[i]))
 	{
 		newline = 0;
-		arg = arg->next;
+		i++;
 	}
-	while (arg)
+	while (cmd->args[i])
 	{
-		ft_putstr_fd(arg->value, 1);
-		if (arg->next)
+		ft_putstr_fd(cmd->args[i], 1);
+		if (cmd->args[i + 1])
 			ft_putstr_fd(" ", 1);
-		arg = arg->next;
+		i++;
 	}
 	if (newline)
 		ft_putstr_fd("\n", 1);

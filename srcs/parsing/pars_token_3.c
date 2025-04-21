@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:01:27 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 14:12:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:05:58 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "../../include/minishell.h"
 
 int	check_type(char *src)
 {

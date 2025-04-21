@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:57:23 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 14:12:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:05:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parsing.h"
+#include "../../include/minishell.h"
 
 void	ft_strcpy(char *dst, char *src)
 {
