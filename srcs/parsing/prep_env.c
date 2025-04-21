@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:08:09 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/16 12:13:57 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:13:10 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/parsing.h"
 
 t_env	*last_env(t_env *env)
 {

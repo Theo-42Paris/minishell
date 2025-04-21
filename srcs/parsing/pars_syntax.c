@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/17 17:34:33 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:13:04 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/parsing.h"
 
 int	slovaquie(t_token *current)
 {

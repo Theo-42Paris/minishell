@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 10:56:06 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:13:15 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/parsing.h"
 
 char	*safe_dup(t_token *current, t_token *prev, t_env **env)
 {

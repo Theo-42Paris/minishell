@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/21 12:38:37 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:11:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include "parsing.h"
-# include "exec.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <unistd.h>
@@ -108,5 +106,8 @@ void				free_redir(t_redir **redir);
 void				free_cmd(t_cmd **cmd);
 void				free_env(t_env **env);
 void				free_all(t_data *data, char *line, char *good_line);
+
+/*********** signal ************/
+void				handle_sig_c(int signals);
 
 #endif

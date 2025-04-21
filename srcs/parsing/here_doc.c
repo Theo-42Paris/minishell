@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 11:10:01 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:13:39 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/parsing.h"
 
 int	exp_in_hd(char *line)
 {

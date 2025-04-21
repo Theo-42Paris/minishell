@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/17 17:39:18 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:12:34 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/parsing.h"
 
 // int	open_quote(char *str)
 // {

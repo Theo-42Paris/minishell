@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:45:11 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/17 17:42:35 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:13:21 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/parsing.h"
 
 int	get_args_nb(t_token *token)
 {

@@ -6,11 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:46:54 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 11:07:33 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:13:26 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/parsing.h"
 
 t_redir	*last_redir(t_redir *redir)
 {

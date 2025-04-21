@@ -6,11 +6,14 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/21 11:33:46 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:14:43 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/parsing.h"
+#include "../include/exec.h"
+
 
 // !! attention car s'il y a un chiffre apres le $, il ne sera pas oris en compte mais par contre s'il y en a + c'est cuit
 // ? histoire-geo, niveau 6eme chapitre 1 : le croissant fertile
