@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/21 16:24:45 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/23 13:58:38 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,11 @@ int					ft_isbuiltin(t_cmd *cmd);
 int                 ft_is_option(char *str);
 int					ft_exec_builtin(t_data *data, t_cmd *cmd);
 int                 ft_exit(t_data *data, t_cmd *cmd);
+int					ft_export(char **args, t_env **env_ptr);
+void				print_export_error(const char *arg);
+int					is_valid_identifier(const char *arg);
+int					ft_unset(char **args, t_env **env_ptr);
+long long			ft_atoll(const char *s);
 
 /********** Builtins ***********/
 void                exec_mini(t_data *data);

@@ -32,6 +32,10 @@ SRC = srcs/main.c \
        srcs/execution/execution.c \
        srcs/signal/signal.c \
        srcs/builtin/ft_exit.c \
+       srcs/builtin/ft_export.c \
+       srcs/builtin/ft_export_utils.c \
+       srcs/builtin/ft_unset.c \
+       srcs/builtin/ft_atoll.c \
 
 OBJ_DIR = obj
 OBJ = $(SRC:srcs/%.c=$(OBJ_DIR)/%.o)

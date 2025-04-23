@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:26:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/21 16:33:38 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/23 13:18:00 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ int	ft_is_option(char *str)
 	return (0);
 }
 
+int	ft_env(t_env *env)
+{
+	while (env)
+	{
+		if (ft_strchr(env->env, '='))
+			ft_putendl_fd(env->env, 1); 
+		env = env->next;
+	}
+	return (0);
+}
+
 int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 {
 	if (!data || !cmd || !cmd->args)
@@ -47,16 +58,16 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	}
 	if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		return (ft_pwd(cmd));
-	// if (ft_strcmp(cmd->cmd, "env") == 0)
-	// 	return (ft_print_env(data));
+	if (ft_strcmp(cmd->args[0], "env") == 0)
+		return (ft_env(data->env));
 	// if (ft_strcmp(cmd->cmd, "cd") == 0)
 	// 	return (ft_cd(data->env, cmd));
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		return (ft_echo(cmd));
-	// if (ft_strcmp(cmd->cmd, "export") == 0)
-	// 	return (ft_export(cmd));
-	// if (ft_strcmp(cmd->cmd, "unset") == 0)
-	// 	return (ft_unset(cmd));
+	if (ft_strcmp(cmd->args[0], "export") == 0)
+		return (ft_export(data->cmd->args, &data->env));
+	if (ft_strcmp(cmd->args[0], "unset") == 0)
+		return (ft_unset(cmd->args, &data->env));
 	if (ft_strcmp(cmd->args[0], "exit") == 0)
 		return (ft_exit(data, cmd));
 	return (1);

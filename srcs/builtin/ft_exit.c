@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:32:28 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/21 16:06:39 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/23 13:58:24 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	ft_count_args(t_cmd *cmd)
 	return (i);
 }
 
+
+
 int	ft_exit(t_data *data, t_cmd *cmd)
 {
 	long	exit_code;
@@ -67,7 +69,7 @@ int	ft_exit(t_data *data, t_cmd *cmd)
 		// ft_free_all(data);
 		exit(2);
 	}
-	exit_code = ft_atoi(cmd->args[1]);
+	exit_code = ft_atoll(cmd->args[1]) % 256; 
 	// ft_free_all(data);
 	exit(exit_code);
 }
