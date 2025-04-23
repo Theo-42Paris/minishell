@@ -1,0 +1,17 @@
+# compiled files
+*.o
+obj/*.o
+obj
+obj/**/*
+obj/**
+
+# vscode shit
+.vscode
+.vscode/*
+.vscode/**
+.vscode/**/*
+
+# random shit lol
+in
+next
+out
