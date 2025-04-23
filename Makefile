@@ -30,6 +30,8 @@ SRC = srcs/main.c \
        srcs/builtin/ft_pwd.c \
        srcs/builtin/builtins.c \
        srcs/execution/execution.c \
+       srcs/execution/cmd_exec.c \
+       srcs/execution/cmd_exec_utils.c \
        srcs/signal/signal.c \
        srcs/builtin/ft_exit.c \
 

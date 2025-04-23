@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 16:05:44 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/04/22 10:09:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	syntax_node(int start, int end, t_token *current, t_token *prev)
 		if (!slovaquie(current))
 			return (0);
 	}
-	else if (!start)
+	else if (!start && !end)
 	{
 		if (!violence_urbaine_emeute(current, prev))
 			return (0);
