@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/23 14:10:03 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/28 10:54:08 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 // !! attention car s'il y a un chiffre apres le $, il ne sera pas oris en compte mais par contre s'il y en a + c'est cuit
 // ? histoire-geo, niveau 6eme chapitre 1 : le croissant fertile
+
+void	init_data(t_data **data)
+{
+	(*data) = malloc(sizeof(t_data));
+	if (!(*data))
+		exit (1);
+	(*data)->cmd = NULL;
+	(*data)->env = NULL;
+	(*data)->token = NULL;
+	(*data)->signal = 0;
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -27,7 +38,8 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	signal(SIGINT, handle_sig_c);// ctrl-C
 	signal(SIGQUIT, SIG_IGN);// ctrl-\"
-	data = malloc(sizeof(t_data));
+	//data = malloc(sizeof(t_data));
+	init_data(&data);
 	get_env(&(*data).env, envp);
 	// print_env(&(*data).env);
 	while (1)
@@ -54,11 +66,12 @@ int	main(int argc, char **argv, char **envp)
 		handle_here_doc((*data).cmd, &(*data).env);
 		exec_mini(data);
 		// print_token(&(*data).token);
-		// print_cmd(&(*data).cmd);
+		print_cmd(&(*data).cmd);
 		// waitpid();
 		// ft_reset_cmd();
 		free_all(&(*data), line, good_line);
 	}
+	free(data);
 	rl_clear_history();
 	return (0);
 }

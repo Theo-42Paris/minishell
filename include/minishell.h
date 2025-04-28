@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/23 14:09:56 by tzara            ###   ########.fr       */
+/*   Updated: 2025/04/25 15:20:21 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int					count_line(char *line);
 void				pre_token2(char **line, int *i, char **dest, int *j);
 char				*pre_token(char *line);
 void				ft_strcpy(char *dst, char *src);
-// pars_token_3 
+// pars_token_3
 int					check_type(char *src);
 t_token				*last_token(t_token *token);
 void				add_token(t_token **token, t_token *tmp);
@@ -173,6 +173,6 @@ void                exec_mini(t_data *data);
 void				first_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count);
 
 // cmd_exec_utils
-int					hd_in(t_cmd *tmp_cmd);
+int					find_outfile(t_cmd *tmp_cmd);
 
 #endif
