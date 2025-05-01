@@ -6,11 +6,47 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:39:22 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/28 14:11:32 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/01 15:28:55 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	has_infile(t_cmd *tmp_cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = tmp_cmd;
+	while(tmp)
+	{
+		while(tmp->redir)
+		{
+			if (tmp->redir->token == REDIR_IN || tmp->redir->token == DELIMITER)
+				return (1);
+			tmp->redir = tmp->redir->next;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int has_outfile(t_cmd *tmp_cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = tmp_cmd;
+	while(tmp)
+	{
+		while(tmp->redir)
+		{
+			if (tmp->redir->token == REDIR_OUT || tmp->redir->token == APPEND)
+				return (1);
+			tmp->redir = tmp->redir->next;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 int	open_out(t_redir *tmp_r)
 {
@@ -20,8 +56,10 @@ int	open_out(t_redir *tmp_r)
 	if (access(tmp_r->arg, F_OK) == 0)
 	{
 		if (access(tmp_r->arg, W_OK) == -1)
+		{
 			perror("outfile");
 			return (0);
+		}
 	}
 	if (tmp_r->token == REDIR_OUT)
 		out = open(tmp_r->arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -62,6 +100,7 @@ int	open_in(t_redir *tmp_r)
 {
 	int	in;
 
+	in = 0;
 	if (tmp_r->token == DELIMITER)
 		in = tmp_r->fd_here_doc;
 	else if (tmp_r->token == REDIR_IN)
@@ -86,7 +125,7 @@ int	open_in(t_redir *tmp_r)
 	return (in);
 }
 
-int	find_infile(t_cmd *tmp_cmd, int out)
+int	find_infile(t_cmd *tmp_cmd)
 {
 	t_cmd	*tmp;
 	t_redir	*tmp_r;

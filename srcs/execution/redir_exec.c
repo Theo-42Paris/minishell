@@ -6,13 +6,29 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/28 16:34:09 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/01 13:27:07 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void    redir_last()
+void	redir_last(int in, int out, t_exec *mini)
 {
-    
+	if (in >= 0)
+	{
+		if (mini->fd_transfer >= 0)
+			close (mini->fd_transfer);
+		dup2(in, STDIN_FILENO);
+		close(in);
+	}
+	else if (!in && mini->fd_transfer >= 0)
+	{
+		dup2(mini->fd_transfer, STDIN_FILENO);
+		close(mini->fd_transfer);
+	}
+	if (out >= 0)
+	{
+		dup2(out, STDOUT_FILENO);
+		close(out);
+	}
 }

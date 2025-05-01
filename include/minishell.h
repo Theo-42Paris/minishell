@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/25 15:20:21 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/01 18:17:09 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void				handle_here_doc(t_cmd *cmd, t_env **env);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);
+void				free_str(char **str);
 
 // print_utils
 void				print_token(t_token **token);
@@ -165,14 +166,41 @@ void				print_export_error(const char *arg);
 int					is_valid_identifier(const char *arg);
 int					ft_unset(char **args, t_env **env_ptr);
 long long			ft_atoll(const char *s);
+void				print_env_array(char **env_array, int size);
+void				print_export_line(char *entry);
+char				**create_env_array(t_env *env, int size);
+void				sort_env_array(char **env_array, int size);
+void				swap_str(char **a, char **b);
+int					env_list_size(t_env *env);
+t_env				*find_env_var(char *arg, t_env *env);
+int					process_export_arg(char *arg, t_env **env_ptr);
+int					ft_cd(t_env *env, t_cmd *cmd);
 
 /*** EXEC ***/
 void                exec_mini(t_data *data);
+t_exec				setup_exec_data(t_data *data);
+int					count_cmd(t_data *data);
 
 // cmd_exec
-void				first_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count);
+int					dor_et_de_platine(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
 
 // cmd_exec_utils
 int					find_outfile(t_cmd *tmp_cmd);
+int					find_infile(t_cmd *tmp_cmd);
+int					open_in(t_redir *tmp_r);
+int					find_outfile(t_cmd *tmp_cmd);
+int					open_out(t_redir *tmp_r);
+int					has_outfile(t_cmd *tmp_cmd);
+int					has_infile(t_cmd *tmp_cmd);
+
+// redir_exec
+void				redir_last(int in, int out, t_exec *mini);
+
+// execve
+void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);
+void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_env *env);
+char				*get_path(char *cmd, t_env *env);
+char				*concat_path(char *path, char *cmd);
+char				*find_path_exec(t_env *env);
 
 #endif

@@ -6,59 +6,61 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:19:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/22 16:17:24 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/01 09:11:18 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_env	*find_env_var(char *arg, t_env *env)
+t_env	*create_or_update_node(char *arg, t_env *found)
 {
-	int	name_len;
+	t_env	*new_node;
+	char	*dup;
 
-	name_len = 0;
-	while (arg[name_len] && arg[name_len] != '=')
-		name_len++;
-	while (env)
+	if (found)
 	{
-		if (ft_strncmp(env->env, arg, name_len) == 0 && env->env[name_len] == '=')
-			return (env);
-		env = env->next;
+		free(found->env);
+		dup = ft_strdup(arg);
+		if (!dup)
+			return (NULL);
+		found->env = dup;
+		return (found);
 	}
-	return (NULL);
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	dup = ft_strdup(arg);
+	if (!dup)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	new_node->env = dup;
+	new_node->next = NULL;
+	return (new_node);
 }
 
 int	add_or_update_env(char *arg, t_env **env_ptr)
 {
 	t_env	*found;
-	t_env	*new_node;
+	t_env	*node;
 	t_env	*tmp;
 
-	found = find_env_var(arg, *env_ptr);
-	if (found) //si la var existe deja
-	{
-		free(found->env); // free l'ancienne version
-		found->env = ft_strdup(arg); //on copie la nv
-		return (found->env == NULL);
-	}
-	new_node = malloc(sizeof(t_env)); //si il existe pas on le cree 
-	if (!new_node)
+	found = find_env_var(arg, *env_ptr); //cherche si la variable existe deja dans la liste chainee
+	node = create_or_update_node(arg, found); //cree un nœud (ou met à jour si trouvé) avec l'argument
+	if (!node)
 		return (1);
-	new_node->env = ft_strdup(arg); //met la valuer de arg en tant que valeur de new node
-	if (!new_node->env)
+	if (!found)
 	{
-		free(new_node);
-		return (1);
-	}
-	new_node->next = NULL; //si la liste est vide (env -i)
-	if (!*env_ptr)
-		*env_ptr = new_node;
-	else //sinon on l'ajoute a la fin
-	{
-		tmp = *env_ptr;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_node;
+		if (!*env_ptr) //cas ou luste vide
+			*env_ptr = node;
+		else //on lajoute a la fin
+		{
+			tmp = *env_ptr;
+			while (tmp->next) //parcourt la liste jusqu'au dernier élément
+				tmp = tmp->next;
+			tmp->next = node; //ajoute le nouveau nœud à la fin
+		}
 	}
 	return (0);
 }
@@ -74,10 +76,10 @@ int	process_export_arg(char *arg, t_env **env_ptr)
 		print_export_error(arg);
 		return (1);
 	}
-	if (!ft_strchr(arg, '=')) //si ya pas de = 
+	if (!ft_strchr(arg, '=')) // si ya pas de =
 	{
 		len = ft_strlen(arg);
-		tmp = malloc(len + 1);
+		tmp = malloc(sizeof(char) * (len + 1));
 		if (!tmp)
 			return (1);
 		ft_strcpy(tmp, arg);
@@ -86,19 +88,21 @@ int	process_export_arg(char *arg, t_env **env_ptr)
 		free(tmp);
 		return (ret);
 	}
-	return (add_or_update_env(arg, env_ptr)); //si ya un =
+	return (add_or_update_env(arg, env_ptr)); // si ya un =
 }
 
-// todo | a trier dans l'odre alhabetique de con AAAAAAAAHHHHHH
 int	print_env_list(t_env *env)
 {
-	while (env)
-	{
-		write(1, "export ", 8);
-		write(1, env->env, ft_strlen(env->env));
-		write(1, "\n", 1);
-		env = env->next;
-	}
+	int		size;
+	char	**env_array;
+
+	size = env_list_size(env);
+	env_array = create_env_array(env, size);
+	if (!env_array)
+		return (1);
+	sort_env_array(env_array, size);
+	print_env_array(env_array, size);
+	free(env_array);
 	return (0);
 }
 

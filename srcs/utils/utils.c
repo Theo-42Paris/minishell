@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:52:19 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/19 15:49:43 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/01 15:33:02 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,17 @@ int	is_delimiteur(int type)
 		return (0);
 	else
 		return (1);
+}
+
+void	free_str(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

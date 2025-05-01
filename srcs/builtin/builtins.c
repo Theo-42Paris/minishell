@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:26:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/04/23 13:18:00 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/01 09:35:12 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 		return (ft_pwd(cmd));
 	if (ft_strcmp(cmd->args[0], "env") == 0)
 		return (ft_env(data->env));
-	// if (ft_strcmp(cmd->cmd, "cd") == 0)
-	// 	return (ft_cd(data->env, cmd));
+	if (ft_strcmp(cmd->args[0], "cd") == 0)
+		return (ft_cd(data->env, cmd));
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		return (ft_echo(cmd));
 	if (ft_strcmp(cmd->args[0], "export") == 0)

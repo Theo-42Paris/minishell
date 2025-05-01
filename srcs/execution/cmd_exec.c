@@ -6,27 +6,33 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/28 16:39:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/01 18:15:17 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // ? count sert a : "mini.pidarray[count] = fork()"
-
-int	last_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count)
+int	dor_et_de_platine(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 {
 	int	in;
 	int	out;
-//! revoir ca car certains cas n'ont pas besoin d'infile et/ou outfile
-	in = find_infile(tmp_cmd); //? si  pas de infile, on n'ouvre pas le outfile
-	if (!in)
-		return (0);
-	out	= find_outfile(tmp_cmd); //? si outfile pas accessible, on ferme in on s'arrete
-	if (!out)
+
+	if (has_infile(tmp_cmd))
 	{
-		close(in);
-		return (0);
+		in = find_infile(tmp_cmd); //? si  pas de infile, on n'ouvre pas le outfile
+		if (in == -1)
+			return (0);
+	}
+	if (has_outfile(tmp_cmd))
+	{
+		out	= find_outfile(tmp_cmd); //? si outfile pas accessible, on ferme in on s'arrete
+		if (out == -1)
+		{
+			if (in)
+				close(in);
+			return (0);
+		}
 	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
@@ -37,8 +43,8 @@ int	last_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count)
 	}
 	else if (mini->pidarray[count] == 0)
 	{
-		redir(in, out, mini);
-		exec(mini, tmp_cmd);
+		redir_last(in, out, mini);
+		exec(mini, tmp_cmd, data);
 	}
 	else
 	{
@@ -49,6 +55,7 @@ int	last_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count)
 		if (in)
 			close (in);
 	}
+	return (1);
 }
 
 // void	first_with_pipe(t_cmd *tmp_cmd, t_exec *mini, int count)

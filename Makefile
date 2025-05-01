@@ -24,20 +24,24 @@ SRC = srcs/main.c \
        srcs/parsing/pars_cmd.c \
        srcs/parsing/pars_cmd_2.c \
        srcs/parsing/pars_cmd_3.c \
+       srcs/signal/signal.c \
        srcs/parsing/expand.c \
        srcs/parsing/here_doc.c \
-       srcs/builtin/ft_echo.c \
-       srcs/builtin/ft_pwd.c \
-       srcs/builtin/builtins.c \
+       srcs/execution/redir_exec.c \
+       srcs/execution/ft_execve.c \
        srcs/execution/execution.c \
        srcs/execution/cmd_exec.c \
        srcs/execution/cmd_exec_utils.c \
-       srcs/signal/signal.c \
+       srcs/builtin/builtins.c \
        srcs/builtin/ft_exit.c \
        srcs/builtin/ft_export.c \
        srcs/builtin/ft_export_utils.c \
+       srcs/builtin/ft_export_utils_2.c \
        srcs/builtin/ft_unset.c \
        srcs/builtin/ft_atoll.c \
+       srcs/builtin/ft_cd.c \
+       srcs/builtin/ft_echo.c \
+       srcs/builtin/ft_pwd.c \
 
 OBJ_DIR = obj
 OBJ = $(SRC:srcs/%.c=$(OBJ_DIR)/%.o)
