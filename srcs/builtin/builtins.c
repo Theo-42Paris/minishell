@@ -3,26 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:26:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/01 09:35:12 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/02 12:02:31 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_isbuiltin(t_cmd *cmd)
+int	child_builtin(t_cmd *cmd)
 {
 	char	*str;
 
 	if (!cmd || !cmd->args[0])
 		return (0);
 	str = cmd->args[0];
-	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "cd") == 0
-		|| ft_strcmp(str, "pwd") == 0 || ft_strcmp(str, "export") == 0
-		|| ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "env") == 0
-		|| ft_strcmp(str, "exit") == 0)
+	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "pwd") == 0 
+		|| ft_strcmp(str, "env") == 0)
+		return (1);
+	return (0);
+}
+
+int	parent_builtin(t_cmd *cmd)
+{
+	char	*str;
+
+	if (!cmd || !cmd->args[0])
+		return (0);
+	str = cmd->args[0];
+	if (ft_strcmp(str, "cd") == 0 || ft_strcmp(str, "export") == 0 
+		|| ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "exit") == 0)
 		return (1);
 	return (0);
 }

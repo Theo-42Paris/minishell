@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:31:37 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/01 18:19:04 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/02 13:49:02 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ void    exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
 {
 	char	*path;
 	
-	if (ft_isbuiltin(data->cmd))
+	if (child_builtin(data->cmd))
 	{
 		ft_exec_builtin(data, data->cmd);
-		return ;
+		exit (1);
 	}
 	if (access(tmp_cmd->args[0], F_OK) == 0)
 		path = tmp_cmd->args[0];

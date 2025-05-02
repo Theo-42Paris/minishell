@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/01 13:27:07 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/02 10:37:53 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	redir_last(int in, int out, t_exec *mini)
 		dup2(in, STDIN_FILENO);
 		close(in);
 	}
-	else if (!in && mini->fd_transfer >= 0)
+	else if (mini->fd_transfer >= 0)
 	{
 		dup2(mini->fd_transfer, STDIN_FILENO);
 		close(mini->fd_transfer);

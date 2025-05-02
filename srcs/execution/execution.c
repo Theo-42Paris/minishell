@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/01 18:14:18 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/02 10:50:43 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,10 @@ void    exec_mini(t_data *data)
 		return;
 	cmd_tmp = (*data).cmd;
 	mini = setup_exec_data(data);
-	// if (ft_isbuiltin(data->cmd))
-		// ft_exec_builtin(data, data->cmd);
 	while (cmd_tmp)
 	{
-		// if (count == 0)
-		// 	first_cmd_exec(cmd_tmp, &mini, count);
 		if (count == mini.cmd_count - 1)
-			dor_et_de_platine(cmd_tmp, &mini, count, data);
+			first_or_last_cmd(cmd_tmp, &mini, count, data);
 		// else
 		// 	rest_cmd_exec(cmd_tmp, &mini, count);
 		count++;
@@ -70,6 +66,7 @@ void    exec_mini(t_data *data)
 	}
 	while (++j < mini.cmd_count)
 		waitpid(mini.pidarray[j], NULL, 0);
-	// close(mini.fd_transfer);
-	// free(mini.pidarray);
+	if (mini.fd_transfer)
+		close(mini.fd_transfer);
+	free(mini.pidarray);
 }

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/01 18:17:09 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/02 14:08:40 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ void				handle_sig_c(int signals);
 /*** BUILTIN ***/
 int                 ft_echo(t_cmd *cmd);
 int					ft_pwd(t_cmd *cmd);
-int					ft_isbuiltin(t_cmd *cmd);
+int					child_builtin(t_cmd *cmd);
+int					parent_builtin(t_cmd *cmd);
 int                 ft_is_option(char *str);
 int					ft_exec_builtin(t_data *data, t_cmd *cmd);
 int                 ft_exit(t_data *data, t_cmd *cmd);
@@ -182,16 +183,16 @@ t_exec				setup_exec_data(t_data *data);
 int					count_cmd(t_data *data);
 
 // cmd_exec
-int					dor_et_de_platine(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
+int					first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
 
 // cmd_exec_utils
-int					find_outfile(t_cmd *tmp_cmd);
-int					find_infile(t_cmd *tmp_cmd);
+int					find_outfile(t_cmd **tmp_cmd);
+int					find_infile(t_cmd **tmp_cmd);
 int					open_in(t_redir *tmp_r);
-int					find_outfile(t_cmd *tmp_cmd);
+int					find_outfile(t_cmd **tmp_cmd);
 int					open_out(t_redir *tmp_r);
-int					has_outfile(t_cmd *tmp_cmd);
-int					has_infile(t_cmd *tmp_cmd);
+int					has_outfile(t_cmd **tmp_cmd);
+int					has_infile(t_cmd **tmp_cmd);
 
 // redir_exec
 void				redir_last(int in, int out, t_exec *mini);
