@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:01:27 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 16:05:58 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/05 12:43:19 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,24 @@ void	add_token(t_token **token, t_token *tmp)
 	}
 }
 
-t_token	*new_token(char *src, int exp)
+t_token	*new_token(char *src)
 {
 	t_token	*tmp;
 
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
-	tmp->exp = exp;
-	tmp->data = src;
+	tmp->data = ft_strdup(src);
 	tmp->token = check_type(tmp->data);
 	tmp->next = NULL;
 	return (tmp);
 }
 
-void	compl_token_list(t_token **token, char *src, int exp)
+void	compl_token_list(t_token **token, char *src)
 {
 	t_token	*tmp;
 
-	if (exp == -1)
-		exp = 1;
-	tmp = new_token(src, exp);
+	tmp = new_token(src);
 	if (!tmp)
 		return ;
 	add_token(token, tmp);

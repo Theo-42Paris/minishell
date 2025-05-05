@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/02 14:08:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/05 16:13:32 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ typedef struct s_data
 
 /*** PARSING ***/
 char				*append_char(char *word, char c);
-void				first_if_token(char *c, int *in_quote, int *exp, char *quote_char);
-void				win_2_line(t_token **token, char **current_word, int *exp);
-void				init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp);
-void				tokenizer(t_token **tokens, char *cmd);
+// void				first_if_token(char *c, int *in_quote, int *exp, char *quote_char);
+// void				win_2_line(t_token **token, char **current_word, int *exp);
+// void				init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp);
+void				tokenizer(t_data *data, char *line);
 // pars_token_2
 int					count_line(char *line);
 void				pre_token2(char **line, int *i, char **dest, int *j);
@@ -103,8 +103,8 @@ void				ft_strcpy(char *dst, char *src);
 int					check_type(char *src);
 t_token				*last_token(t_token *token);
 void				add_token(t_token **token, t_token *tmp);
-t_token				*new_token(char *src, int exp);
-void				compl_token_list(t_token **token, char *src, int exp);
+t_token				*new_token(char *src);
+void				compl_token_list(t_token **token, char *src);
 // pars_syntax
 int					slovaquie(t_token *current);
 int					violence_urbaine_emeute(t_token *current, t_token *prev);
@@ -135,6 +135,7 @@ void				handle_here_doc(t_cmd *cmd, t_env **env);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);
+int					is_redir_delim(char c);
 void				free_str(char **str);
 
 // print_utils
@@ -184,6 +185,7 @@ int					count_cmd(t_data *data);
 
 // cmd_exec
 int					first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
+void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
 
 // cmd_exec_utils
 int					find_outfile(t_cmd **tmp_cmd);
@@ -196,6 +198,7 @@ int					has_infile(t_cmd **tmp_cmd);
 
 // redir_exec
 void				redir_last(int in, int out, t_exec *mini);
+void				redir_rest(int in, int out, t_exec *mini, int *pipe_fd);
 
 // execve
 void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);

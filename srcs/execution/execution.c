@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/02 10:50:43 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/05 15:56:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void    exec_mini(t_data *data)
 	{
 		if (count == mini.cmd_count - 1)
 			first_or_last_cmd(cmd_tmp, &mini, count, data);
-		// else
-		// 	rest_cmd_exec(cmd_tmp, &mini, count);
+		else
+			rest_cmd_exec(cmd_tmp, &mini, count);
 		count++;
 		cmd_tmp = cmd_tmp->next;
 	}

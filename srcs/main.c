@@ -6,14 +6,13 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/02 15:29:54 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/05 15:16:03 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // !! attention car s'il y a un chiffre apres le $, il ne sera pas oris en compte mais par contre s'il y en a + c'est cuit
-// ? histoire-geo, niveau 6eme chapitre 1 : le croissant fertile
 
 void	init_data(t_data **data)
 {
@@ -54,7 +53,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		good_line = pre_token(line);
-		tokenizer(&(*data).token, good_line);
+		// ?? OPEN_QUOTE
+		tokenizer(data, good_line);
 		if (!check_syntax(&(*data).token))
 		{
 			free_token(&(*data).token);
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		get_cmd((*data).token, &(*data).cmd, &(*data).env);
 		handle_here_doc((*data).cmd, &(*data).env);
-		// exec_mini(data);
+		exec_mini(data);
 		// print_token(&(*data).token);
 		// print_cmd(&(*data).cmd);
 		// waitpid();
