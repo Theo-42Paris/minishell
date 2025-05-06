@@ -6,14 +6,14 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/05 16:13:01 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/06 10:35:05 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // ? count sert a : "mini.pidarray[count] = fork()"
-int	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
+void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 {
 	int	in;
 	int	out;
@@ -24,7 +24,7 @@ int	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	{
 		in = find_infile(&tmp_cmd); //? si  pas de infile, on n'ouvre pas le outfile
 		if (in == -1)
-			return (0);
+			return ;
 	}
 	if (has_outfile(&tmp_cmd))
 	{
@@ -33,13 +33,13 @@ int	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		{
 			if (in)
 				close(in);
-			return (0);
+			return ;
 		}
 	}
 	if (parent_builtin(data->cmd))
 	{
 		ft_exec_builtin(data, data->cmd);
-		return (1);
+		return ;
 	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
@@ -64,7 +64,7 @@ int	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		if (in >= 0)
 			close (in);
 	}
-	return (1);
+	return ;
 }
 
 
@@ -80,7 +80,7 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	{
 		in = find_infile(&tmp_cmd); //? si  pas de infile, on n'ouvre pas le outfile
 		if (in == -1)
-			return (0);
+			return ;
 	}
 	if (has_outfile(&tmp_cmd))
 	{
@@ -89,7 +89,7 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		{
 			if (in)
 				close(in);
-			return (0);
+			return ;
 		}
 	}
 	if (pipe(pipe_fd) == -1)
@@ -102,7 +102,7 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	if (parent_builtin(data->cmd))
 	{
 		ft_exec_builtin(data, data->cmd);
-		return (1);
+		return ;
 	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
@@ -129,7 +129,7 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		close(pipe_fd[1]);
 		mini->fd_transfer = pipe_fd[0];
 	}
-	return (1);
+	return ;
 }
 
 // void	last_cmd_exec()

@@ -6,13 +6,15 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/05 15:16:03 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/06 16:05:06 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// !! attention car s'il y a un chiffre apres le $, il ne sera pas oris en compte mais par contre s'il y en a + c'est cuit
+// ?? gerer les exp dans le here_doc
+// ?? voir buildin export
+// ?? trouver comment executer les builtins dans les pipes
 
 void	init_data(t_data **data)
 {

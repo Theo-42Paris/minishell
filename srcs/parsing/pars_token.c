@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/05 13:31:05 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/06 16:02:43 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,143 @@ char	*append_char(char *current_word, char c)
 	new_word[len + 1] = '\0';
 	return (new_word);
 }
+
+void	quote(char *cmd, int *i, t_data *data, char **tmp)
+{
+	char	c = cmd[(*i)++];
+	int		single_quote = (c == '\'');
+
+	while (cmd[*i] && cmd[*i] != c)
+	{
+		if (cmd[*i] == '$' && !single_quote)
+			t_exp(cmd, i, data, tmp);
+		else
+		{
+			*tmp = append_char(*tmp, cmd[*i]);
+			(*i)++;
+		}
+	}
+	if (cmd[*i] == c)
+		(*i)++;
+}
+
+char *get_exp(char *name, t_env *env)
+{
+    while (env)
+    {
+        if (ft_strncmp(env->env, name, ft_strlen(name)) == 0 && 
+            env->env[ft_strlen(name)] == '=')
+        {
+            return ft_strdup(env->env + ft_strlen(name) + 1);
+        }
+        env = env->next;
+    }
+    return NULL;
+}
+
+void	t_exp(char *cmd, int *i, t_data *data, char **tmp)
+{
+	int		start;
+	int		end;
+	char	*var_name;
+	char 	*value;
+	char	*joined;
+
+	start = ++(*i);
+	end = start;
+	if (cmd[start] == '?')
+		printf("pas encore gerer");
+	if(ft_isdigit(cmd[start]))
+	{
+		(*i)++;
+		return ;
+	}
+	if (!cmd[start] || cmd[start] == ' ' || cmd[start] == '\t')
+	{
+		*tmp = append_char(*tmp, '$');
+		return ;
+	}
+	while (cmd[end] && (ft_isalnum(cmd[end]) || cmd[end] == '_'))
+		end++;
+	if (start == end)
+		return ;
+	var_name = ft_substr(cmd, start, end - start);
+	*i = end;
+	if (!var_name)
+		return ;
+	value = get_exp(var_name, data->env);
+	free(var_name);
+	if (value)
+	{
+		if (*tmp)
+			joined = ft_strjoin(*tmp, value);
+		else
+			joined = ft_strdup(value);
+		free(*tmp);
+		*tmp = joined;
+	}
+}
+
+void	token_next(t_data *data, char *tmp)
+{
+	if (tmp && *tmp)
+	{
+		compl_token_list(&data->token, tmp);
+		free(tmp);
+	}
+}
+
+void	add_here_doc(char *cmd, int *i, char **tmp)
+{
+	char	c;
+	int		in_q;
+	
+	c = 0;
+	*i += 3;
+	if (cmd[*i] == '\'' || cmd[*i] == '"')
+	{
+		in_q = 1;
+		c = cmd[*i];
+	}
+	while(cmd[*i] && ((in_q && cmd[*i] != c) || (!in_q && cmd[*i] != ' ' && cmd[*i] != '\t')))
+	{
+		*tmp = append_char(*tmp, cmd[*i]);
+		(*i)++;
+	}
+}
+
+void	tokenizer(t_data *data, char *cmd)
+{
+	int		i = 0;
+	char	*tmp = NULL;
+
+	if (!cmd)
+		return ;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\'' || cmd[i] == '"')
+			quote(cmd, &i, data, &tmp);
+		else if (cmd[i] == '$')
+			t_exp(cmd, &i, data, &tmp);
+		else if (cmd[i] == '<' && cmd[i + 1] == '<')
+			add_here_doc(cmd, &i, &tmp);
+		else if (cmd[i] == ' ' || cmd[i] == '\t')
+		{
+			token_next(data, tmp);
+			tmp = NULL;
+			i++;
+		}
+		else
+		{
+			tmp = append_char(tmp, cmd[i]);
+			i++;
+		}
+	}
+	if (tmp)
+		compl_token_list(&data->token, tmp);
+}
+
+
 // // void	quote(char *cmd, int *i, t_data *data, char *tmp)
 // // {
 // // 	char	c;
@@ -154,100 +291,7 @@ char	*append_char(char *current_word, char c)
 // 	compl_token_list(&data->token, tmp);
 // }
 
-void	quote(char *cmd, int *i, t_data *data, char **tmp)
-{
-	char	c = cmd[(*i)++];
-	int		single_quote = (c == '\'');
-
-	while (cmd[*i] && cmd[*i] != c)
-	{
-		if (cmd[*i] == '$' && !single_quote)
-			t_exp(cmd, i, data, tmp);
-		else
-		{
-			*tmp = append_char(*tmp, cmd[*i]);
-			(*i)++;
-		}
-	}
-	if (cmd[*i] == c)
-		(*i)++;
-}
-
-char *get_exp(char *name, t_env *env)
-{
-    while (env)
-    {
-        if (ft_strncmp(env->env, name, ft_strlen(name)) == 0 && 
-            env->env[ft_strlen(name)] == '=')
-        {
-            return ft_strdup(env->env + ft_strlen(name) + 1);
-        }
-        env = env->next;
-    }
-    return NULL;
-}
-
-void	t_exp(char *cmd, int *i, t_data *data, char **tmp)
-{
-	int		start = ++(*i);
-	int		end = start;
-
-	while (cmd[end] && (ft_isalnum(cmd[end]) || cmd[end] == '_'))
-		end++;
-
-	if (start == end)
-		return ;
-	char *var_name = ft_substr(cmd, start, end - start);
-	*i = end;
-	if (!var_name)
-		return ;
-	char *value = get_exp(var_name, data->env);
-	free(var_name);
-	if (value)
-	{
-		char *joined = *tmp ? ft_strjoin(*tmp, value) : ft_strdup(value);
-		free(*tmp);
-		*tmp = joined;
-	}
-}
-
-void	token_next(t_data *data, char *tmp)
-{
-	if (tmp && *tmp)
-	{
-		compl_token_list(&data->token, tmp);
-		free(tmp);
-	}
-}
-
-void	tokenizer(t_data *data, char *cmd)
-{
-	int		i = 0;
-	char	*tmp = NULL;
-
-	if (!cmd)
-		return ;
-	while (cmd[i])
-	{
-		if (cmd[i] == '\'' || cmd[i] == '"')
-			quote(cmd, &i, data, &tmp);
-		else if (cmd[i] == '$')
-			t_exp(cmd, &i, data, &tmp);
-		else if (cmd[i] == ' ' || cmd[i] == '\t')
-		{
-			token_next(data, tmp);
-			tmp = NULL;
-			i++;
-		}
-		else
-		{
-			tmp = append_char(tmp, cmd[i]);
-			i++;
-		}
-	}
-	if (tmp)
-		compl_token_list(&data->token, tmp);
-}
+//!-------------------------------------------------------------------------------------------------
 
 
 // void	win_2_line(t_token **token, char **current_word, int *exp)

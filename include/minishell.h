@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/05 16:13:32 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/06 13:01:05 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ t_exec				setup_exec_data(t_data *data);
 int					count_cmd(t_data *data);
 
 // cmd_exec
-int					first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
+void				first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
 void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
 
 // cmd_exec_utils

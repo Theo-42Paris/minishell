@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:19:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/01 09:11:18 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/06 10:49:45 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+// !! IL FAUT SPLIT LS EXPORT
 
 t_env	*create_or_update_node(char *arg, t_env *found)
 {
