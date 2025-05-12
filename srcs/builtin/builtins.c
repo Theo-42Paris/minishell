@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:26:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/02 12:02:31 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:03:48 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int should_run_in_parent(t_cmd *cmd) 
+{
+    if (!cmd || !cmd->args || !cmd->args[0])
+        return (0);
+    if (ft_strcmp(cmd->args[0], "cd") == 0 ||
+        ft_strcmp(cmd->args[0], "export") == 0 ||
+        ft_strcmp(cmd->args[0], "unset") == 0 ||
+        ft_strcmp(cmd->args[0], "exit") == 0)
+        return (1);
+    return (0);
+}
 
 int	child_builtin(t_cmd *cmd)
 {

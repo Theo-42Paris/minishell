@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/05 16:13:32 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:07:22 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,8 +184,9 @@ t_exec				setup_exec_data(t_data *data);
 int					count_cmd(t_data *data);
 
 // cmd_exec
-int					first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
 void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
+void				first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
+int					should_run_in_parent(t_cmd *cmd);
 
 // cmd_exec_utils
 int					find_outfile(t_cmd **tmp_cmd);

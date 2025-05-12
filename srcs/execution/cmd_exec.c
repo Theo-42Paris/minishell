@@ -3,43 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/05 16:13:01 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:05:45 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // ? count sert a : "mini.pidarray[count] = fork()"
-int	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
+void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 {
 	int	in;
 	int	out;
+	int	stdin_backup;
+	int	stdout_backup;
 
 	in = -1;
 	out = -1;
 	if (has_infile(&tmp_cmd))
 	{
-		in = find_infile(&tmp_cmd); //? si  pas de infile, on n'ouvre pas le outfile
+		in = find_infile(&tmp_cmd);
 		if (in == -1)
-			return (0);
+			return ;
 	}
 	if (has_outfile(&tmp_cmd))
 	{
-		out	= find_outfile(&tmp_cmd); //? si outfile pas accessible, on ferme in on s'arrete
+		out = find_outfile(&tmp_cmd);
 		if (out == -1)
 		{
-			if (in)
+			if (in >= 0)
 				close(in);
-			return (0);
+			return ;
 		}
 	}
-	if (parent_builtin(data->cmd))
+	if (count == mini->cmd_count - 1 && should_run_in_parent(tmp_cmd))
 	{
-		ft_exec_builtin(data, data->cmd);
-		return (1);
+		stdin_backup = -1;
+		stdout_backup = -1;
+		if (in >= 0 || mini->fd_transfer >= 0)
+			stdin_backup = dup(STDIN_FILENO);
+		if (out >= 0)
+			stdout_backup = dup(STDOUT_FILENO);
+		if (in >= 0)
+		{
+			dup2(in, STDIN_FILENO);
+			close(in);
+		}
+		else if (mini->fd_transfer >= 0)
+		{
+			dup2(mini->fd_transfer, STDIN_FILENO);
+			close(mini->fd_transfer);
+			mini->fd_transfer = -1;
+		}
+		if (out >= 0)
+		{
+			dup2(out, STDOUT_FILENO);
+			close(out);
+		}
+		ft_exec_builtin(data, tmp_cmd);
+		if (stdin_backup >= 0)
+		{
+			dup2(stdin_backup, STDIN_FILENO);
+			close(stdin_backup);
+		}
+		if (stdout_backup >= 0)
+		{
+			dup2(stdout_backup, STDOUT_FILENO);
+			close(stdout_backup);
+		}
+		return ;
 	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
@@ -47,13 +81,14 @@ int	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		if (out >= 0)
 			close(out);
 		if (in >= 0)
-			close (in);
+			close(in);
 		perror("fork fail");
 	}
 	else if (mini->pidarray[count] == 0)
 	{
 		redir_last(in, out, mini);
 		exec(mini, tmp_cmd, data);
+		exit(1);
 	}
 	else
 	{
@@ -62,11 +97,9 @@ int	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		if (out >= 0)
 			close(out);
 		if (in >= 0)
-			close (in);
+			close(in);
 	}
-	return (1);
 }
-
 
 void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 {
@@ -78,18 +111,18 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	out = -1;
 	if (has_infile(&tmp_cmd))
 	{
-		in = find_infile(&tmp_cmd); //? si  pas de infile, on n'ouvre pas le outfile
+		in = find_infile(&tmp_cmd);
 		if (in == -1)
-			return (0);
+			return ;
 	}
 	if (has_outfile(&tmp_cmd))
 	{
-		out	= find_outfile(&tmp_cmd); //? si outfile pas accessible, on ferme in on s'arrete
+		out = find_outfile(&tmp_cmd);
 		if (out == -1)
 		{
-			if (in)
+			if (in >= 0)
 				close(in);
-			return (0);
+			return ;
 		}
 	}
 	if (pipe(pipe_fd) == -1)
@@ -98,11 +131,8 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 			close(in);
 		if (out >= 0)
 			close(out);
-	}
-	if (parent_builtin(data->cmd))
-	{
-		ft_exec_builtin(data, data->cmd);
-		return (1);
+		perror("pipe");
+		return ;
 	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
@@ -110,13 +140,16 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		if (out >= 0)
 			close(out);
 		if (in >= 0)
-			close (in);
+			close(in);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 		perror("fork fail");
 	}
 	else if (mini->pidarray[count] == 0)
 	{
 		redir_rest(in, out, mini, pipe_fd);
 		exec(mini, tmp_cmd, data);
+		exit(1);
 	}
 	else
 	{
@@ -125,14 +158,13 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		if (out >= 0)
 			close(out);
 		if (in >= 0)
-			close (in);
-		close(pipe_fd[1]);
-		mini->fd_transfer = pipe_fd[0];
+			close(in);
+		close(pipe_fd[1]);      
+		mini->fd_transfer = pipe_fd[0]; 
 	}
-	return (1);
 }
 
-// void	last_cmd_exec()
+// void	last_cmd_exec(void)
 // {
-	
+
 // }

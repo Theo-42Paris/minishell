@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/05 15:56:14 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:36 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 // ? peut importe ou se trouve la derniere redir in, elle est prioritaire
 // ? idem pour le outfile
 
-int count_cmd(t_data *data)
+int	count_cmd(t_data *data)
 {
-	t_cmd   *tmp;
-	int     count;
+	t_cmd	*tmp;
+	int		count;
 
 	count = 0;
 	tmp = data->cmd;
@@ -30,10 +30,10 @@ int count_cmd(t_data *data)
 	return (count);
 }
 
-t_exec  setup_exec_data(t_data *data)
+t_exec	setup_exec_data(t_data *data)
 {
 	t_exec	tmp;
-	
+
 	tmp.cmd_count = count_cmd(data);
 	tmp.fd_transfer = -1;
 	tmp.pidarray = malloc(sizeof(pid_t) * tmp.cmd_count);
@@ -42,31 +42,37 @@ t_exec  setup_exec_data(t_data *data)
 	return (tmp);
 }
 
-void    exec_mini(t_data *data)
+void	exec_mini(t_data *data)
 {
-	t_exec  mini;
+	t_exec	mini;
 	t_cmd	*cmd_tmp;
 	int		count;
 	int		j;
 
 	count = 0;
 	j = -1;
-	if (!data)
-		return;
-	cmd_tmp = (*data).cmd;
+	if (!data || !data->cmd)
+		return ;
+	cmd_tmp = data->cmd;
 	mini = setup_exec_data(data);
+	if (count_cmd(data) == 1 && should_run_in_parent(data->cmd))
+	{
+		ft_exec_builtin(data, data->cmd);
+		free(mini.pidarray);
+		return ;
+	}
 	while (cmd_tmp)
 	{
 		if (count == mini.cmd_count - 1)
 			first_or_last_cmd(cmd_tmp, &mini, count, data);
 		else
-			rest_cmd_exec(cmd_tmp, &mini, count);
+			rest_cmd_exec(cmd_tmp, &mini, count, data);
 		count++;
 		cmd_tmp = cmd_tmp->next;
 	}
 	while (++j < mini.cmd_count)
 		waitpid(mini.pidarray[j], NULL, 0);
-	if (mini.fd_transfer)
+	if (mini.fd_transfer >= 0)
 		close(mini.fd_transfer);
 	free(mini.pidarray);
 }
