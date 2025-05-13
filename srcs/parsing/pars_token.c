@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/13 17:32:24 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/13 17:47:23 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,17 @@ void	quote(char *cmd, int *i, t_data *data, char **tmp)
 
 char *get_exp(char *name, t_env *env)
 {
-    while (env)
+	t_env	*tmp;
+
+	tmp = env;
+    while (tmp)
     {
-        if (ft_strncmp(env->env, name, ft_strlen(name)) == 0 && 
-            env->env[ft_strlen(name)] == '=')
+        if (ft_strncmp(tmp->env, name, ft_strlen(name)) == 0 && 
+            tmp->env[ft_strlen(name)] == '=')
         {
-            return ft_strdup(env->env + ft_strlen(name) + 1);
+            return ft_strdup(tmp->env + ft_strlen(name) + 1);
         }
-        env = env->next;
+        tmp = tmp->next;
     }
     return NULL;
 }
@@ -109,6 +112,7 @@ void	t_exp(char *cmd, int *i, t_data *data, char **tmp)
 			free(value);
 			return ;
 		}
+		free(value);
 		free(*tmp);
 		*tmp = joined;
 	}
@@ -123,6 +127,45 @@ void	token_next(t_data *data, char *tmp)
 	}
 }
 
+int	handle_operator(char *cmd, int *i, t_data *data, char **tmp)
+{
+	int	h_d = 0;
+	char	*op;
+
+	if (!ft_strncmp(&cmd[*i], "<<", 2) || !ft_strncmp(&cmd[*i], ">>", 2))
+	{
+		token_next(data, *tmp);
+		free(*tmp);
+		*tmp = NULL;
+		if (!ft_strncmp(&cmd[*i], "<<", 2))
+			h_d = 1;
+		op = ft_substr(cmd, *i, 2);
+		compl_token_list(&data->token, op);
+		free(op);
+		*i += 2;
+	}
+	else if (cmd[*i] == '|' || cmd[*i] == '<' || cmd[*i] == '>')
+	{
+		token_next(data, *tmp);
+		free(*tmp);
+		*tmp = NULL;
+		h_d = 0;
+		op = ft_substr(cmd, *i, 1);
+		compl_token_list(&data->token, op);
+		free(op);
+		(*i)++;
+	}
+	return (h_d);
+}
+
+int	is_operator(char *s)
+{
+	if (!s)
+		return (0);
+	return (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2) ||
+			!ft_strncmp(s, "<", 1) || !ft_strncmp(s, ">", 1) ||
+			!ft_strncmp(s, "|", 1));
+}
 
 void	tokenizer(t_data *data, char *cmd)
 {
@@ -142,26 +185,12 @@ void	tokenizer(t_data *data, char *cmd)
 		else if (cmd[i] == ' ' || cmd[i] == '\t')
 		{
 			token_next(data, tmp);
+			// free(tmp);
 			tmp = NULL;
 			i++;
 		}
-		else if (!ft_strncmp(&cmd[i], "<<", 2) || !ft_strncmp(&cmd[i], ">>", 2))
-		{
-			token_next(data, tmp);
-			tmp = NULL;
-			if (!ft_strncmp(&cmd[i], "<<", 2))
-				in_here_doc = 1;
-			compl_token_list(&data->token, ft_substr(&cmd[i], 0, 2));
-			i += 2;
-		}
-		else if (cmd[i] == '|' || cmd[i] == '<' || cmd[i] == '>')
-		{
-			token_next(data, tmp);
-			tmp = NULL;
-			in_here_doc = 0;
-			compl_token_list(&data->token, ft_substr(&cmd[i], 0, 1));
-			i++;
-		}
+		else if (is_operator(&cmd[i]))
+			in_here_doc = handle_operator(cmd, &i, data, &tmp);
 		else
 		{
 			tmp = append_char(tmp, cmd[i]);
@@ -176,7 +205,6 @@ void	tokenizer(t_data *data, char *cmd)
 		free(tmp);
 	}
 }
-
 
 // void	tokenizer(t_data *data, char *cmd)
 // {
