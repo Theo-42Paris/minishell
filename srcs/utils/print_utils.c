@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 09:18:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/19 15:49:38 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/13 17:01:56 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	print_token(t_token **token)
 	{
 		printf("qui est il: %s\n", current->data);
 		printf("quel type: %d\n", current->token);
-		printf("exp = %d\n", current->exp);
 		printf("------------------------\n");
 		current = current->next;
 	}
