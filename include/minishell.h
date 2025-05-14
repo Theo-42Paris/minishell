@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/14 17:08:57 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/14 19:34:59 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ int					is_builtin(t_cmd *cmd);
 // cmd_exec
 void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
 void				first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
-int					should_run_in_parent(t_cmd *cmd);
 
 // cmd_exec_utils
 int					find_outfile(t_cmd **tmp_cmd);

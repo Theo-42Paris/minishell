@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:39:22 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/02 14:38:25 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/14 20:03:46 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,28 @@
 
 int	has_infile(t_cmd **tmp_cmd)
 {
-	t_cmd	*tmp;
 	t_redir *tmp_r;
 
-	tmp = *tmp_cmd;
-	while(tmp)
+	tmp_r = (*tmp_cmd)->redir;
+	while(tmp_r)
 	{
-		tmp_r = tmp->redir;
-		while(tmp_r)
-		{
-			if (tmp_r->token == REDIR_IN || tmp_r->token == DELIMITER)
-				return (1);
-			tmp_r = tmp_r->next;
-		}
-		tmp = tmp->next;
+		if (tmp_r->token == REDIR_IN || tmp_r->token == DELIMITER)
+			return (1);
+		tmp_r = tmp_r->next;
 	}
 	return (0);
 }
 
 int has_outfile(t_cmd **tmp_cmd)
 {
-	t_cmd	*tmp;
 	t_redir	*tmp_r;
 
-	tmp = *tmp_cmd;
-	while(tmp)
+	tmp_r = (*tmp_cmd)->redir;
+	while(tmp_r)
 	{
-		tmp_r = tmp->redir;
-		while(tmp_r)
-		{
-			if (tmp_r->token == REDIR_OUT || tmp_r->token == APPEND)
-				return (1);
-			tmp_r = tmp_r->next;
-		}
-		tmp = tmp->next;
+		if (tmp_r->token == REDIR_OUT || tmp_r->token == APPEND)
+			return (1);
+		tmp_r = tmp_r->next;
 	}
 	return (0);
 }
@@ -89,7 +77,7 @@ int	find_outfile(t_cmd **tmp_cmd)
 		{
 			if (tmp_r->token == REDIR_OUT || tmp_r->token == APPEND)
 			{
-				if (out < 3)
+				if (out >= 0)
 					close(out);
 				out = open_out(tmp_r);
 			}
@@ -144,7 +132,7 @@ int	find_infile(t_cmd **tmp_cmd)
 		{
 			if (tmp_r->token == REDIR_IN || tmp_r->token == DELIMITER)
 			{
-				if (in < 3)
+				if (in >= 0)
 					close(in);
 				in = open_in(tmp_r);
 			}
