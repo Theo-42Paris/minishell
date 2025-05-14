@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 16:09:17 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/13 12:51:53 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*safe_dup(t_token *current, t_token *prev, t_env **env)
+char	*safe_dup(t_token *current, t_token *prev, t_env **env, t_data *data)
 {
 	char	*tmp;
 
 	if ((current->token == WORD && current->exp == 1)
 		&& (!prev || !is_delimiteur(prev->token)))
 	{
-		tmp = expandables(current->data, env);
+		tmp = expandables(current->data, env, data);
 		if (!tmp)
 			return (NULL);
 		return (tmp);
@@ -40,7 +40,7 @@ void	first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd)
 	}
 }
 
-void	get_cmd(t_token *token, t_cmd **cmd, t_env **env)
+void	get_cmd(t_token *token, t_cmd **cmd, t_env **env, t_data *data)
 {
 	t_token	*current;
 	t_token	*prev;
@@ -56,22 +56,22 @@ void	get_cmd(t_token *token, t_cmd **cmd, t_env **env)
 		first_if_cmd(&current, &prev, cmd);
 		if (current && current->token == WORD &&
 			(!prev || !is_delimiteur(prev->token)))
-			(*cmd)->args[i++] = safe_dup(current, prev, env);
+			(*cmd)->args[i++] = safe_dup(current, prev, env, data);
 		prev = current;
 		current = current->next;
 	}
 	(*cmd)->args[i] = NULL;
-	get_cmd_2(current, cmd, env);
+	get_cmd_2(current, cmd, env, data);
 }
 
-void	get_cmd_2(t_token *current, t_cmd **cmd, t_env **env)
+void	get_cmd_2(t_token *current, t_cmd **cmd, t_env **env, t_data *data)
 {
 	if (current && current->token == PIPE)
 		current = current->next;
 	if (current)
 	{
 		fill_cmd(&((*cmd)->next), current);
-		get_cmd(current, &((*cmd)->next), env);
+		get_cmd(current, &((*cmd)->next), env, data);
 	}
 }
 

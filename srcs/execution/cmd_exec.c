@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/12 17:05:45 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/13 13:06:39 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 			dup2(out, STDOUT_FILENO);
 			close(out);
 		}
-		ft_exec_builtin(data, tmp_cmd);
+		data->exit_code = ft_exec_builtin(data, tmp_cmd);
 		if (stdin_backup >= 0)
 		{
 			dup2(stdin_backup, STDIN_FILENO);
@@ -88,6 +88,7 @@ void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	{
 		redir_last(in, out, mini);
 		exec(mini, tmp_cmd, data);
+		data->exit_code = 1;
 		exit(1);
 	}
 	else
@@ -149,6 +150,7 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	{
 		redir_rest(in, out, mini, pipe_fd);
 		exec(mini, tmp_cmd, data);
+		data->exit_code = 1;
 		exit(1);
 	}
 	else
@@ -159,8 +161,8 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 			close(out);
 		if (in >= 0)
 			close(in);
-		close(pipe_fd[1]);      
-		mini->fd_transfer = pipe_fd[0]; 
+		close(pipe_fd[1]);
+		mini->fd_transfer = pipe_fd[0];
 	}
 }
 

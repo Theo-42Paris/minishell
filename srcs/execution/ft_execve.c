@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:31:37 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/02 13:49:02 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/13 12:55:33 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,13 @@ char	*get_path(char *cmd, t_env *env)
 	char	*full_path;
 
 	i = 0;
+	if (!cmd || cmd[0] == '\0')
+		return (NULL);
+	if (ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
 	first_path = find_path_exec(env);
+	if (!first_path)
+		return (NULL);
 	new_path = ft_split(first_path, ':');
 	if (!new_path)
 		return (NULL);
@@ -83,9 +89,18 @@ char	**env_for_exec(t_env *env)
 		tmp1 = tmp1->next;
 	}
 	prep_env = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!prep_env)
+		return (NULL);
 	while (tmp2)
 	{
 		prep_env[i] = ft_strdup(tmp2->env);
+		if (!prep_env[i])
+		{
+			while (--i >= 0)
+				free(prep_env[i]);
+			free(prep_env);
+			return (NULL);
+		}
 		i++;
 		tmp2 = tmp2->next;
 	}
@@ -93,41 +108,72 @@ char	**env_for_exec(t_env *env)
 	return (prep_env);
 }
 
-void	do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_env *env)
+void	do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_env *env, t_data *data)
 {
 	char	**exec_env;
-	
+
 	exec_env = env_for_exec(env);
+	if (!exec_env)
+	{
+		free(mini->pidarray);
+		free(path);
+		ft_putstr_fd("malloc error: environment setup failed\n", 2);
+		data->exit_code = 1;
+		exit(1);
+	}
 	if (execve(path, tmp_cmd->args, exec_env) == -1)
 	{
 		free(mini->pidarray);
-		perror(tmp_cmd->args[0]);
+		free_str(exec_env);
 		free(path);
-		exit(126);
+		perror(tmp_cmd->args[0]);
+		if (access(path, F_OK) == -1)
+		{
+			data->exit_code = 127;
+			exit(127);
+		}
+		else
+		{
+			data->exit_code = 126;
+			exit(126);
+		}
 	}
 }
 
-void    exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
+void	exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
 {
-	char	*path;
-	
-	if (child_builtin(data->cmd))
+	char *path = NULL;
+
+	if (is_builtin(tmp_cmd))
 	{
-		ft_exec_builtin(data, data->cmd);
-		exit (1);
+		int ret = ft_exec_builtin(data, tmp_cmd);
+		free(mini->pidarray);
+		data->exit_code = ret;
+		exit(ret);
 	}
-	if (access(tmp_cmd->args[0], F_OK) == 0)
-		path = tmp_cmd->args[0];
+	if (!tmp_cmd->args[0] || tmp_cmd->args[0][0] == '\0')
+	{
+		free(mini->pidarray);
+		ft_putstr_fd("command not found: ", 2);
+		ft_putendl_fd("", 2);
+		data->exit_code = 127;
+		exit(127);
+	}
+	if (ft_strchr(tmp_cmd->args[0], '/'))
+	{
+		path = ft_strdup(tmp_cmd->args[0]);
+	}
 	else
 	{
-		path = get_path(tmp_cmd->args[0], (*data).env);
+		path = get_path(tmp_cmd->args[0], data->env);
 		if (!path)
 		{
 			free(mini->pidarray);
 			ft_putstr_fd("command not found: ", 2);
 			ft_putendl_fd(tmp_cmd->args[0], 2);
+			data->exit_code = 127;
 			exit(127);
 		}
 	}
-	do_execve_bonus(mini, tmp_cmd, path, (*data).env);
+	do_execve_bonus(mini, tmp_cmd, path, data->env, data);
 }

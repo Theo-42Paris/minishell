@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/21 16:05:23 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:41:44 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,25 @@ char	*find_path(t_env **env, char *tmp)
 	return (NULL);
 }
 
-int	handle_variable_i(char *src, int i, t_env **env, char **result)
+int	handle_variable_i(char *src, int i, t_env **env, char **result,
+		t_data *data)
 {
 	int		var_start;
 	char	*tmp;
 	char	*env_find;
+	char	*exit_str;
 
 	if (src[i] == '?')
 	{
-		printf("pas encore gerer");
+		exit_str = ft_itoa(data->exit_code);
+		if (!exit_str)
+			return (i + 1);
+		*result = safe_strjoin(*result, exit_str);
+		free(exit_str);
 		return (i + 1);
 	}
 	var_start = i;
-	while (src[i] && src[i] != ' ' && src[i] != '\t' && src[i] != '$' && ft_isalnum(src[i]))
+	while (src[i] && (ft_isalnum(src[i]) || src[i] == '_'))
 		i++;
 	tmp = ft_substr(src, var_start, i - var_start);
 	env_find = find_path(env, tmp);
@@ -74,7 +80,7 @@ int	handle_variable_i(char *src, int i, t_env **env, char **result)
 	return (i);
 }
 
-char	*expandables(char *src, t_env **env)
+char	*expandables(char *src, t_env **env, t_data *data)
 {
 	int		i;
 	int		start;
@@ -90,7 +96,7 @@ char	*expandables(char *src, t_env **env)
 		if (src[i] == '$')
 		{
 			result = append_result(result, src, start, i);
-			i = handle_variable_i(src, i + 1, env, &result);
+			i = handle_variable_i(src, i + 1, env, &result, data);
 			start = i;
 		}
 		else

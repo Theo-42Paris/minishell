@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:36 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/14 13:48:17 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	exec_mini(t_data *data)
 	int		count;
 	int		j;
 
+	int status;
 	count = 0;
 	j = -1;
 	if (!data || !data->cmd)
@@ -57,7 +58,7 @@ void	exec_mini(t_data *data)
 	mini = setup_exec_data(data);
 	if (count_cmd(data) == 1 && should_run_in_parent(data->cmd))
 	{
-		ft_exec_builtin(data, data->cmd);
+		data->exit_code = ft_exec_builtin(data, data->cmd);
 		free(mini.pidarray);
 		return ;
 	}
@@ -71,7 +72,15 @@ void	exec_mini(t_data *data)
 		cmd_tmp = cmd_tmp->next;
 	}
 	while (++j < mini.cmd_count)
-		waitpid(mini.pidarray[j], NULL, 0);
+	{
+		if (waitpid(mini.pidarray[j], &status, 0) > 0)
+		{
+			if (WIFEXITED(status))
+				data->exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				data->exit_code = 128 + WTERMSIG(status);
+		}
+	}
 	if (mini.fd_transfer >= 0)
 		close(mini.fd_transfer);
 	free(mini.pidarray);

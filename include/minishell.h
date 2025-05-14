@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/12 17:07:22 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/13 12:56:19 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_data
 	t_cmd	*cmd;
 	t_env	*env;
 	int		signal;
+	int		exit_code;
 }			t_data;
 
 /*** PARSING ***/
@@ -116,8 +117,8 @@ void				fill_env(char *envp, t_env **env);
 void				get_env(t_env **env, char **envp);
 // pars_cmd
 void				first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd);
-void				get_cmd(t_token *token, t_cmd **cmd, t_env **env);
-void				get_cmd_2(t_token *current, t_cmd **cmd, t_env **env);
+void				get_cmd(t_token *token, t_cmd **cmd, t_env **env, t_data *data);
+void				get_cmd_2(t_token *current, t_cmd **cmd, t_env **env, t_data *data);
 // pars_cmd_2
 int					get_args_nb(t_token *token);
 t_cmd				*last_cmd(t_cmd *cmd);
@@ -127,11 +128,11 @@ void				fill_cmd(t_cmd **cmd, t_token *current);
 t_redir				*last_redir(t_redir *redir);
 void				fill_redir(t_redir **redir, t_token *current);
 // expand
-char				*expandables(char *src, t_env **env);
+char				*expandables(char *src, t_env **env, t_data *data);
 char				*safe_strjoin(char *s1, const char *s2);
 char				*append_result(char *result, char *src, int start, int end);
 // here_doc
-void				handle_here_doc(t_cmd *cmd, t_env **env);
+void	handle_here_doc(t_cmd *cmd, t_env **env, t_data *data);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);
@@ -182,6 +183,7 @@ int					ft_cd(t_env *env, t_cmd *cmd);
 void                exec_mini(t_data *data);
 t_exec				setup_exec_data(t_data *data);
 int					count_cmd(t_data *data);
+int					is_builtin(t_cmd *cmd);
 
 // cmd_exec
 void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
@@ -203,8 +205,7 @@ void				redir_rest(int in, int out, t_exec *mini, int *pipe_fd);
 
 // execve
 void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);
-void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_env *env);
-char				*get_path(char *cmd, t_env *env);
+void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_env *env, t_data *data);
 char				*concat_path(char *path, char *cmd);
 char				*find_path_exec(t_env *env);
 

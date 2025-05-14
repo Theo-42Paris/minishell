@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/13 17:01:14 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:06:42 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ int	main(int argc, char **argv, char **envp)
 			free(good_line);
 			continue ;
 		}
-		// get_cmd((*data).token, &(*data).cmd, &(*data).env);
-		// handle_here_doc((*data).cmd, &(*data).env);
-		// exec_mini(data);
-		print_token(&(*data).token);
+		get_cmd((*data).token, &(*data).cmd, &(*data).env, data);
+		handle_here_doc((*data).cmd, &(*data).env, data);
+		exec_mini(data);
+		printf("%d\n", data->exit_code);
+		// print_token(&(*data).token);
 		// print_cmd(&(*data).cmd);
 		// waitpid();
 		// ft_reset_cmd();
