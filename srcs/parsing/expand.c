@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:56:16 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/14 13:41:44 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/14 14:58:00 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	handle_variable_i(char *src, int i, t_env **env, char **result,
 	free(tmp);
 	return (i);
 }
+
 
 char	*expandables(char *src, t_env **env, t_data *data)
 {

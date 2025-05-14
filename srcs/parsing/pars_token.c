@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/13 17:47:23 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:56:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char *get_exp(char *name, t_env *env)
     return NULL;
 }
 
-void	t_exp(char *cmd, int *i, t_data *data, char **tmp)
+void	 t_exp(char *cmd, int *i, t_data *data, char **tmp)
 {
 	int		start;
 	int		end;
@@ -83,6 +83,19 @@ void	t_exp(char *cmd, int *i, t_data *data, char **tmp)
 	char	*value;
 
 	start = ++(*i);
+	if (cmd[start] == '?')
+	{
+		char *value = ft_itoa(data->exit_code);
+		(*i)++;
+		if (*tmp)
+			joined = ft_strjoin(*tmp, value);
+		else
+			joined = ft_strdup(value);
+		free(value);
+		free(*tmp);
+		*tmp = joined;
+		return ;
+	}
 	end = start;
 	while (cmd[end] && (ft_isalnum(cmd[end]) || cmd[end] == '_'))
 		end++;
@@ -205,6 +218,7 @@ void	tokenizer(t_data *data, char *cmd)
 		free(tmp);
 	}
 }
+
 
 // void	tokenizer(t_data *data, char *cmd)
 // {
