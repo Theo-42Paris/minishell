@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/14 14:44:35 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/14 17:11:35 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	init_data(t_data **data)
 	(*data)->signal = 0;
 }
 
+t_data *ctrl_c_signal = NULL;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
@@ -39,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);// ctrl-\"
 	//data = malloc(sizeof(t_data));
 	init_data(&data);
+	ctrl_c_signal = data;
 	get_env(&(*data).env, envp);
 	// print_env(&(*data).env);
 	while (1)
@@ -64,6 +67,11 @@ int	main(int argc, char **argv, char **envp)
 		}
 		get_cmd((*data).token, &(*data).cmd, &(*data).env, data);
 		handle_here_doc((*data).cmd, &(*data).env, data);
+		if (data->signal == 130)
+		{
+			data->signal = 0;
+			continue;
+		}
 		exec_mini(data);
 		// print_token(&(*data).token);
 		// print_cmd(&(*data).cmd);

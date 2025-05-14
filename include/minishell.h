@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/13 12:56:19 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/14 17:08:57 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_data
 	int		exit_code;
 }			t_data;
 
+extern t_data *ctrl_c_signal;
+
 /*** PARSING ***/
 char				*append_char(char *word, char c);
 // void				first_if_token(char *c, int *in_quote, int *exp, char *quote_char);
@@ -132,7 +134,7 @@ char				*expandables(char *src, t_env **env, t_data *data);
 char				*safe_strjoin(char *s1, const char *s2);
 char				*append_result(char *result, char *src, int start, int end);
 // here_doc
-void	handle_here_doc(t_cmd *cmd, t_env **env, t_data *data);
+void				handle_here_doc(t_cmd *cmd, t_env **env, t_data *data);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);

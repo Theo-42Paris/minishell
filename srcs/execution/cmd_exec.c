@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/13 13:06:39 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/14 16:53:59 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// ? count sert a : "mini.pidarray[count] = fork()"
 void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 {
 	int	in;
 	int	out;
 	int	stdin_backup;
 	int	stdout_backup;
-
+	
 	in = -1;
 	out = -1;
 	if (has_infile(&tmp_cmd))
@@ -38,7 +37,7 @@ void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 			return ;
 		}
 	}
-	if (count == mini->cmd_count - 1 && should_run_in_parent(tmp_cmd))
+	if (count == mini->cmd_count - 1 && parent_builtin(tmp_cmd))
 	{
 		stdin_backup = -1;
 		stdout_backup = -1;
