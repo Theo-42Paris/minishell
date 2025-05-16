@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/16 10:53:21 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/16 16:33:48 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_data(t_data **data)
 	(*data)->env = NULL;
 	(*data)->token = NULL;
 	(*data)->signal = 0;
+	(*data)->exit_code = 0;
 }
 
 t_data *ctrl_c_signal = NULL;
@@ -39,7 +40,6 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	signal(SIGINT, handle_sig_c);// ctrl-C
 	signal(SIGQUIT, SIG_IGN);// ctrl-\"
-	//data = malloc(sizeof(t_data));
 	init_data(&data);
 	ctrl_c_signal = data;
 	get_env(&(*data).env, envp);
@@ -66,10 +66,12 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		get_cmd((*data).token, &(*data).cmd, &(*data).env, data);
-		handle_here_doc((*data).cmd, &(*data).env, data);
-		if (data->signal == 130)
+		handle_here_doc((*data).cmd, data);
+		if (data->signal == 1)
 		{
 			data->signal = 0;
+			data->exit_code = 130;
+			free_all(&(*data), line, good_line);
 			continue;
 		}
 		exec_mini(data);
@@ -79,6 +81,7 @@ int	main(int argc, char **argv, char **envp)
 		// ft_reset_cmd();
 		free_all(&(*data), line, good_line);
 	}
+	free(data->env);
 	free(data);
 	rl_clear_history();
 	return (0);

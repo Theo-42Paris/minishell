@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/14 19:10:50 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/16 16:44:07 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ void	exec_mini(t_data *data)
 	t_cmd	*cmd_tmp;
 	int		count;
 	int		j;
+	int 	status;
 
-	int status;
 	count = 0;
 	j = -1;
+	status = 0;
 	if (!data || !data->cmd)
 		return ;
 	cmd_tmp = data->cmd;
@@ -73,7 +74,7 @@ void	exec_mini(t_data *data)
 	}
 	while (++j < mini.cmd_count)
 	{
-		if (waitpid(mini.pidarray[j], &status, 0) > 0)
+		if (mini.pidarray[j] > 0 && waitpid(mini.pidarray[j], &status, 0) > 0)
 		{
 			if (WIFEXITED(status))
 				data->exit_code = WEXITSTATUS(status);

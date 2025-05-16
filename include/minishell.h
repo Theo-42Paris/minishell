@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/16 10:30:54 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:27:43 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char				*expandables(char *src, t_env **env, t_data *data);
 char				*safe_strjoin(char *s1, const char *s2);
 char				*append_result(char *result, char *src, int start, int end);
 // here_doc
-void				handle_here_doc(t_cmd *cmd, t_env **env, t_data *data);
+void				handle_here_doc(t_cmd *cmd, t_data *data);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);

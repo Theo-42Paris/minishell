@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:32:28 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/02 11:26:53 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:22:59 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_exit(t_data *data, t_cmd *cmd)
 	}
 	write(1, "exit\n", 5);
 	if (ft_count_args(cmd) == 1)
-		exit(data->signal);
+		exit(data->exit_code);
 	if (!ft_isnumber(cmd->args[1]))
 	{
 		write(2, "minishell: exit: numeric argument required\n", 43);

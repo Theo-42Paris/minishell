@@ -16,20 +16,17 @@ void	free_env(t_env **env)
 	*env = NULL;
 }
 
-void	free_token(t_token **token)
+void free_token(t_token **token)
 {
-	t_token	*tmp;
-
-	if (!token)
-		return ;
-	while (*token)
-	{
-		tmp = (*token)->next;
-		free((*token)->data);
-		free(*token);
-		*token = tmp;
-	}
-	*token = NULL;
+    t_token *tmp;
+    while (*token)
+    {
+        tmp = (*token)->next;
+        if ((*token)->data)
+            free((*token)->data);
+        free(*token);
+        *token = tmp;
+    }
 }
 
 void	free_redir(t_redir **redir)
@@ -68,7 +65,7 @@ void	free_cmd(t_cmd **cmd)
 			}
 			free((*cmd)->args);
 		}
-		// free((*cmd)->cmd);
+		//free((*cmd)->cmd);
 		free_redir(&((*cmd)->redir));
 		free(*cmd);
 		*cmd = tmp;

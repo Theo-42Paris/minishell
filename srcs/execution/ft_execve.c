@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:31:37 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/13 12:55:33 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:53:04 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,16 +125,17 @@ void	do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_env *env, t_dat
 	{
 		free(mini->pidarray);
 		free_str(exec_env);
-		free(path);
 		perror(tmp_cmd->args[0]);
 		if (access(path, F_OK) == -1)
 		{
 			data->exit_code = 127;
+			free(path);
 			exit(127);
 		}
 		else
 		{
 			data->exit_code = 126;
+			free(path);
 			exit(126);
 		}
 	}
@@ -159,10 +160,8 @@ void	exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
 		data->exit_code = 127;
 		exit(127);
 	}
-	if (ft_strchr(tmp_cmd->args[0], '/'))
-	{
+	if (ft_strchr(tmp_cmd->args[0], '/')) // ?? chemin relatif/absolu
 		path = ft_strdup(tmp_cmd->args[0]);
-	}
 	else
 	{
 		path = get_path(tmp_cmd->args[0], data->env);
