@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/14 14:44:21 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/16 11:05:41 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	make_here_doc(char *limiteur, int *fd, t_env **env, t_data *data)
 {
 	char	*line;
 	char	*good_line;
+	int		pipe_fd[2];
 
 	while (1)
 	{

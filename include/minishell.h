@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/14 19:34:59 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/16 10:30:54 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void				handle_here_doc(t_cmd *cmd, t_env **env, t_data *data);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);
-int					is_redir_delim(char c);
+// int					is_redir_delim(char c);
 void				free_str(char **str);
 
 // print_utils

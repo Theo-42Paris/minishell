@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/13 12:51:53 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/16 10:32:30 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*safe_dup(t_token *current, t_token *prev, t_env **env, t_data *data)
-{
-	char	*tmp;
+// char	*safe_dup(t_token *current, t_token *prev, t_env **env, t_data *data)
+// {
+// 	char	*tmp;
 
-	if ((current->token == WORD && current->exp == 1)
-		&& (!prev || !is_delimiteur(prev->token)))
-	{
-		tmp = expandables(current->data, env, data);
-		if (!tmp)
-			return (NULL);
-		return (tmp);
-	}
-	else
-		return (ft_strdup(current->data));
-}
+// 	if ((current->token == WORD && current->exp == 1)
+// 		&& (!prev || !is_delimiteur(prev->token)))
+// 	{
+// 		tmp = expandables(current->data, env, data);
+// 		if (!tmp)
+// 			return (NULL);
+// 		return (tmp);
+// 	}
+// 	else
+// 		return (ft_strdup(current->data));
+// }
 
 void	first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd)
 {
@@ -56,7 +56,7 @@ void	get_cmd(t_token *token, t_cmd **cmd, t_env **env, t_data *data)
 		first_if_cmd(&current, &prev, cmd);
 		if (current && current->token == WORD &&
 			(!prev || !is_delimiteur(prev->token)))
-			(*cmd)->args[i++] = safe_dup(current, prev, env, data);
+			(*cmd)->args[i++] = ft_strdup(current->data);//safe_dup(current, prev, env, data);
 		prev = current;
 		current = current->next;
 	}
