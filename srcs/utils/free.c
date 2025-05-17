@@ -73,10 +73,12 @@ void	free_cmd(t_cmd **cmd)
 	*cmd = NULL;
 }
 
-void	free_all(t_data *data, char *line, char *good_line)
+void	free_all(t_data *data)
 {
-	free(line);
-	free(good_line);
+	free(data->line);
+	free(data->good_line);
+	data->line = 0;
+	data->good_line = 0;
 	free_token(&data->token);
 	free_cmd(&data->cmd);
 }

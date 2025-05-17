@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/16 16:00:34 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 16:20:30 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,10 @@ void	make_here_doc(char *limiteur, int *fd, t_data *data)
 		close(pipe_fd[0]);
 		read_here_doc(data, limiteur, &pipe_fd[1]);
 		close(pipe_fd[1]);
+		free_all(data);
+		free_env(&data->env);
+		free(data);
+		rl_clear_history();
 		exit(0);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:08:09 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/28 09:47:47 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 10:40:21 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	fill_env(char *envp, t_env **env)
 	if (!new)
 		return ;
 	new->env = ft_strdup(envp);
+	if (!new->env)
+	{
+		free(new);
+		return ;
+	}
 	new->next = NULL;
 	if (env)
 	{

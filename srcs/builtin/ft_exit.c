@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:32:28 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/16 12:22:59 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 17:55:18 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_count_args(t_cmd *cmd)
 	return (i);
 }
 
-int	ft_exit(t_data *data, t_cmd *cmd)
+int	ft_exit(t_data *data, t_cmd *cmd, t_exec *mini)
 {
 	long	exit_code;
 
@@ -60,14 +60,28 @@ int	ft_exit(t_data *data, t_cmd *cmd)
 	}
 	write(1, "exit\n", 5);
 	if (ft_count_args(cmd) == 1)
+	{
+		free_all(data);
+		free_env(&data->env);
+		free(mini->pidarray);
+		rl_clear_history();
 		exit(data->exit_code);
+	}
 	if (!ft_isnumber(cmd->args[1]))
 	{
 		write(2, "minishell: exit: numeric argument required\n", 43);
-		// ft_free_all(data);
+		free_all(data);
+		free_env(&data->env);
+		free(mini->pidarray);
+		free(data);
+		rl_clear_history();
 		exit(2);
 	}
 	exit_code = ft_atoll(cmd->args[1]) % 256; 
-	// ft_free_all(data);
+	free_all(data);
+	free_env(&data->env);
+	free(mini->pidarray);
+	free(data);
+	rl_clear_history();
 	exit(exit_code);
 }

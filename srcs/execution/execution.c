@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/16 16:44:07 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 17:51:28 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_exec	setup_exec_data(t_data *data)
 
 	tmp.cmd_count = count_cmd(data);
 	tmp.fd_transfer = -1;
-	tmp.pidarray = malloc(sizeof(pid_t) * tmp.cmd_count);
+	tmp.pidarray = malloc(sizeof(pid_t) * tmp.cmd_count); // ! prblm free quand exit
 	if (!tmp.pidarray)
 		perror("malloc");
 	return (tmp);
@@ -59,7 +59,7 @@ void	exec_mini(t_data *data)
 	mini = setup_exec_data(data);
 	if (mini.cmd_count == 1 && parent_builtin(data->cmd))
 	{
-		data->exit_code = ft_exec_builtin(data, data->cmd);
+		data->exit_code = ft_exec_builtin(data, data->cmd, &mini); // !!!!!!!!!!!
 		free(mini.pidarray);
 		return ;
 	}

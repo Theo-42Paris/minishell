@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:26:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/14 16:07:16 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 17:51:57 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_env(t_env *env)
 	return (0);
 }
 
-int	ft_exec_builtin(t_data *data, t_cmd *cmd)
+int	ft_exec_builtin(t_data *data, t_cmd *cmd, t_exec *mini)
 {
 	if (!data || !cmd || !cmd->args)
 		return (1);
@@ -95,6 +95,6 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strcmp(cmd->args[0], "unset") == 0)
 		return (ft_unset(cmd->args, &data->env));
 	if (ft_strcmp(cmd->args[0], "exit") == 0)
-		return (ft_exit(data, cmd));
+		return (ft_exit(data, cmd, mini));
 	return (1);
 }

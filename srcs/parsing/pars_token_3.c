@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 12:01:27 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/16 16:24:37 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 10:30:03 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ t_token	*new_token(char *src)
 	if (!tmp)
 		return (NULL);
 	tmp->data = ft_strdup(src);
+	if (!tmp->data)
+	{
+		free(tmp);
+		return (NULL);
+	}
 	tmp->token = check_type(tmp->data);
 	tmp->next = NULL;
 	return (tmp);

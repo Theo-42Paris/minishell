@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/16 12:27:43 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 17:53:50 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_data
 	t_token	*token;
 	t_cmd	*cmd;
 	t_env	*env;
+	char	*line;
+	char	*good_line;
 	int		signal;
 	int		exit_code;
 }			t_data;
@@ -119,8 +121,8 @@ void				fill_env(char *envp, t_env **env);
 void				get_env(t_env **env, char **envp);
 // pars_cmd
 void				first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd);
-void				get_cmd(t_token *token, t_cmd **cmd, t_env **env, t_data *data);
-void				get_cmd_2(t_token *current, t_cmd **cmd, t_env **env, t_data *data);
+void				get_cmd(t_token *token, t_cmd **cmd, t_data *data);
+void				get_cmd_2(t_token *current, t_cmd **cmd, t_data *data);
 // pars_cmd_2
 int					get_args_nb(t_token *token);
 t_cmd				*last_cmd(t_cmd *cmd);
@@ -153,7 +155,7 @@ void				free_token(t_token **token);
 void				free_redir(t_redir **redir);
 void				free_cmd(t_cmd **cmd);
 void				free_env(t_env **env);
-void				free_all(t_data *data, char *line, char *good_line);
+void				free_all(t_data *data);
 
 /*** SIGNAL ***/
 void				handle_sig_c(int signals);
@@ -164,8 +166,8 @@ int					ft_pwd(t_cmd *cmd);
 int					child_builtin(t_cmd *cmd);
 int					parent_builtin(t_cmd *cmd);
 int                 ft_is_option(char *str);
-int					ft_exec_builtin(t_data *data, t_cmd *cmd);
-int                 ft_exit(t_data *data, t_cmd *cmd);
+int					ft_exec_builtin(t_data *data, t_cmd *cmd, t_exec *mini);
+int                 ft_exit(t_data *data, t_cmd *cmd, t_exec *mini);
 int					ft_export(char **args, t_env **env_ptr);
 void				print_export_error(const char *arg);
 int					is_valid_identifier(const char *arg);
@@ -206,7 +208,7 @@ void				redir_rest(int in, int out, t_exec *mini, int *pipe_fd);
 
 // execve
 void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);
-void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_env *env, t_data *data);
+void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_data *data);
 char				*concat_path(char *path, char *cmd);
 char				*find_path_exec(t_env *env);
 

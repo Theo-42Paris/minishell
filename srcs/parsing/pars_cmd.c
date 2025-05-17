@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/16 10:32:30 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 10:47:11 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd)
 	}
 }
 
-void	get_cmd(t_token *token, t_cmd **cmd, t_env **env, t_data *data)
+void	get_cmd(t_token *token, t_cmd **cmd, t_data *data)
 {
 	t_token	*current;
 	t_token	*prev;
@@ -61,17 +61,17 @@ void	get_cmd(t_token *token, t_cmd **cmd, t_env **env, t_data *data)
 		current = current->next;
 	}
 	(*cmd)->args[i] = NULL;
-	get_cmd_2(current, cmd, env, data);
+	get_cmd_2(current, cmd, data);
 }
 
-void	get_cmd_2(t_token *current, t_cmd **cmd, t_env **env, t_data *data)
+void	get_cmd_2(t_token *current, t_cmd **cmd, t_data *data)
 {
 	if (current && current->token == PIPE)
 		current = current->next;
 	if (current)
 	{
 		fill_cmd(&((*cmd)->next), current);
-		get_cmd(current, &((*cmd)->next), env, data);
+		get_cmd(current, &((*cmd)->next), data);
 	}
 }
 

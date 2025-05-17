@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/16 16:26:38 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 10:39:05 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,6 @@ void	tokenizer(t_data *data, char *cmd)
 		else if (cmd[i] == ' ' || cmd[i] == '\t')
 		{
 			token_next(data, tmp);
-			//free(tmp);
 			tmp = NULL;
 			i++;
 		}

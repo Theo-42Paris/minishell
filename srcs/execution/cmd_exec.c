@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/14 19:34:10 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 17:54:13 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 			dup2(out, STDOUT_FILENO);
 			close(out);
 		}
-		data->exit_code = ft_exec_builtin(data, tmp_cmd);
+		data->exit_code = ft_exec_builtin(data, tmp_cmd, mini);
 		if (stdin_backup >= 0)
 		{
 			dup2(stdin_backup, STDIN_FILENO);
@@ -88,6 +88,10 @@ void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		redir_last(in, out, mini);
 		exec(mini, tmp_cmd, data);
 		data->exit_code = 1;
+		free_all(data);
+		free_env(&data->env);
+		free(data);
+		rl_clear_history();
 		exit(1);
 	}
 	else
@@ -150,6 +154,10 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		redir_rest(in, out, mini, pipe_fd);
 		exec(mini, tmp_cmd, data);
 		data->exit_code = 1;
+		free_all(data);
+		free_env(&data->env);
+		free(data);
+		rl_clear_history();
 		exit(1);
 	}
 	else
@@ -165,7 +173,3 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	}
 }
 
-// void	last_cmd_exec(void)
-// {
-
-// }

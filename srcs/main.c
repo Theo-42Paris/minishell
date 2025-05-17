@@ -6,24 +6,23 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/16 16:33:48 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/17 16:31:54 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// !! attention car s'il y a un chiffre apres le $, il ne sera pas oris en compte mais par contre s'il y en a + c'est cuit
+// ?? probleme si ligne vide, ' ' ou '\t', problemem avec certains builtin : echo, pwd, env, exit
 
 void	init_data(t_data **data)
 {
 	(*data) = malloc(sizeof(t_data));
 	if (!(*data))
+	{
+		rl_clear_history();
 		exit (1);
-	(*data)->cmd = NULL;
-	(*data)->env = NULL;
-	(*data)->token = NULL;
-	(*data)->signal = 0;
-	(*data)->exit_code = 0;
+	}
+	ft_bzero(*data, sizeof(t_data));
 }
 
 t_data *ctrl_c_signal = NULL;
@@ -43,14 +42,12 @@ int	main(int argc, char **argv, char **envp)
 	init_data(&data);
 	ctrl_c_signal = data;
 	get_env(&(*data).env, envp);
-	// print_env(&(*data).env);
 	while (1)
 	{
 		line = readline(G "minishell> " RST);
 		if (!line)
 		{
-			free_env(&(*data).env);
-			free_all(&(*data), NULL, NULL);
+			free_all(&(*data));
 			printf("exit\n");
 			break ;
 		}
@@ -60,18 +57,18 @@ int	main(int argc, char **argv, char **envp)
 		tokenizer(data, good_line);
 		if (!check_syntax(&(*data).token))
 		{
-			free_token(&(*data).token);
-			free(line);
-			free(good_line);
+			free_all(data);
 			continue ;
 		}
-		get_cmd((*data).token, &(*data).cmd, &(*data).env, data);
+		data->line = line;
+		data->good_line = good_line;
+		get_cmd((*data).token, &(*data).cmd, data);
 		handle_here_doc((*data).cmd, data);
 		if (data->signal == 1)
 		{
 			data->signal = 0;
 			data->exit_code = 130;
-			free_all(&(*data), line, good_line);
+			free_all(&(*data));
 			continue;
 		}
 		exec_mini(data);
@@ -79,9 +76,9 @@ int	main(int argc, char **argv, char **envp)
 		// print_cmd(&(*data).cmd);
 		// waitpid();
 		// ft_reset_cmd();
-		free_all(&(*data), line, good_line);
+		free_all(&(*data));
 	}
-	free(data->env);
+	free_env(&data->env);
 	free(data);
 	rl_clear_history();
 	return (0);
