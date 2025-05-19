@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:31:37 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/17 17:52:43 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/19 13:30:29 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void	exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
 		data->exit_code = ret;
 		free_all(data);
 		free_env(&data->env);
+		free(data);
 		rl_clear_history();
 		exit(ret);
 	}
