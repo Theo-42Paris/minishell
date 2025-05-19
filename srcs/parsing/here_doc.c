@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/17 16:20:30 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/19 11:26:52 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,13 @@ void	make_here_doc(char *limiteur, int *fd, t_data *data)
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		perror("fork fail");
+		return ;
 	}
 	else if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		ctrl_c_signal = data;
+		ctrl_c_signal->fd_hd = pipe_fd[1];
+		signal(SIGINT, sig_c_child_hd);
 		signal(SIGQUIT, SIG_IGN);
 		close(pipe_fd[0]);
 		read_here_doc(data, limiteur, &pipe_fd[1]);
@@ -120,7 +123,9 @@ void	handle_here_doc(t_cmd *cmd, t_data *data)
 		while (tmp_r)
 		{
 			if (tmp_r->token == DELIMITER)
+			{
 				make_here_doc(tmp_r->arg, &tmp_r->fd_here_doc, data);
+			}
 			tmp_r = tmp_r->next;
 		}
 		tmp = tmp->next;

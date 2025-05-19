@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/17 17:53:50 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/19 11:26:32 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_data
 	t_env	*env;
 	char	*line;
 	char	*good_line;
+	int		fd_hd;
 	int		signal;
 	int		exit_code;
 }			t_data;
@@ -159,6 +160,7 @@ void				free_all(t_data *data);
 
 /*** SIGNAL ***/
 void				handle_sig_c(int signals);
+void				sig_c_child_hd(int signals);
 
 /*** BUILTIN ***/
 int                 ft_echo(t_cmd *cmd);
