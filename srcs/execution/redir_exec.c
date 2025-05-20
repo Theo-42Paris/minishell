@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/14 19:13:49 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:37:27 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	redir_rest(int in, int out, t_exec *mini, int *pipe_fd)
 	}
 	if (out >= 0)
 	{
-		//printf("la\n"); //!!!!!!!!!!!!!!!!1
 		dup2(out, STDOUT_FILENO);
 		close(out);
 		close(pipe_fd[1]);

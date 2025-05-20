@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/19 11:26:52 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:04:05 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,27 @@ int	exp_in_hd(char *line)
 	return (0);
 }
 
-void	print_heredoc(char *line, int *fd)
+// void	print_heredoc(char *line, int *fd)
+// {
+// 	ft_putstr_fd(line, *fd);
+// 	free(line);
+// }
+
+int	bad_line(char **line, char *limiteur)
 {
-	ft_putstr_fd(line, *fd);
-	free(line);
+	*line = readline("> ");
+	if (!*line)
+	{
+		ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", limiteur);
+		free(*line);
+		return (1);
+	}
+	if (ft_strcmp(*line, limiteur) == 0)
+	{
+		free(*line);
+		return (1);
+	}
+	return (0);
 }
 
 void	read_here_doc(t_data *data, char *limiteur, int *fd)
@@ -40,12 +57,8 @@ void	read_here_doc(t_data *data, char *limiteur, int *fd)
 
 	while (1)
 	{
-		line = readline("> ");
-		if (!line || ft_strcmp(line, limiteur) == 0)
-		{
-			free(line);
+		if (bad_line(&line, limiteur))
 			break ;
-		}
 		if (exp_in_hd(line))
 		{
 			good_line = expandables(line, &data->env, data);
@@ -55,7 +68,10 @@ void	read_here_doc(t_data *data, char *limiteur, int *fd)
 			ft_putstr_fd(good_line, *fd);
 		}
 		else
-			print_heredoc(line, fd);
+		{
+			ft_putstr_fd(line, *fd);
+			free(line);
+		}
 		ft_putstr_fd("\n", *fd);
 	}
 }
@@ -100,12 +116,12 @@ void	make_here_doc(char *limiteur, int *fd, t_data *data)
 		close(pipe_fd[1]);
 		waitpid(pid, &status, 0);
 		signal(SIGINT, handle_sig_c);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 		{
 			close(pipe_fd[0]);
 			*fd = -1;
 			data->exit_code = 130;
-			write(1, "\n", 1);
+			data->signal = 1;
 			return ;
 		}
 		*fd = pipe_fd[0];
@@ -125,6 +141,8 @@ void	handle_here_doc(t_cmd *cmd, t_data *data)
 			if (tmp_r->token == DELIMITER)
 			{
 				make_here_doc(tmp_r->arg, &tmp_r->fd_here_doc, data);
+				if (data->signal == 1)
+					return ;
 			}
 			tmp_r = tmp_r->next;
 		}

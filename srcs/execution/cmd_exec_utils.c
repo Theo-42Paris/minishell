@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:39:22 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/14 20:03:46 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/19 14:42:49 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	find_outfile(t_cmd **tmp_cmd)
 				if (out >= 0)
 					close(out);
 				out = open_out(tmp_r);
+				if (out == -1)
+					return (-1);
 			}
 			tmp_r = tmp_r->next;
 		}
@@ -135,6 +137,8 @@ int	find_infile(t_cmd **tmp_cmd)
 				if (in >= 0)
 					close(in);
 				in = open_in(tmp_r);
+				if (in == -1)
+					return (-1);
 			}
 			tmp_r = tmp_r->next;
 		}

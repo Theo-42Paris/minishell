@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:31:37 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/19 13:30:29 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 11:51:02 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void	exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
 		rl_clear_history();
 		exit(127);
 	}
-	if (ft_strchr(tmp_cmd->args[0], '/')) // ?? chemin relatif/absolu
+	if (ft_strchr(tmp_cmd->args[0], '/'))
 		path = ft_strdup(tmp_cmd->args[0]);
 	else
 	{

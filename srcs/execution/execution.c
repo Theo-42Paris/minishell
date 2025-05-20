@@ -6,14 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/17 17:51:28 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/19 15:29:26 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// ? peut importe ou se trouve la derniere redir in, elle est prioritaire
-// ? idem pour le outfile
 
 int	count_cmd(t_data *data)
 {
@@ -36,7 +33,7 @@ t_exec	setup_exec_data(t_data *data)
 
 	tmp.cmd_count = count_cmd(data);
 	tmp.fd_transfer = -1;
-	tmp.pidarray = malloc(sizeof(pid_t) * tmp.cmd_count); // ! prblm free quand exit
+	tmp.pidarray = malloc(sizeof(pid_t) * tmp.cmd_count);
 	if (!tmp.pidarray)
 		perror("malloc");
 	return (tmp);
@@ -59,7 +56,7 @@ void	exec_mini(t_data *data)
 	mini = setup_exec_data(data);
 	if (mini.cmd_count == 1 && parent_builtin(data->cmd))
 	{
-		data->exit_code = ft_exec_builtin(data, data->cmd, &mini); // !!!!!!!!!!!
+		data->exit_code = ft_exec_builtin(data, data->cmd, &mini);
 		free(mini.pidarray);
 		return ;
 	}
