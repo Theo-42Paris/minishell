@@ -42,6 +42,9 @@ SRC = srcs/main.c \
        srcs/builtin/ft_cd.c \
        srcs/builtin/ft_echo.c \
        srcs/builtin/ft_pwd.c \
+       srcs/builtin/ft_builtins_utils.c \
+       srcs/parsing/here_doc_utils.c \
+       srcs/parsing/pars_token_utils.c \
 
 OBJ_DIR = obj
 OBJ = $(SRC:srcs/%.c=$(OBJ_DIR)/%.o)

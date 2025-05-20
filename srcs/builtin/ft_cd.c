@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 09:30:56 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 14:54:52 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:23:03 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	update_pwd_env(t_env **env)
 	if (!cwd)
 	{
 		free(old_pwd);
-		return;
+		return ;
 	}
 	pwd = ft_strjoin("PWD=", cwd);
 	free(cwd);
@@ -37,11 +37,7 @@ void	update_pwd_env(t_env **env)
 		process_export_arg(old_pwd, env);
 		free(old_pwd);
 	}
-	if (pwd)
-	{
-		process_export_arg(pwd, env);
-		free(pwd);
-	}
+	ft_pwd_lignes(pwd, env);
 }
 
 int	cd_to_home(t_env *env)

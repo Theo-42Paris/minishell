@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:26:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 12:28:04 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:18:18 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,6 @@ int	parent_builtin(t_cmd *cmd)
 	if (ft_strcmp(str, "cd") == 0 || ft_strcmp(str, "export") == 0
 		|| ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "exit") == 0)
 		return (1);
-	return (0);
-}
-
-int	ft_is_option(char *str)
-{
-	if (!str || ft_strcmp(str, "--") == 0 || ft_strcmp(str, "-") == 0)
-		return (0);
-	if (*str == '-' && *(str + 1) != '\0')
-		return (1);
-	return (0);
-}
-
-int	ft_env(t_env *env)
-{
-	while (env)
-	{
-		if (ft_strchr(env->env, '='))
-			ft_putendl_fd(env->env, 1);
-		env = env->next;
-	}
 	return (0);
 }
 

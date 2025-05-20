@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 12:32:36 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:58:42 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	if (argc != 1)
 		return (1);
-	signal(SIGINT, handle_sig_c); // ctrl-C
-	signal(SIGQUIT, SIG_IGN);     // ctrl-\"
+	signal(SIGINT, handle_sig_c);
+	signal(SIGQUIT, SIG_IGN);
 	init_data(&data);
 	g_ctrl_c_signal = data;
 	get_env(&(*data).env, envp);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 15:59:23 by tzara             #+#    #+#             */
+/*   Updated: 2025/05/20 15:59:41 by tzara            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	free_env(t_env **env)
@@ -5,7 +17,7 @@ void	free_env(t_env **env)
 	t_env	*tmp;
 
 	if (!env)
-		return;
+		return ;
 	while (*env)
 	{
 		tmp = (*env)->next;
@@ -16,17 +28,18 @@ void	free_env(t_env **env)
 	*env = NULL;
 }
 
-void free_token(t_token **token)
+void	free_token(t_token **token)
 {
-    t_token *tmp;
-    while (*token)
-    {
-        tmp = (*token)->next;
-        if ((*token)->data)
-            free((*token)->data);
-        free(*token);
-        *token = tmp;
-    }
+	t_token	*tmp;
+
+	while (*token)
+	{
+		tmp = (*token)->next;
+		if ((*token)->data)
+			free((*token)->data);
+		free(*token);
+		*token = tmp;
+	}
 }
 
 void	free_redir(t_redir **redir)
@@ -65,7 +78,6 @@ void	free_cmd(t_cmd **cmd)
 			}
 			free((*cmd)->args);
 		}
-		//free((*cmd)->cmd);
 		free_redir(&((*cmd)->redir));
 		free(*cmd);
 		*cmd = tmp;

@@ -6,11 +6,21 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:44:52 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 12:33:02 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:57:12 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+//c pour la norme que c la clc
+void	token_next(t_data *data, char *tmp)
+{
+	if (tmp && *tmp)
+	{
+		compl_token_list(&data->token, tmp);
+		free(tmp);
+	}
+}
 
 void	sig_c_child_hd(int signals)
 {

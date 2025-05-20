@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 12:34:45 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 16:17:53 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ extern t_data		*g_ctrl_c_signal;
 /*** PARSING ***/
 char				*append_char(char *word, char c);
 void				tokenizer(t_data *data, char *line);
+void				normal_token(char **tmp, char *cmd, int *i,
+						int *in_here_doc);
+void				space_token(t_data *data, char **tmp, int *i);
+int					is_operator(char *s);
+char				*get_exp(char *name, t_env *env);
+void				token_next(t_data *data, char *tmp);
+
 // pars_token_2
 int					count_line(char *line);
 void				pre_token2(char **line, int *i, char **dest, int *j);
@@ -137,6 +144,8 @@ char				*safe_strjoin(char *s1, const char *s2);
 char				*append_result(char *result, char *src, int start, int end);
 // here_doc
 void				handle_here_doc(t_cmd *cmd, t_data *data);
+int					bad_line(char **line, char *limiteur);
+int					exp_in_hd(char *line);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);
@@ -182,6 +191,9 @@ int					env_list_size(t_env *env);
 t_env				*find_env_var(char *arg, t_env *env);
 int					process_export_arg(char *arg, t_env **env_ptr);
 int					ft_cd(t_env *env, t_cmd *cmd);
+int					ft_env(t_env *env);
+int					ft_is_option(char *str);
+void				ft_pwd_lignes(char *pwd, t_env **env);
 
 /*** EXEC ***/
 void				exec_mini(t_data *data);
@@ -214,5 +226,6 @@ void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path,
 						t_data *data);
 char				*concat_path(char *path, char *cmd);
 char				*find_path_exec(t_env *env);
+char	*get_path(char *cmd, t_env *env);
 
 #endif

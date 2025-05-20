@@ -6,24 +6,11 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:57:23 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 12:26:59 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:46:39 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	ft_strcpy(char *dst, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-}
 
 int	count_line(char *line)
 {
@@ -35,7 +22,7 @@ int	count_line(char *line)
 	while (line[i])
 	{
 		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i
-				+ 1] == '<'))
+					+ 1] == '<'))
 		{
 			count += 3;
 			i++;
@@ -70,8 +57,8 @@ char	*clean_spaces(char *str)
 	char	quote_char;
 	char	*new;
 
-	i = (j = 0);
-	in_quote = (quote_char = 0);
+	i = ((j = 0));
+	in_quote = ((quote_char = 0));
 	new = malloc(sizeof(char) * (strlen(str) + 1));
 	if (!new)
 		return (NULL);

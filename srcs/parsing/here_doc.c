@@ -6,50 +6,11 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 12:33:46 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:25:39 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	exp_in_hd(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '$' && line[i + 1] && (line[i + 1] == '?'
-				|| ft_isalpha(line[i + 1])))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-// void	print_heredoc(char *line, int *fd)
-// {
-// 	ft_putstr_fd(line, *fd);
-// 	free(line);
-// }
-
-int	bad_line(char **line, char *limiteur)
-{
-	*line = readline("> ");
-	if (!*line)
-	{
-		ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-			limiteur);
-		free(*line);
-		return (1);
-	}
-	if (ft_strcmp(*line, limiteur) == 0)
-	{
-		free(*line);
-		return (1);
-	}
-	return (0);
-}
 
 void	read_here_doc(t_data *data, char *limiteur, int *fd)
 {

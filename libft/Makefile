@@ -54,6 +54,7 @@ SRC	= 		ft_isalpha.c \
 			ft_printunsi.c \
 			ft_printf.c \
 			get_next_line_bonus.c \
+			ft_strcpy.c \
 
 
 OBJ = ${SRC:.c=.o}
