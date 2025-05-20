@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 09:30:56 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 12:27:59 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 14:54:52 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	update_pwd_env(t_env **env)
 	char	*pwd;
 	t_env	*pwd_env;
 
-	pwd_env = NULL;
 	pwd_env = find_env_var("PWD=", *env);
 	if (pwd_env)
 		old_pwd = ft_strjoin("OLDPWD=", pwd_env->env + 4);
@@ -27,7 +26,10 @@ void	update_pwd_env(t_env **env)
 		old_pwd = ft_strdup("OLDPWD=");
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return ;
+	{
+		free(old_pwd);
+		return;
+	}
 	pwd = ft_strjoin("PWD=", cwd);
 	free(cwd);
 	if (old_pwd)
@@ -105,7 +107,7 @@ int	cd_to_path(char *path)
 
 int	ft_cd(t_env *env, t_cmd *cmd)
 {
-	int ret;
+	int	ret;
 
 	if (!cmd->args[1] || ft_strcmp(cmd->args[1], "~") == 0)
 		ret = cd_to_home(env);
@@ -113,9 +115,7 @@ int	ft_cd(t_env *env, t_cmd *cmd)
 		ret = cd_to_previous(env);
 	else
 		ret = cd_to_path(cmd->args[1]);
-
 	if (ret == 0)
 		update_pwd_env(&env);
-
 	return (ret);
 }

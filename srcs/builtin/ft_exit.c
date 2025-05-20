@@ -6,16 +6,14 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:32:28 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 12:27:54 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 14:01:55 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// todo | si exit sans rien quitte avec le dernier code de retour
-// todo | si exit avec un nombre exit 42 quitte avec le code 42
-// todo | si exit avec des lettre "abc" quitte avec le code 2 et write "numeric arg required"
-// todo | si exit avec plus de 1 arg == write "too many arguments" et ne quitte pas
+void		ft_non_numeric_exit(t_data *data, t_exec *mini, t_cmd *cmd);
+void		free_exit(t_data *data, t_exec *mini);
 
 static int	ft_isnumber(char *str)
 {
@@ -50,7 +48,9 @@ int	ft_count_args(t_cmd *cmd)
 int	ft_exit(t_data *data, t_cmd *cmd, t_exec *mini)
 {
 	long	exit_code;
+	int		temp_e;
 
+	exit_code = 0;
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (0);
 	if (ft_count_args(cmd) > 2)
@@ -61,27 +61,31 @@ int	ft_exit(t_data *data, t_cmd *cmd, t_exec *mini)
 	write(1, "exit\n", 5);
 	if (ft_count_args(cmd) == 1)
 	{
-		free_all(data);
-		free_env(&data->env);
-		free(mini->pidarray);
-		rl_clear_history();
-		exit(data->exit_code);
+		temp_e = data->exit_code;
+		free_exit(data, mini);
+		exit(temp_e);
 	}
+	ft_non_numeric_exit(data, mini, cmd);
+	exit_code = ft_atoll(cmd->args[1]) % 256;
+	free_exit(data, mini);
+	exit(exit_code);
+}
+
+void	ft_non_numeric_exit(t_data *data, t_exec *mini, t_cmd *cmd)
+{
 	if (!ft_isnumber(cmd->args[1]))
 	{
 		write(2, "minishell: exit: numeric argument required\n", 43);
-		free_all(data);
-		free_env(&data->env);
-		free(mini->pidarray);
-		free(data);
-		rl_clear_history();
+		free_exit(data, mini);
 		exit(2);
 	}
-	exit_code = ft_atoll(cmd->args[1]) % 256;
+}
+
+void	free_exit(t_data *data, t_exec *mini)
+{
 	free_all(data);
 	free_env(&data->env);
 	free(mini->pidarray);
 	free(data);
 	rl_clear_history();
-	exit(exit_code);
 }

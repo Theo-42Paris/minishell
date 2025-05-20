@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 14:19:18 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 12:27:49 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 13:38:37 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,20 @@ int	add_or_update_env(char *arg, t_env **env_ptr)
 	t_env	*node;
 	t_env	*tmp;
 
-	found = find_env_var(arg, *env_ptr);     
-		// cherche si la variable existe deja dans la liste chainee
+	found = find_env_var(arg, *env_ptr);
 	node = create_or_update_node(arg, found);
-		// cree un nœud (ou met à jour si trouvé) avec l'argument
 	if (!node)
 		return (1);
 	if (!found)
 	{
-		if (!*env_ptr) // cas ou luste vide
+		if (!*env_ptr)
 			*env_ptr = node;
-		else // on lajoute a la fin
+		else
 		{
 			tmp = *env_ptr;
-			while (tmp->next) // parcourt la liste jusqu'au dernier élément
+			while (tmp->next)
 				tmp = tmp->next;
-			tmp->next = node; // ajoute le nouveau nœud à la fin
+			tmp->next = node;
 		}
 	}
 	return (0);
@@ -78,7 +76,7 @@ int	process_export_arg(char *arg, t_env **env_ptr)
 		print_export_error(arg);
 		return (1);
 	}
-	if (!ft_strchr(arg, '=')) // si ya pas de =
+	if (!ft_strchr(arg, '='))
 	{
 		len = ft_strlen(arg);
 		tmp = malloc(sizeof(char) * (len + 1));
@@ -90,7 +88,7 @@ int	process_export_arg(char *arg, t_env **env_ptr)
 		free(tmp);
 		return (ret);
 	}
-	return (add_or_update_env(arg, env_ptr)); // si ya un =
+	return (add_or_update_env(arg, env_ptr));
 }
 
 int	print_env_list(t_env *env)
