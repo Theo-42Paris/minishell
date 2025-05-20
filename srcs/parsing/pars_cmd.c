@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:09:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/17 10:47:11 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:20 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	get_cmd(t_token *token, t_cmd **cmd, t_data *data)
 	while (current && current->token != PIPE)
 	{
 		first_if_cmd(&current, &prev, cmd);
-		if (current && current->token == WORD &&
-			(!prev || !is_delimiteur(prev->token)))
-			(*cmd)->args[i++] = ft_strdup(current->data);//safe_dup(current, prev, env, data);
+		if (current && current->token == WORD && (!prev
+				|| !is_delimiteur(prev->token)))
+			(*cmd)->args[i++] = ft_strdup(current->data);
 		prev = current;
 		current = current->next;
 	}
@@ -158,7 +158,7 @@ void	get_cmd_2(t_token *current, t_cmd **cmd, t_data *data)
 // 			current = current->next;
 // 		}
 // 		if (current && current->token == WORD && (!prev
-				//|| !is_delimiteur(prev->token)))
+//|| !is_delimiteur(prev->token)))
 // 			(*cmd)->args[i++] = ft_strdup(current->data);
 // 		prev = current;
 // 		current = current->next;

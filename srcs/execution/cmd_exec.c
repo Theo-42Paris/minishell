@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/19 17:37:59 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:39 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	int	out;
 	int	stdin_backup;
 	int	stdout_backup;
-	
+
 	in = -1;
 	out = -1;
 	if (has_infile(&tmp_cmd))
@@ -172,4 +172,3 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 		mini->fd_transfer = pipe_fd[0];
 	}
 }
-

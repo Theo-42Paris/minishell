@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:32:28 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/17 17:55:18 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:54 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_exit(t_data *data, t_cmd *cmd, t_exec *mini)
 		rl_clear_history();
 		exit(2);
 	}
-	exit_code = ft_atoll(cmd->args[1]) % 256; 
+	exit_code = ft_atoll(cmd->args[1]) % 256;
 	free_all(data);
 	free_env(&data->env);
 	free(mini->pidarray);

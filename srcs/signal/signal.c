@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:44:52 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/19 15:18:38 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:26:50 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sig_c_child_hd(int signals)
 		free(ctrl_c_signal);
 		rl_clear_history();
 	}
-	exit (130);	
+	exit(130);
 }
 
 void	handle_sig_c(int signals)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:31:37 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 11:51:02 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:33 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_path(char *cmd, t_env *env)
 	char	*first_path;
 	char	**new_path;
 	char	*full_path;
-	
+
 	i = 0;
 	if (!cmd || cmd[0] == '\0')
 		return (NULL);
@@ -151,11 +151,13 @@ void	do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_data *data)
 
 void	exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
 {
-	char *path = NULL;
+	char	*path;
+	int		ret;
 
+	path = NULL;
 	if (is_builtin(tmp_cmd))
 	{
-		int ret = ft_exec_builtin(data, tmp_cmd, mini);
+		ret = ft_exec_builtin(data, tmp_cmd, mini);
 		free(mini->pidarray);
 		data->exit_code = ret;
 		free_all(data);

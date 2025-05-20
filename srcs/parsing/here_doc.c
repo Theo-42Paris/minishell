@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 12:04:05 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:27 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	exp_in_hd(char *line)
 	while (line[i])
 	{
 		if (line[i] == '$' && line[i + 1] && (line[i + 1] == '?'
-			|| ft_isalpha(line[i + 1])))
+				|| ft_isalpha(line[i + 1])))
 			return (1);
 		i++;
 	}
@@ -38,7 +38,8 @@ int	bad_line(char **line, char *limiteur)
 	*line = readline("> ");
 	if (!*line)
 	{
-		ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", limiteur);
+		ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
+			limiteur);
 		free(*line);
 		return (1);
 	}
@@ -130,9 +131,10 @@ void	make_here_doc(char *limiteur, int *fd, t_data *data)
 
 void	handle_here_doc(t_cmd *cmd, t_data *data)
 {
-	t_cmd	*tmp = cmd;
+	t_cmd	*tmp;
 	t_redir	*tmp_r;
 
+	tmp = cmd;
 	while (tmp)
 	{
 		tmp_r = tmp->redir;

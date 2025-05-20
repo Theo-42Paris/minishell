@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 11:57:23 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 11:42:08 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:26:59 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_strcpy(char *dst, char *src)
 	int	i;
 
 	i = 0;
-	while(src[i])
+	while (src[i])
 	{
 		dst[i] = src[i];
 		i++;
@@ -90,7 +90,6 @@ char	*clean_spaces(char *str)
 	}
 	return (new[j] = '\0', new);
 }
-
 
 void	pre_token2(char **line, int *i, char **dest, int *j)
 {

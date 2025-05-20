@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_syntax.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 16:56:33 by kjolly            #+#    #+#             */
-/*   Updated: 2025/04/22 10:09:14 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:01 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	slovaquie(t_token *current)
 			2);
 		return (0);
 	}
-	else if (is_delimiteur(current->token) && is_delimiteur(current->next->token))
+	else if (is_delimiteur(current->token)
+		&& is_delimiteur(current->next->token))
 	{
 		ft_putstr_fd("minishell: syntax error near unexepted token 'newline'\n",
 			2);
@@ -59,8 +60,7 @@ int	potato_salad(t_token *current)
 {
 	if (current->token == PIPE)
 	{
-		ft_putstr_fd("minishell: syntax error near unexepted token '|'\n",
-			2);
+		ft_putstr_fd("minishell: syntax error near unexepted token '|'\n", 2);
 		return (0);
 	}
 	else if (is_delimiteur(current->token))

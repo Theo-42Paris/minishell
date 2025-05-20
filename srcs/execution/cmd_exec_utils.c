@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:39:22 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/19 14:42:49 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:42 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	has_infile(t_cmd **tmp_cmd)
 {
-	t_redir *tmp_r;
+	t_redir	*tmp_r;
 
 	tmp_r = (*tmp_cmd)->redir;
-	while(tmp_r)
+	while (tmp_r)
 	{
 		if (tmp_r->token == REDIR_IN || tmp_r->token == DELIMITER)
 			return (1);
@@ -26,12 +26,12 @@ int	has_infile(t_cmd **tmp_cmd)
 	return (0);
 }
 
-int has_outfile(t_cmd **tmp_cmd)
+int	has_outfile(t_cmd **tmp_cmd)
 {
 	t_redir	*tmp_r;
 
 	tmp_r = (*tmp_cmd)->redir;
-	while(tmp_r)
+	while (tmp_r)
 	{
 		if (tmp_r->token == REDIR_OUT || tmp_r->token == APPEND)
 			return (1);
