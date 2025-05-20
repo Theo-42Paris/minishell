@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:50:50 by kjolly            #+#    #+#             */
-/*   Updated: 2025/01/28 11:30:55 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:30:38 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ char	*get_next_line(int fd);
 char	*line_compl(int fd, char *stock, char *buffer);
 int		check_newline(char *str);
 char	*set_line(char *line);
-int	ft_strcmp(const char *s1, const char *s2);
-
+int		ft_strcmp(const char *s1, const char *s2);
 
 typedef struct s_list
 {

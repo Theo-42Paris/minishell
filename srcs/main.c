@@ -6,13 +6,13 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 12:26:15 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 12:32:36 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_data	*ctrl_c_signal = NULL;
+t_data	*g_ctrl_c_signal = NULL;
 
 void	init_data(t_data **data)
 {
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, handle_sig_c); // ctrl-C
 	signal(SIGQUIT, SIG_IGN);     // ctrl-\"
 	init_data(&data);
-	ctrl_c_signal = data;
+	g_ctrl_c_signal = data;
 	get_env(&(*data).env, envp);
 	while (1)
 	{

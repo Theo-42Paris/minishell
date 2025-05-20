@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 12:27:27 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/20 12:33:46 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	make_here_doc(char *limiteur, int *fd, t_data *data)
 	}
 	else if (pid == 0)
 	{
-		ctrl_c_signal = data;
-		ctrl_c_signal->fd_hd = pipe_fd[1];
+		g_ctrl_c_signal = data;
+		g_ctrl_c_signal->fd_hd = pipe_fd[1];
 		signal(SIGINT, sig_c_child_hd);
 		signal(SIGQUIT, SIG_IGN);
 		close(pipe_fd[0]);

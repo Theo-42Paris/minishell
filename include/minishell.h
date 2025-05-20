@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/19 11:26:32 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/20 12:34:45 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include <dirent.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <sys/ioctl.h>
 # include <signal.h>
-# include <dirent.h>
-# include <termios.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/ioctl.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 # include <termcap.h>
+# include <termios.h>
+# include <unistd.h>
 
 # define G "\033[1;32m"
 # define RST "\033[0m"
 
-typedef enum	e_type_token
+typedef enum e_type_token
 {
 	WORD,
 	PIPE,
@@ -40,7 +40,7 @@ typedef enum	e_type_token
 	REDIR_OUT,
 	DELIMITER,
 	APPEND
-} t_type_token;
+}					t_type_token;
 
 typedef struct s_env
 {
@@ -82,23 +82,20 @@ typedef struct s_exec
 
 typedef struct s_data
 {
-	t_token	*token;
-	t_cmd	*cmd;
-	t_env	*env;
-	char	*line;
-	char	*good_line;
-	int		fd_hd;
-	int		signal;
-	int		exit_code;
-}			t_data;
+	t_token			*token;
+	t_cmd			*cmd;
+	t_env			*env;
+	char			*line;
+	char			*good_line;
+	int				fd_hd;
+	int				signal;
+	int				exit_code;
+}					t_data;
 
-extern t_data *ctrl_c_signal;
+extern t_data		*g_ctrl_c_signal;
 
 /*** PARSING ***/
 char				*append_char(char *word, char c);
-// void				first_if_token(char *c, int *in_quote, int *exp, char *quote_char);
-// void				win_2_line(t_token **token, char **current_word, int *exp);
-// void				init_var(int *in_q, char *quote_c, char **cur_wrd, int *exp);
 void				tokenizer(t_data *data, char *line);
 // pars_token_2
 int					count_line(char *line);
@@ -114,14 +111,16 @@ void				compl_token_list(t_token **token, char *src);
 // pars_syntax
 int					slovaquie(t_token *current);
 int					violence_urbaine_emeute(t_token *current, t_token *prev);
-int					syntax_node(int start, int end, t_token *current, t_token *prev);
+int					syntax_node(int start, int end, t_token *current,
+						t_token *prev);
 int					check_syntax(t_token **token);
 // pars_env
 t_env				*last_env(t_env *env);
 void				fill_env(char *envp, t_env **env);
 void				get_env(t_env **env, char **envp);
 // pars_cmd
-void				first_if_cmd(t_token **current, t_token **prev, t_cmd **cmd);
+void				first_if_cmd(t_token **current, t_token **prev,
+						t_cmd **cmd);
 void				get_cmd(t_token *token, t_cmd **cmd, t_data *data);
 void				get_cmd_2(t_token *current, t_cmd **cmd, t_data *data);
 // pars_cmd_2
@@ -141,7 +140,6 @@ void				handle_here_doc(t_cmd *cmd, t_data *data);
 
 /*** UTILS ***/
 int					is_delimiteur(int type);
-// int					is_redir_delim(char c);
 void				free_str(char **str);
 
 // print_utils
@@ -163,13 +161,13 @@ void				handle_sig_c(int signals);
 void				sig_c_child_hd(int signals);
 
 /*** BUILTIN ***/
-int                 ft_echo(t_cmd *cmd);
+int					ft_echo(t_cmd *cmd);
 int					ft_pwd(t_cmd *cmd);
 int					child_builtin(t_cmd *cmd);
 int					parent_builtin(t_cmd *cmd);
-int                 ft_is_option(char *str);
+int					ft_is_option(char *str);
 int					ft_exec_builtin(t_data *data, t_cmd *cmd, t_exec *mini);
-int                 ft_exit(t_data *data, t_cmd *cmd, t_exec *mini);
+int					ft_exit(t_data *data, t_cmd *cmd, t_exec *mini);
 int					ft_export(char **args, t_env **env_ptr);
 void				print_export_error(const char *arg);
 int					is_valid_identifier(const char *arg);
@@ -186,14 +184,16 @@ int					process_export_arg(char *arg, t_env **env_ptr);
 int					ft_cd(t_env *env, t_cmd *cmd);
 
 /*** EXEC ***/
-void                exec_mini(t_data *data);
+void				exec_mini(t_data *data);
 t_exec				setup_exec_data(t_data *data);
 int					count_cmd(t_data *data);
 int					is_builtin(t_cmd *cmd);
 
 // cmd_exec
-void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
-void				first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data);
+void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count,
+						t_data *data);
+void				first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count,
+						t_data *data);
 
 // cmd_exec_utils
 int					find_outfile(t_cmd **tmp_cmd);
@@ -210,7 +210,8 @@ void				redir_rest(int in, int out, t_exec *mini, int *pipe_fd);
 
 // execve
 void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);
-void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path, t_data *data);
+void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path,
+						t_data *data);
 char				*concat_path(char *path, char *cmd);
 char				*find_path_exec(t_env *env);
 
