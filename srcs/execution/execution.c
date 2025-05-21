@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 12:27:35 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/21 17:56:20 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,6 @@ void	exec_mini(t_data *data)
 		return ;
 	cmd_tmp = data->cmd;
 	mini = setup_exec_data(data);
-	if (mini.cmd_count == 1 && parent_builtin(data->cmd))
-	{
-		data->exit_code = ft_exec_builtin(data, data->cmd, &mini);
-		free(mini.pidarray);
-		return ;
-	}
 	while (cmd_tmp)
 	{
 		if (count == mini.cmd_count - 1)

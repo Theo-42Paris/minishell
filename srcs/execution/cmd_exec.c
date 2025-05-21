@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 17:48:59 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/21 17:58:26 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	else if (mini->pidarray[count] == 0)
 	{
 		redir_last(in, out, mini);
+		close_fd_red(data->cmd);
 		exec(mini, tmp_cmd, data);
 		data->exit_code = 1;
 		free_all(data);
@@ -152,6 +153,7 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	else if (mini->pidarray[count] == 0)
 	{
 		redir_rest(in, out, mini, pipe_fd);
+		close_fd_red(data->cmd);
 		exec(mini, tmp_cmd, data);
 		data->exit_code = 1;
 		free_all(data);

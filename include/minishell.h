@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/20 16:17:53 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/21 17:55:54 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int					exp_in_hd(char *line);
 /*** UTILS ***/
 int					is_delimiteur(int type);
 void				free_str(char **str);
-
+void				close_fd_red(t_cmd *cmd);
 // print_utils
 void				print_token(t_token **token);
 void				print_tab(char **tab);
