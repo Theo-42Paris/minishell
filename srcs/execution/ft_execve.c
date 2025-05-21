@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:31:37 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 16:32:45 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/21 19:52:52 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,14 +169,14 @@ void	exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data)
 	if (!tmp_cmd->args[0] || tmp_cmd->args[0][0] == '\0')
 	{
 		free(mini->pidarray);
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd("", 2);
-		data->exit_code = 127;
+		// ft_putstr_fd("command not found: ", 2);
+		// ft_putendl_fd("", 2);
+		data->exit_code = 0;
 		free_all(data);
 		free_env(&data->env);
 		free(data);
 		rl_clear_history();
-		exit(127);
+		exit(0);
 	}
 	if (ft_strchr(tmp_cmd->args[0], '/'))
 		path = ft_strdup(tmp_cmd->args[0]);

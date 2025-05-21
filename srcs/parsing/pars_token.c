@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 15:56:01 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/21 19:14:28 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	t_exp(char *cmd, int *i, t_data *data, char **tmp)
 	char	*value;
 
 	start = ++(*i);
+	if (cmd[start] == '\'' || cmd[start] == '"')
+		return ;
 	if (cmd[start] == '?')
 	{
 		value = ft_itoa(data->exit_code);
