@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/23 11:13:38 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/23 22:42:49 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,15 @@ t_token				*last_token(t_token *token);
 void				add_token(t_token **token, t_token *tmp);
 t_token				*new_token(char *src);
 void				compl_token_list(t_token **token, char *src);
+
+// pars_token_4
+void				handle_variable(char *cmd, int *i, t_data *data,
+						char **tmp);
+void				expand_variable(char *var_name, t_data *data, char **tmp);
+void				merge_value(char *value, char **tmp);
+void				handle_exit_code(int *i, t_data *data, char **tmp);
+void				free_if_exists(char **tmp);
+
 // pars_syntax
 int					slovaquie(t_token *current);
 int					violence_urbaine_emeute(t_token *current, t_token *prev);
@@ -154,6 +163,8 @@ int					signal_h_d(t_data *data, int *pipe_fd, int *fd, int status);
 int					is_delimiteur(int type);
 void				free_str(char **str);
 void				close_fd_red(t_cmd *cmd);
+void				init_data(t_data **data);
+
 // print_utils
 void				print_token(t_token **token);
 void				print_tab(char **tab);
@@ -167,6 +178,9 @@ void				free_redir(t_redir **redir);
 void				free_cmd(t_cmd **cmd);
 void				free_env(t_env **env);
 void				free_all(t_data *data);
+void				free_exec(t_data *data, t_exec *mini);
+void				free_bonus_ex(t_data *data, int ex, char *path);
+void	free_et_exit(t_data *data);
 
 /*** SIGNAL ***/
 void				handle_sig_c(int signals);
@@ -203,6 +217,13 @@ void				exec_mini(t_data *data);
 t_exec				setup_exec_data(t_data *data);
 int					count_cmd(t_data *data);
 int					is_builtin(t_cmd *cmd);
+char				**env_for_exec(t_env *env);
+char				*get_path(char *cmd, t_env *env);
+void				child_process_exec(t_cmd *cmd, t_exec *mini, t_data *data,
+						int *fd);
+void				close_fds_after_fork(t_exec *mini, int *fd);
+void				restore_builtin_redirs(int *backup);
+void				prepare_builtin_redirs(t_exec *mini, int *fd, int *backup);
 
 // cmd_exec
 void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count,

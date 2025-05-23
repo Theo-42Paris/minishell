@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:38:05 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/21 19:14:28 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/23 21:59:20 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,61 +37,17 @@ void	quote(char *cmd, int *i, t_data *data, char **tmp)
 
 void	t_exp(char *cmd, int *i, t_data *data, char **tmp)
 {
-	int		start;
-	int		end;
-	char	*var_name;
-	char	*joined;
-	char	*value;
+	int	start;
 
 	start = ++(*i);
 	if (cmd[start] == '\'' || cmd[start] == '"')
 		return ;
 	if (cmd[start] == '?')
 	{
-		value = ft_itoa(data->exit_code);
-		(*i)++;
-		if (*tmp)
-			joined = ft_strjoin(*tmp, value);
-		else
-			joined = ft_strdup(value);
-		free(value);
-		free(*tmp);
-		*tmp = joined;
+		handle_exit_code(i, data, tmp);
 		return ;
 	}
-	end = start;
-	while (cmd[end] && (ft_isalnum(cmd[end]) || cmd[end] == '_'))
-		end++;
-	if (start == end)
-	{
-		*tmp = append_char(*tmp, '$');
-		return ;
-	}
-	var_name = ft_substr(cmd, start, end - start);
-	*i = end;
-	if (!var_name)
-	{
-		if (*tmp)
-			free(*tmp);
-		return ;
-	}
-	value = get_exp(var_name, data->env);
-	free(var_name);
-	if (value)
-	{
-		if (*tmp)
-			joined = ft_strjoin(*tmp, value);
-		else
-			joined = ft_strdup(value);
-		if (!joined)
-		{
-			free(value);
-			return ;
-		}
-		free(value);
-		free(*tmp);
-		*tmp = joined;
-	}
+	handle_variable(cmd, i, data, tmp);
 }
 
 void	win_line(t_data *data, char **tmp, int *h_d)

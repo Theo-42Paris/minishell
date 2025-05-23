@@ -6,13 +6,42 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:44:52 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/20 15:57:12 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:05 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-//c pour la norme que c la clc
+// c pour la norme clc
+char	*find_path_exec(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->env, "PATH=", 5) == 0)
+			return (tmp->env + 5);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+//encore
+char	*concat_path(char *path, char *cmd)
+{
+	char	*tmp;
+	char	*full_path;
+
+	tmp = ft_strjoin(path, "/");
+	if (!tmp)
+		return (NULL);
+	full_path = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return (full_path);
+}
+
+//re
 void	token_next(t_data *data, char *tmp)
 {
 	if (tmp && *tmp)

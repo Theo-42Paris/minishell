@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rest_cmd_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/23 13:30:55 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/23 15:12:33 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void	fork_error(int out, int in, int *pipe_fd)
 
 void	follow_rest_child(t_data *data, t_cmd *tmp_cmd, t_exec *mini)
 {
-		close_fd_red(data->cmd);
-		exec(mini, tmp_cmd, data);
-		data->exit_code = 1;
-		free_all(data);
-		free_env(&data->env);
-		free(data);
-		rl_clear_history();
-		exit(1);
+	close_fd_red(data->cmd);
+	exec(mini, tmp_cmd, data);
+	data->exit_code = 1;
+	free_all(data);
+	free_env(&data->env);
+	free(data);
+	rl_clear_history();
+	exit(1);
 }
 
 void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)

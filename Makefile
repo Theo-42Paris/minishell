@@ -13,12 +13,14 @@ RESET   = \033[0m
 AZUR    = \033[38;5;45m
 
 SRC = srcs/main.c \
+       srcs/main_utils.c \
        srcs/utils/print_utils.c \
        srcs/utils/utils.c \
        srcs/utils/free.c \
        srcs/parsing/pars_token.c \
        srcs/parsing/pars_token_2.c \
        srcs/parsing/pars_token_3.c \
+       srcs/parsing/pars_token_4.c \
        srcs/parsing/pars_syntax.c \
        srcs/parsing/prep_env.c \
        srcs/parsing/pars_cmd.c \
@@ -29,9 +31,11 @@ SRC = srcs/main.c \
        srcs/parsing/here_doc.c \
        srcs/execution/redir_exec.c \
        srcs/execution/ft_execve.c \
+       srcs/execution/ft_execve_utils.c \
        srcs/execution/execution.c \
        srcs/execution/rest_cmd_exec.c \
        srcs/execution/last_cmd_exec.c \
+       srcs/execution/last_cmd_exec_utils.c \
        srcs/execution/infile_utils.c \
        srcs/execution/outfile_utils.c \
        srcs/builtin/builtins.c \
