@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/22 18:05:25 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/23 11:07:42 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 void	close_fd_red(t_cmd *cmd)
 {
-	t_cmd	*tmp;
 	t_redir	*tmp_r;
 
-	tmp = cmd;
-	while (tmp)
+	while (cmd)
 	{
-		tmp_r = tmp->redir;
+		tmp_r = cmd->redir;
 		while (tmp_r)
 		{
 			if (tmp_r->token == DELIMITER && tmp_r->fd_here_doc >= 0)
 				close(tmp_r->fd_here_doc);
 			tmp_r = tmp_r->next;
 		}
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
 }
 
@@ -106,13 +104,11 @@ void	make_here_doc(char *limiteur, int *fd, t_data *data)
 
 void	handle_here_doc(t_cmd *cmd, t_data *data)
 {
-	t_cmd	*tmp;
 	t_redir	*tmp_r;
 
-	tmp = cmd;
-	while (tmp)
+	while (cmd)
 	{
-		tmp_r = tmp->redir;
+		tmp_r = cmd->redir;
 		while (tmp_r)
 		{
 			if (tmp_r->token == DELIMITER)
@@ -123,6 +119,6 @@ void	handle_here_doc(t_cmd *cmd, t_data *data)
 			}
 			tmp_r = tmp_r->next;
 		}
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/22 18:06:00 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/23 11:13:38 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,9 @@ char				*append_result(char *result, char *src, int start, int end);
 void				handle_here_doc(t_cmd *cmd, t_data *data);
 int					bad_line(char **line, char *limiteur);
 int					exp_in_hd(char *line);
-int					other_pid(t_data *data, pid_t pid, int *pipe_fd, char *limiteur);
+void				child_h_d(t_data *data, int *pipe_fd, char *limiteur);
+int					other_pid(t_data *data, pid_t pid, int *pipe_fd,
+						char *limiteur);
 int					signal_h_d(t_data *data, int *pipe_fd, int *fd, int status);
 /*** UTILS ***/
 int					is_delimiteur(int type);
@@ -227,6 +229,6 @@ void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path,
 						t_data *data);
 char				*concat_path(char *path, char *cmd);
 char				*find_path_exec(t_env *env);
-char	*get_path(char *cmd, t_env *env);
+char				*get_path(char *cmd, t_env *env);
 
 #endif

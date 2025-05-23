@@ -30,8 +30,10 @@ SRC = srcs/main.c \
        srcs/execution/redir_exec.c \
        srcs/execution/ft_execve.c \
        srcs/execution/execution.c \
-       srcs/execution/cmd_exec.c \
-       srcs/execution/cmd_exec_utils.c \
+       srcs/execution/rest_cmd_exec.c \
+       srcs/execution/last_cmd_exec.c \
+       srcs/execution/infile_utils.c \
+       srcs/execution/outfile_utils.c \
        srcs/builtin/builtins.c \
        srcs/builtin/ft_exit.c \
        srcs/builtin/ft_export.c \
