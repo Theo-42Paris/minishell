@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   rest_cmd_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/23 15:12:33 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/26 19:19:40 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_file(int *in, int *out, t_cmd *tmp_cmd)
+int	ft_file(int *in, int *out, t_cmd *tmp_cmd)
 {
 	if (has_infile(&tmp_cmd))
 	{
 		*in = find_infile(&tmp_cmd);
 		if (*in == -1)
-			return ;
+			return (0);
 	}
 	if (has_outfile(&tmp_cmd))
 	{
@@ -27,9 +27,10 @@ void	ft_file(int *in, int *out, t_cmd *tmp_cmd)
 		{
 			if (*in >= 0)
 				close(*in);
-			return ;
+			return (0);
 		}
 	}
+	return (1);
 }
 
 void	exec_rest_parent(t_exec *mini, int out, int in, int *pipe_fd)
@@ -73,9 +74,9 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	int	out;
 	int	pipe_fd[2];
 
-	in = -1;
-	out = -1;
-	ft_file(&in, &out, tmp_cmd);
+	in = ((out = -1));
+	if (!ft_file(&in, &out, tmp_cmd))
+		return ;
 	if (pipe(pipe_fd) == -1)
 	{
 		if (in >= 0)

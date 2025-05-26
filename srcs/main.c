@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/23 22:49:28 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/26 13:44:21 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// ! PROBLEME CONDITIONAL JUMP A LA PREMIERE CMD EXPORT, CD "EXIT 1 2" et UNSET
-// ! DANS EXEC MINI en gros tt les builtin dans le parent.
-// ! VA VOIR EXPAND.C
 t_data		*g_ctrl_c_signal = NULL;
 
 static int	init_minishell(int argc, char **envp, t_data **data)

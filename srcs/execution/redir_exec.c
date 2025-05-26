@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/23 15:12:30 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/26 19:12:19 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	redir_rest(int in, int out, t_exec *mini, int *pipe_fd)
 	{
 		dup2(out, STDOUT_FILENO);
 		close(out);
-		close(pipe_fd[1]);
 	}
 	else
 		dup2(pipe_fd[1], STDOUT_FILENO);

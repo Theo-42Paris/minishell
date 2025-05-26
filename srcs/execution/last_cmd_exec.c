@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   last_cmd_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:30:58 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/23 22:24:49 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/26 17:39:54 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	handle_in_out_files(t_cmd *cmd, int *in, int *out)
+int	handle_in_out_files(t_cmd *cmd, int *in, int *out)
 {
 	*in = -1;
 	*out = -1;
@@ -20,7 +20,7 @@ void	handle_in_out_files(t_cmd *cmd, int *in, int *out)
 	{
 		*in = find_infile(&cmd);
 		if (*in == -1)
-			return ;
+			return (0);
 	}
 	if (has_outfile(&cmd))
 	{
@@ -29,9 +29,10 @@ void	handle_in_out_files(t_cmd *cmd, int *in, int *out)
 		{
 			if (*in >= 0)
 				close(*in);
-			return ;
+			return (0);
 		}
 	}
+	return (1);
 }
 
 void	run_builtin(t_cmd *cmd, t_exec *mini, t_data *data, int *fd)
@@ -47,7 +48,11 @@ static void	fork_and_exec(t_cmd *cmd, t_exec *mini, t_data *data, int count)
 {
 	int	fd[2];
 
-	handle_in_out_files(cmd, &fd[0], &fd[1]);
+	if (!handle_in_out_files(cmd, &fd[0], &fd[1]))
+	{
+		close(mini->fd_transfer);
+		return ;
+	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
 	{

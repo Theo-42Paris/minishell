@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/23 22:42:49 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/26 11:32:21 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void				free_env(t_env **env);
 void				free_all(t_data *data);
 void				free_exec(t_data *data, t_exec *mini);
 void				free_bonus_ex(t_data *data, int ex, char *path);
-void	free_et_exit(t_data *data);
+void				free_et_exit(t_data *data);
 
 /*** SIGNAL ***/
 void				handle_sig_c(int signals);

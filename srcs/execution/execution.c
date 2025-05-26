@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/23 22:20:51 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/26 13:43:06 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_exec	setup_exec_data(t_data *data)
 
 	tmp.cmd_count = count_cmd(data);
 	tmp.fd_transfer = -1;
-	tmp.pidarray = malloc(sizeof(pid_t) * tmp.cmd_count);
+	tmp.pidarray = ft_calloc(tmp.cmd_count, sizeof(pid_t));
 	if (!tmp.pidarray)
 		perror("malloc");
 	return (tmp);
