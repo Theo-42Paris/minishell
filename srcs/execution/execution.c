@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/27 12:29:46 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 20:57:47 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	exec_mini(t_data *data)
 	status = 0;
 	if (!data || !data->cmd)
 		return ;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	cmd_tmp = data->cmd;
 	mini = setup_exec_data(data);
 	first_loop(cmd_tmp, mini, data);
@@ -85,6 +87,8 @@ void	exec_mini(t_data *data)
 				data->exit_code = 128 + WTERMSIG(status);
 		}
 	}
+	signal(SIGINT, handle_sig_c);
+	signal(SIGQUIT, SIG_IGN);
 	if (mini.fd_transfer >= 0)
 		close(mini.fd_transfer);
 	free(mini.pidarray);

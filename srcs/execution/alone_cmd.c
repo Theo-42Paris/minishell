@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alone_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:30:09 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/27 15:14:34 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 21:01:57 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	alone_child(t_data *data, t_cmd *tmp_cmd, t_exec *mini)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	close_fd_red(data->cmd);
 	exec(mini, tmp_cmd, data);
 	data->exit_code = 1;
@@ -29,7 +31,7 @@ void	redir_alone(int in, int out)
 	if (in >= 0)
 	{
 		dup2(in, STDIN_FILENO);
-		close (in);
+		close(in);
 	}
 	if (out >= 0)
 	{

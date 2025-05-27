@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rest_cmd_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/27 12:32:32 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 21:02:07 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	fork_error(int out, int in, int *pipe_fd)
 
 void	follow_rest_child(t_data *data, t_cmd *tmp_cmd, t_exec *mini)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	close_fd_red(data->cmd);
 	exec(mini, tmp_cmd, data);
 	data->exit_code = 1;
