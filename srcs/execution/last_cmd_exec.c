@@ -6,34 +6,11 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:30:58 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/26 17:39:54 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 12:59:28 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	handle_in_out_files(t_cmd *cmd, int *in, int *out)
-{
-	*in = -1;
-	*out = -1;
-	if (has_infile(&cmd))
-	{
-		*in = find_infile(&cmd);
-		if (*in == -1)
-			return (0);
-	}
-	if (has_outfile(&cmd))
-	{
-		*out = find_outfile(&cmd);
-		if (*out == -1)
-		{
-			if (*in >= 0)
-				close(*in);
-			return (0);
-		}
-	}
-	return (1);
-}
 
 void	run_builtin(t_cmd *cmd, t_exec *mini, t_data *data, int *fd)
 {
@@ -48,7 +25,7 @@ static void	fork_and_exec(t_cmd *cmd, t_exec *mini, t_data *data, int count)
 {
 	int	fd[2];
 
-	if (!handle_in_out_files(cmd, &fd[0], &fd[1]))
+	if (!ft_file(&fd[0], &fd[1], cmd))
 	{
 		close(mini->fd_transfer);
 		return ;
@@ -68,13 +45,13 @@ static void	fork_and_exec(t_cmd *cmd, t_exec *mini, t_data *data, int count)
 	close_fds_after_fork(mini, fd);
 }
 
-void	first_or_last_cmd(t_cmd *cmd, t_exec *mini, int count, t_data *data)
+void	last_cmd_exec(t_cmd *cmd, t_exec *mini, int count, t_data *data)
 {
 	int	fd[2];
 
-	if (count == mini->cmd_count - 1 && parent_builtin(cmd))
+	if (parent_builtin(cmd))
 	{
-		handle_in_out_files(cmd, &fd[0], &fd[1]);
+		ft_file(&fd[0], &fd[1], cmd);
 		run_builtin(cmd, mini, data, fd);
 		return ;
 	}

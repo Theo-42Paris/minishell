@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 12:32:32 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_file(int *in, int *out, t_cmd *tmp_cmd)
 {
+	*in = -1;
+	*out = -1;
 	if (has_infile(&tmp_cmd))
 	{
 		*in = find_infile(&tmp_cmd);
@@ -74,7 +76,6 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	int	out;
 	int	pipe_fd[2];
 
-	in = ((out = -1));
 	if (!ft_file(&in, &out, tmp_cmd))
 		return ;
 	if (pipe(pipe_fd) == -1)

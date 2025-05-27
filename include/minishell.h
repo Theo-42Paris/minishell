@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/26 11:32:21 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 15:16:40 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void				fill_cmd(t_cmd **cmd, t_token *current);
 t_redir				*last_redir(t_redir *redir);
 void				fill_redir(t_redir **redir, t_token *current);
 // expand
-char				*expandables(char *src, t_env **env, t_data *data);
+char				*expandables(char *src, t_data *data);
 char				*safe_strjoin(char *s1, const char *s2);
 char				*append_result(char *result, char *src, int start, int end);
 // here_doc
@@ -185,8 +185,10 @@ void				free_et_exit(t_data *data);
 /*** SIGNAL ***/
 void				handle_sig_c(int signals);
 void				sig_c_child_hd(int signals);
-
+char				*concat_path(char *path, char *cmd);
+char				*find_path_exec(t_env *env);
 /*** BUILTIN ***/
+int					is_builtin(t_cmd *cmd);
 int					ft_echo(t_cmd *cmd);
 int					ft_pwd(t_cmd *cmd);
 int					child_builtin(t_cmd *cmd);
@@ -213,43 +215,34 @@ int					ft_is_option(char *str);
 void				ft_pwd_lignes(char *pwd, t_env **env);
 
 /*** EXEC ***/
+// alone_cmd
+void				alone_cmd(t_cmd *tmp_cmd, t_exec *mini,
+						int count, t_data *data);
+// execution
 void				exec_mini(t_data *data);
-t_exec				setup_exec_data(t_data *data);
-int					count_cmd(t_data *data);
-int					is_builtin(t_cmd *cmd);
+// ft_execve
+void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);
 char				**env_for_exec(t_env *env);
 char				*get_path(char *cmd, t_env *env);
-void				child_process_exec(t_cmd *cmd, t_exec *mini, t_data *data,
-						int *fd);
-void				close_fds_after_fork(t_exec *mini, int *fd);
-void				restore_builtin_redirs(int *backup);
-void				prepare_builtin_redirs(t_exec *mini, int *fd, int *backup);
-
-// cmd_exec
-void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count,
-						t_data *data);
-void				first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count,
-						t_data *data);
-
-// cmd_exec_utils
-int					find_outfile(t_cmd **tmp_cmd);
+// file_utils
 int					find_infile(t_cmd **tmp_cmd);
-int					open_in(t_redir *tmp_r);
 int					find_outfile(t_cmd **tmp_cmd);
-int					open_out(t_redir *tmp_r);
-int					has_outfile(t_cmd **tmp_cmd);
 int					has_infile(t_cmd **tmp_cmd);
+int					has_outfile(t_cmd **tmp_cmd);
 
+// last_cmd
+void				last_cmd_exec(t_cmd *cmd, t_exec *mini, int count,
+						t_data *data);
+void				prepare_builtin_redirs(t_exec *mini, int *fd, int *backup);
+void				restore_builtin_redirs(int *backup);
+void				child_process_exec(t_cmd *cmd, t_exec *mini,
+						t_data *data, int *fd);
+void				close_fds_after_fork(t_exec *mini, int *fd);
 // redir_exec
 void				redir_last(int in, int out, t_exec *mini);
 void				redir_rest(int in, int out, t_exec *mini, int *pipe_fd);
-
-// execve
-void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);
-void				do_execve_bonus(t_exec *mini, t_cmd *tmp_cmd, char *path,
-						t_data *data);
-char				*concat_path(char *path, char *cmd);
-char				*find_path_exec(t_env *env);
-char				*get_path(char *cmd, t_env *env);
-
+// rest_cmd
+int					ft_file(int *in, int *out, t_cmd *tmp_cmd);
+void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini,
+						int count, t_data *data);
 #endif

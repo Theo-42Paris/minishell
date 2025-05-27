@@ -33,6 +33,7 @@ SRC = srcs/main.c \
        srcs/execution/ft_execve.c \
        srcs/execution/ft_execve_utils.c \
        srcs/execution/execution.c \
+       srcs/execution/alone_cmd.c \
        srcs/execution/rest_cmd_exec.c \
        srcs/execution/last_cmd_exec.c \
        srcs/execution/last_cmd_exec_utils.c \

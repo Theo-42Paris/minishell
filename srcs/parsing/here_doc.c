@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:00:42 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/23 11:07:42 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 15:16:24 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	read_here_doc(t_data *data, char *limiteur, int *fd)
 			break ;
 		if (exp_in_hd(line))
 		{
-			good_line = expandables(line, &data->env, data);
+			good_line = expandables(line, data);
 			free(line);
 			if (!good_line)
 				return ;

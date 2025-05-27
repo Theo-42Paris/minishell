@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:39:22 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/26 15:17:48 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 12:17:44 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	find_infile(t_cmd **tmp_cmd)
 			if (in >= 0)
 				close(in);
 			in = open_in(tmp_r);
-			if (in < 0)
+			if (in == -1)
 				return (-1);
 		}
 		tmp_r = tmp_r->next;

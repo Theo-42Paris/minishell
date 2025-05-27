@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/26 13:43:06 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/27 12:29:46 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,19 @@ int	first_loop(t_cmd *cmd_tmp, t_exec mini, t_data *data)
 	int	count;
 
 	count = 0;
-	while (cmd_tmp)
+	if (mini.cmd_count == 1)
+		alone_cmd(cmd_tmp, &mini, count, data);
+	else
 	{
-		if (count == mini.cmd_count - 1)
-			first_or_last_cmd(cmd_tmp, &mini, count, data);
-		else
-			rest_cmd_exec(cmd_tmp, &mini, count, data);
-		count++;
-		cmd_tmp = cmd_tmp->next;
+		while (cmd_tmp)
+		{
+			if (count == mini.cmd_count - 1)
+				last_cmd_exec(cmd_tmp, &mini, count, data);
+			else
+				rest_cmd_exec(cmd_tmp, &mini, count, data);
+			count++;
+			cmd_tmp = cmd_tmp->next;
+		}
 	}
 	return (count);
 }
