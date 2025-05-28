@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 22:41:37 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/28 13:20:29 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/28 17:27:25 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,4 @@ void	free_et_exit(t_data *data)
 	free_env(&data->env);
 	free(data);
 	rl_clear_history();
-}
-
-void	handle_sig_quit(int signals)
-{
-	(void)signals;
 }

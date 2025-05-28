@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/28 13:37:41 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/28 15:27:00 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	exec_mini(t_data *data)
 		if (mini.pidarray[j] > 0 && waitpid(mini.pidarray[j], &status, 0) > 0)
 			handle_exit_status(data, status);
 	signal(SIGINT, handle_sig_c);
-	signal(SIGQUIT, handle_sig_quit);
+	signal(SIGQUIT, SIG_IGN);
 	if (mini.fd_transfer >= 0)
 		close(mini.fd_transfer);
 	free(mini.pidarray);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/28 13:16:04 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/28 17:26:16 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	init_minishell(int argc, char **envp, t_data **data)
 	if (argc != 1)
 		return (1);
 	signal(SIGINT, handle_sig_c);
-	signal(SIGQUIT, handle_sig_quit);
+	signal(SIGQUIT, SIG_IGN);
 	init_data(data);
 	g_ctrl_c_signal = *data;
 	get_env(&(*data)->env, envp);
@@ -35,13 +35,13 @@ static int	lexer_et_syntax(t_data *data, char *line)
 	add_history(line);
 	good_line = pre_token(line);
 	tokenizer(data, good_line);
+	data->line = line;
+	data->good_line = good_line;
 	if (!check_syntax(&data->token))
 	{
 		free_all(data);
 		return (0);
 	}
-	data->line = line;
-	data->good_line = good_line;
 	return (0);
 }
 
