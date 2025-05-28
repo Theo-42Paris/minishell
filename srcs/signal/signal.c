@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:44:52 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/26 19:14:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:20:23 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*find_path_exec(t_env *env)
 	return (NULL);
 }
 
-//encore
+// encore
 char	*concat_path(char *path, char *cmd)
 {
 	char	*tmp;
@@ -41,7 +41,7 @@ char	*concat_path(char *path, char *cmd)
 	return (full_path);
 }
 
-//re
+// re
 void	token_next(t_data *data, char *tmp)
 {
 	if (tmp && *tmp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:32:39 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/26 13:44:21 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:16:04 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	init_minishell(int argc, char **envp, t_data **data)
 	if (argc != 1)
 		return (1);
 	signal(SIGINT, handle_sig_c);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handle_sig_quit);
 	init_data(data);
 	g_ctrl_c_signal = *data;
 	get_env(&(*data)->env, envp);

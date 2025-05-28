@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/27 15:16:40 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:33:03 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void				handle_sig_c(int signals);
 void				sig_c_child_hd(int signals);
 char				*concat_path(char *path, char *cmd);
 char				*find_path_exec(t_env *env);
+void				handle_sig_quit(int signals);
 /*** BUILTIN ***/
 int					is_builtin(t_cmd *cmd);
 int					ft_echo(t_cmd *cmd);
@@ -216,10 +217,12 @@ void				ft_pwd_lignes(char *pwd, t_env **env);
 
 /*** EXEC ***/
 // alone_cmd
-void				alone_cmd(t_cmd *tmp_cmd, t_exec *mini,
-						int count, t_data *data);
+void				alone_cmd(t_cmd *tmp_cmd, t_exec *mini, int count,
+						t_data *data);
 // execution
 void				exec_mini(t_data *data);
+t_exec				setup_exec_data(t_data *data);
+int					count_cmd(t_data *data);
 // ft_execve
 void				exec(t_exec *mini, t_cmd *tmp_cmd, t_data *data);
 char				**env_for_exec(t_env *env);
@@ -235,14 +238,14 @@ void				last_cmd_exec(t_cmd *cmd, t_exec *mini, int count,
 						t_data *data);
 void				prepare_builtin_redirs(t_exec *mini, int *fd, int *backup);
 void				restore_builtin_redirs(int *backup);
-void				child_process_exec(t_cmd *cmd, t_exec *mini,
-						t_data *data, int *fd);
+void				child_process_exec(t_cmd *cmd, t_exec *mini, t_data *data,
+						int *fd);
 void				close_fds_after_fork(t_exec *mini, int *fd);
 // redir_exec
 void				redir_last(int in, int out, t_exec *mini);
 void				redir_rest(int in, int out, t_exec *mini, int *pipe_fd);
 // rest_cmd
 int					ft_file(int *in, int *out, t_cmd *tmp_cmd);
-void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini,
-						int count, t_data *data);
+void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count,
+						t_data *data);
 #endif

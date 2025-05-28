@@ -6,7 +6,7 @@
 /*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/27 20:57:47 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/28 13:37:41 by tzara            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,23 @@ int	first_loop(t_cmd *cmd_tmp, t_exec mini, t_data *data)
 	return (count);
 }
 
+static void	handle_exit_status(t_data *data, int status)
+{
+	int	sig;
+
+	if (WIFEXITED(status))
+		data->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGQUIT)
+			write(1, "\nQuit (core dumped)\n", 20);
+		else if (sig == SIGINT)
+			write(1, "\n", 1);
+		data->exit_code = 128 + sig;
+	}
+}
+
 void	exec_mini(t_data *data)
 {
 	t_exec	mini;
@@ -68,8 +85,6 @@ void	exec_mini(t_data *data)
 	int		j;
 	int		status;
 
-	j = -1;
-	status = 0;
 	if (!data || !data->cmd)
 		return ;
 	signal(SIGINT, SIG_IGN);
@@ -77,18 +92,12 @@ void	exec_mini(t_data *data)
 	cmd_tmp = data->cmd;
 	mini = setup_exec_data(data);
 	first_loop(cmd_tmp, mini, data);
+	j = -1;
 	while (++j < mini.cmd_count)
-	{
 		if (mini.pidarray[j] > 0 && waitpid(mini.pidarray[j], &status, 0) > 0)
-		{
-			if (WIFEXITED(status))
-				data->exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				data->exit_code = 128 + WTERMSIG(status);
-		}
-	}
+			handle_exit_status(data, status);
 	signal(SIGINT, handle_sig_c);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handle_sig_quit);
 	if (mini.fd_transfer >= 0)
 		close(mini.fd_transfer);
 	free(mini.pidarray);
