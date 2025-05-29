@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rest_cmd_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:16:29 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/27 21:02:07 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/29 10:40:41 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,21 @@ void	follow_rest_child(t_data *data, t_cmd *tmp_cmd, t_exec *mini)
 	exit(1);
 }
 
-void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
+int	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 {
 	int	in;
 	int	out;
 	int	pipe_fd[2];
 
 	if (!ft_file(&in, &out, tmp_cmd))
-		return ;
+		return (0);
 	if (pipe(pipe_fd) == -1)
 	{
 		if (in >= 0)
 			close(in);
 		if (out >= 0)
 			close(out);
-		return (perror("pipe"));
+		return (perror("pipe"), 0);
 	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
@@ -98,4 +98,5 @@ void	rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)
 	}
 	else
 		exec_rest_parent(mini, out, in, pipe_fd);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:39:22 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/27 12:17:44 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/29 10:32:14 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	open_in(t_redir *tmp_r)
 {
 	int	in;
 
-	in = 0;
+	in = -1;
 	if (tmp_r->token == DELIMITER)
 		in = tmp_r->fd_here_doc;
 	else if (tmp_r->token == REDIR_IN)

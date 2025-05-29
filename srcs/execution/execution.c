@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:22:39 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/28 15:27:00 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/29 10:46:47 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,15 @@ int	first_loop(t_cmd *cmd_tmp, t_exec mini, t_data *data)
 		while (cmd_tmp)
 		{
 			if (count == mini.cmd_count - 1)
-				last_cmd_exec(cmd_tmp, &mini, count, data);
+			{
+				if (!last_cmd_exec(cmd_tmp, &mini, count, data))
+					break ;
+			}
 			else
-				rest_cmd_exec(cmd_tmp, &mini, count, data);
+			{
+				if (!rest_cmd_exec(cmd_tmp, &mini, count, data))
+					break ;
+			}
 			count++;
 			cmd_tmp = cmd_tmp->next;
 		}

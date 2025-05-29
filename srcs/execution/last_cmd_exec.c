@@ -6,7 +6,7 @@
 /*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:30:58 by kjolly            #+#    #+#             */
-/*   Updated: 2025/05/27 12:59:28 by kjolly           ###   ########.fr       */
+/*   Updated: 2025/05/29 10:38:44 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	run_builtin(t_cmd *cmd, t_exec *mini, t_data *data, int *fd)
 	restore_builtin_redirs(backup);
 }
 
-static void	fork_and_exec(t_cmd *cmd, t_exec *mini, t_data *data, int count)
+static int	fork_and_exec(t_cmd *cmd, t_exec *mini, t_data *data, int count)
 {
 	int	fd[2];
 
 	if (!ft_file(&fd[0], &fd[1], cmd))
 	{
 		close(mini->fd_transfer);
-		return ;
+		return (0);
 	}
 	mini->pidarray[count] = fork();
 	if (mini->pidarray[count] == -1)
@@ -38,14 +38,15 @@ static void	fork_and_exec(t_cmd *cmd, t_exec *mini, t_data *data, int count)
 		if (fd[0] >= 0)
 			close(fd[0]);
 		perror("fork fail");
-		return ;
+		return (0);
 	}
 	if (mini->pidarray[count] == 0)
 		child_process_exec(cmd, mini, data, fd);
 	close_fds_after_fork(mini, fd);
+	return (1);
 }
 
-void	last_cmd_exec(t_cmd *cmd, t_exec *mini, int count, t_data *data)
+int	last_cmd_exec(t_cmd *cmd, t_exec *mini, int count, t_data *data)
 {
 	int	fd[2];
 
@@ -53,9 +54,11 @@ void	last_cmd_exec(t_cmd *cmd, t_exec *mini, int count, t_data *data)
 	{
 		ft_file(&fd[0], &fd[1], cmd);
 		run_builtin(cmd, mini, data, fd);
-		return ;
+		return (1);
 	}
-	fork_and_exec(cmd, mini, data, count);
+	if (!fork_and_exec(cmd, mini, data, count))
+		return (0);
+	return (1);
 }
 
 // void	first_or_last_cmd(t_cmd *tmp_cmd, t_exec *mini, int count, t_data *data)

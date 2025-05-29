@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tzara <tzara@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kjolly <kjolly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:17:10 by tzara             #+#    #+#             */
-/*   Updated: 2025/05/28 13:33:03 by tzara            ###   ########.fr       */
+/*   Updated: 2025/05/29 10:42:13 by kjolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ int					has_infile(t_cmd **tmp_cmd);
 int					has_outfile(t_cmd **tmp_cmd);
 
 // last_cmd
-void				last_cmd_exec(t_cmd *cmd, t_exec *mini, int count,
+int					last_cmd_exec(t_cmd *cmd, t_exec *mini, int count,
 						t_data *data);
 void				prepare_builtin_redirs(t_exec *mini, int *fd, int *backup);
 void				restore_builtin_redirs(int *backup);
@@ -246,6 +246,6 @@ void				redir_last(int in, int out, t_exec *mini);
 void				redir_rest(int in, int out, t_exec *mini, int *pipe_fd);
 // rest_cmd
 int					ft_file(int *in, int *out, t_cmd *tmp_cmd);
-void				rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count,
+int					rest_cmd_exec(t_cmd *tmp_cmd, t_exec *mini, int count,
 						t_data *data);
 #endif
