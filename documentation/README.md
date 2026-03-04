@@ -1,5 +1,3 @@
-Wesh
-
 git log --> pour savoir ou on est
 git pull --> recupere les infos
 git push origine master --> push vers la branche main
